@@ -5,6 +5,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Repositories\**" />
+    <Compile Remove="Services\**" />
+    <Content Remove="Repositories\**" />
+    <Content Remove="Services\**" />
+    <EmbeddedResource Remove="Repositories\**" />
+    <EmbeddedResource Remove="Services\**" />
+    <None Remove="Repositories\**" />
+    <None Remove="Services\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="bootstrap" Version="3.3.6" />
     <PackageReference Include="Font.Awesome" Version="5.15.2" />
     <PackageReference Include="FontAwesome" Version="4.7.0" />
@@ -13,10 +24,12 @@
 
   <ItemGroup>
     <Folder Include="WebApiControllers\" />
-    <Folder Include="Repositories\" />
     <Folder Include="ViewModels\" />
-    <Folder Include="Services\" />
     <Folder Include="wwwroot\img\" />
+    <Folder Include="Repository\" />
+    <Folder Include="Service\" />
+    <Folder Include="ViewModels\" />
+    <Folder Include="WebApiControllers\" />
   </ItemGroup>
 
 </Project>
