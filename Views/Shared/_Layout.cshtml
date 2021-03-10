@@ -1,0 +1,161 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+
+    <title> LibreriaAdmin</title>
+
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <link href="~/css/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/css/css/font-awesome.css" rel="stylesheet" />
+    <link href="~/css/css/animate.css" rel="stylesheet" />
+    <link href="~/css/css/style.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="favicon.ico">
+    @await RenderSectionAsync("topCSS", required: false)
+    @await RenderSectionAsync("topJS", required: false)
+</head>
+
+<body class="fixed-sidebar full-height-layout gray-bg" style="overflow:hidden">
+    <div id="wrapper">
+        <!--左侧导航开始-->
+        <nav class="navbar-default navbar-static-side" role="navigation">
+            <div class="nav-close">
+                <i class="fa fa-times-circle"></i>
+            </div>
+            <div class="sidebar-collapse">
+                <ul class="nav" id="side-menu">
+                    <li class="nav-header">
+                        <div class="dropdown profile-element">
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                                <span class="clear">
+                                    <span class="block m-t-xs" style="font-size:20px;">
+                                        <i class="fa fa-area-chart"></i>
+                                        <strong class="font-bold">Libreria</strong>
+                                    </span>
+                                </span>
+                            </a>
+                        </div>
+                        <div class="logo-element">
+                            Libreria
+                        </div>
+                    </li>
+                    <li class="line dk"></li>
+                    <li>
+                        <a class="J_menuItem" href="~/Home/Index">
+                            <i class="fa fa-home"></i>
+                            <span class="nav-label">首頁</span>
+                        </a>
+                    </li>
+                    <li class="line dk"></li>
+                    <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
+                        <span class="ng-scope">營業專區</span>
+                    </li>
+
+                    <li>
+                        <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">商品</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+
+                            <li>
+                                <a class="J_menuItem" href="~/Product/ProductIndex">商品總類</a>
+                            </li>
+                            <li>
+                                <a class="J_menuItem" href="form_basic.html">商品分類</a>
+                            </li>
+                            <li>
+                                <a class="J_menuItem" href="form_validate.html">每日特價設定</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-desktop"></i> <span class="nav-label">展覽</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a class="J_menuItem" href="contacts.html">展覽管理</a>
+                            </li>
+                            <li>
+                                <a class="J_menuItem" href="profile.html">場地租借</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="line dk"></li>
+                    <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
+                        <span class="ng-scope">會員管理</span>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-flask"></i> <span class="nav-label">會員</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a class="J_menuItem" href="typography.html">會員檔案</a>
+                            </li>
+                            <li>
+                                <a class="J_menuItem" href="typography.html">管理員設定</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-table"></i> <span class="nav-label">系統管理</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a class="J_menuItem" href="table_basic.html">表格設定</a>
+                            </li>
+
+                        </ul>
+                    </li>
+                    <li class="line dk"></li>
+
+
+                </ul>
+            </div>
+        </nav>
+        <!--左侧导航结束-->
+        <!--右侧部分开始-->
+        <div id="page-wrapper" class="gray-bg dashbard-1">
+            <div class="row border-bottom" style="margin-bottom:30px;">
+                <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                    <div class="navbar-header">
+                        <a class="navbar-minimalize minimalize-styl-2 btn btn-info " href="#"><i class="fa fa-bars"></i> </a>
+                        <form role="search" class="navbar-form-custom" method="post" action="search_results.html">
+                            <div class="form-group">
+                                <input type="text" placeholder="请输入您需要查找的内容 …" class="form-control" name="top-search" id="top-search">
+                            </div>
+                        </form>
+                    </div>
+                </nav>
+            </div>
+            <div class="row J_mainContent" id="content-main" style="margin:auto auto auto 10px;">
+                @*<iframe id="J_iframe" width="100%" height="100%" src="~/Views/Home/Index.cshtml" frameborder="0" data-id="index.cshtml" seamless></iframe>*@
+
+                @RenderBody()
+            </div>
+        </div>
+        <!--右侧部分结束-->
+
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <!-- 全局js -->
+    <script src="~/js/js/jquery.min.js"></script>
+    <script src="~/js/js/bootstrap.min.js"></script>
+    <script src="~/js/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="~/js/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="~/js/js/plugins/layer/layer.min.js"></script>
+    <script src="https://kit.fontawesome.com/f7d0821b25.js" crossorigin="anonymous"></script>
+    <!-- 自定义js -->
+    <script src="~/js/js/hAdmin.js"></script>
+    <script src="~/js/js/index.js"></script>
+    <script src="~/js/js/content.js"></script>
+    <!-- 第三方插件 -->
+    <script src="~/js/js/plugins/pace/pace.min.js"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+    @await RenderSectionAsync("endCSS", required: false)
+    @await RenderSectionAsync("endJS", required: false)
+</body>
+
+</html>
