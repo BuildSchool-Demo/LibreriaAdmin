@@ -1,3 +1,5 @@
+using LibreriaAdmin.Models;
+using LibreriaAdmin.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -24,6 +26,9 @@ namespace LibreriaAdmin
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            //º”»ÎLibreriaContext
+            services.AddDbContext<LibreriaContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
