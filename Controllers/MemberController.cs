@@ -7,19 +7,20 @@ using System.Threading.Tasks;
 
 namespace LibreriaAdmin.Controllers
 {
-    public class ProductController : Controller
+    public class MemberController : Controller
     {
-        private readonly IProductService _productService;
+        private readonly IMemberService _memberService;
 
-        public ProductController(IProductService productService)
+        public MemberController(IMemberService memberService)
         {
-            _productService = productService;
+            _memberService = memberService;
         }
+
         public IActionResult Index()
         {
             return View();
         }
-        public IActionResult ProductIndex()
+        public IActionResult MemberIndex()
         {
             return View();
         }
