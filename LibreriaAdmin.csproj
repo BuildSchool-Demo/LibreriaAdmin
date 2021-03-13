@@ -32,11 +32,8 @@
 
   <ItemGroup>
     <Folder Include="WebApiControllers\" />
-    <Folder Include="ViewModels\" />
     <Folder Include="wwwroot\img\" />
-    <Folder Include="Repository\" />
     <Folder Include="Service\" />
-    <Folder Include="ViewModels\" />
     <Folder Include="WebApiControllers\" />
   </ItemGroup>
 
