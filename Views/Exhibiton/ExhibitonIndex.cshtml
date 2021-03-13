@@ -1,0 +1,80 @@
+﻿<div id="exhibitonApp">
+    <b-container fluid>
+        <!-- User Interface controls -->
+        <b-row>
+            <b-col lg="6" class="my-1">
+                <b-form-group label="搜尋"
+                              label-for="filter-input"
+                              label-cols-sm="3"
+                              label-align-sm="right"
+                              label-size="sm"
+                              class="mb-0">
+                    <b-input-group size="sm">
+                        <b-form-input id="filter-input"
+                                      v-model="filter"
+                                      type="search"></b-form-input>
+
+                        <b-input-group-append>
+                            <b-button :disabled="!filter" v-on:click="filter = ''">清除</b-button>
+                        </b-input-group-append>
+                    </b-input-group>
+                </b-form-group>
+            </b-col>
+        </b-row>
+
+        <!-- Main table element -->
+        <b-table :items="items"
+                 :fields="fields"
+                 :current-page="currentPage"
+                 :per-page="perPage"
+                 :filter="filter"
+                 :sort-by.sync="sortBy"
+                 :sort-desc.sync="sortDesc"
+                 stacked="md"
+                 show-empty
+                 small
+                 v-on:filtered="onFiltered">
+
+            <template #cell(actions)="row">
+                <b-button size="sm" v-on:click="info(row.item, row.index, $event.target)" class="mr-1">
+                    開啟
+                </b-button>
+                <b-button size="sm" v-on:click="row.toggleDetails">
+                    {{ row.detailsShowing ? '關閉' : '開啟' }}
+                </b-button>
+            </template>
+
+            <template #row-details="row">
+                <b-card>
+                    <ul>
+                        <li v-for="(value, key) in row.item.detail"> {{ key }}:{{value}}</li>
+                    </ul>
+                </b-card>
+            </template>
+        </b-table>
+
+        
+
+        <!--<template #cell(imge)="row">
+        <b-button size="sm" v-on:click="info(row.item, row.index, $event.target)" class="mr-1">
+            開啟
+        </b-button>
+    </template>-->
+        <!-- Info modal -->
+        <!--<b-modal :id="infoModal.id" :title="infoModal.title" ok-only v-on:hide="resetInfoModal">
+        <pre>{{ row.item.detail }}</pre>
+    </b-modal>-->
+
+
+        <b-col sm="7" md="6" class="my-1">
+            <b-pagination v-model="currentPage"
+                          :total-rows="totalRows"
+                          :per-page="perPage"
+                          @*align="fill"*@
+                          size="sm"
+                          class="my-0"></b-pagination>
+        </b-col>
+
+    </b-container>
+</div>
+<script src="~/js/Exhibition/Exhibiton.js"></script>
