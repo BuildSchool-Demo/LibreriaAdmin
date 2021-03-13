@@ -16,29 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Remove="wwwroot\js\admin\dist\css\adminlte.css.map" />
-    <Content Remove="wwwroot\js\admin\dist\css\adminlte.min.css.map" />
-    <Content Remove="wwwroot\js\admin\dist\css\alt\adminlte.components.css.map" />
-    <Content Remove="wwwroot\js\admin\dist\css\alt\adminlte.components.min.css.map" />
-    <Content Remove="wwwroot\js\admin\dist\css\alt\adminlte.core.css.map" />
-    <Content Remove="wwwroot\js\admin\dist\css\alt\adminlte.core.min.css.map" />
-    <Content Remove="wwwroot\js\admin\dist\css\alt\adminlte.extra-components.css.map" />
-    <Content Remove="wwwroot\js\admin\dist\css\alt\adminlte.extra-components.min.css.map" />
-    <Content Remove="wwwroot\js\admin\dist\css\alt\adminlte.pages.css.map" />
-    <Content Remove="wwwroot\js\admin\dist\css\alt\adminlte.pages.min.css.map" />
-    <Content Remove="wwwroot\js\admin\dist\css\alt\adminlte.plugins.css.map" />
-    <Content Remove="wwwroot\js\admin\dist\css\alt\adminlte.plugins.min.css.map" />
-    <Content Remove="wwwroot\js\admin\dist\js\adminlte.js" />
-    <Content Remove="wwwroot\js\admin\dist\js\adminlte.js.map" />
-    <Content Remove="wwwroot\js\admin\dist\js\adminlte.min.js" />
-    <Content Remove="wwwroot\js\admin\dist\js\adminlte.min.js.map" />
-    <Content Remove="wwwroot\js\admin\dist\js\demo.js" />
-    <Content Remove="wwwroot\js\admin\dist\js\pages\dashboard.js" />
-    <Content Remove="wwwroot\js\admin\dist\js\pages\dashboard2.js" />
-    <Content Remove="wwwroot\js\admin\dist\js\pages\dashboard3.js" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="bootstrap" Version="3.3.6" />
     <PackageReference Include="Font.Awesome" Version="5.15.2" />
     <PackageReference Include="FontAwesome" Version="4.7.0" />
@@ -61,49 +38,6 @@
     <Folder Include="Service\" />
     <Folder Include="ViewModels\" />
     <Folder Include="WebApiControllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="wwwroot\css\admin\dist\css\adminlte.css.map" />
-    <None Include="wwwroot\css\admin\dist\css\adminlte.min.css.map" />
-    <None Include="wwwroot\css\admin\dist\css\alt\adminlte.components.css.map" />
-    <None Include="wwwroot\css\admin\dist\css\alt\adminlte.components.min.css.map" />
-    <None Include="wwwroot\css\admin\dist\css\alt\adminlte.core.css.map" />
-    <None Include="wwwroot\css\admin\dist\css\alt\adminlte.core.min.css.map" />
-    <None Include="wwwroot\css\admin\dist\css\alt\adminlte.extra-components.css.map" />
-    <None Include="wwwroot\css\admin\dist\css\alt\adminlte.extra-components.min.css.map" />
-    <None Include="wwwroot\css\admin\dist\css\alt\adminlte.pages.css.map" />
-    <None Include="wwwroot\css\admin\dist\css\alt\adminlte.pages.min.css.map" />
-    <None Include="wwwroot\css\admin\dist\css\alt\adminlte.plugins.css.map" />
-    <None Include="wwwroot\css\admin\dist\css\alt\adminlte.plugins.min.css.map" />
-    <None Include="wwwroot\css\admin\dist\js\adminlte.js" />
-    <None Include="wwwroot\css\admin\dist\js\adminlte.js.map" />
-    <None Include="wwwroot\css\admin\dist\js\adminlte.min.js" />
-    <None Include="wwwroot\css\admin\dist\js\adminlte.min.js.map" />
-    <None Include="wwwroot\css\admin\dist\js\demo.js" />
-    <None Include="wwwroot\css\admin\dist\js\pages\dashboard.js" />
-    <None Include="wwwroot\css\admin\dist\js\pages\dashboard2.js" />
-    <None Include="wwwroot\css\admin\dist\js\pages\dashboard3.js" />
-    <None Include="wwwroot\js\admin\dist\css\adminlte.css.map" />
-    <None Include="wwwroot\js\admin\dist\css\adminlte.min.css.map" />
-    <None Include="wwwroot\js\admin\dist\css\alt\adminlte.components.css.map" />
-    <None Include="wwwroot\js\admin\dist\css\alt\adminlte.components.min.css.map" />
-    <None Include="wwwroot\js\admin\dist\css\alt\adminlte.core.css.map" />
-    <None Include="wwwroot\js\admin\dist\css\alt\adminlte.core.min.css.map" />
-    <None Include="wwwroot\js\admin\dist\css\alt\adminlte.extra-components.css.map" />
-    <None Include="wwwroot\js\admin\dist\css\alt\adminlte.extra-components.min.css.map" />
-    <None Include="wwwroot\js\admin\dist\css\alt\adminlte.pages.css.map" />
-    <None Include="wwwroot\js\admin\dist\css\alt\adminlte.pages.min.css.map" />
-    <None Include="wwwroot\js\admin\dist\css\alt\adminlte.plugins.css.map" />
-    <None Include="wwwroot\js\admin\dist\css\alt\adminlte.plugins.min.css.map" />
-    <None Include="wwwroot\js\admin\dist\js\adminlte.js" />
-    <None Include="wwwroot\js\admin\dist\js\adminlte.js.map" />
-    <None Include="wwwroot\js\admin\dist\js\adminlte.min.js" />
-    <None Include="wwwroot\js\admin\dist\js\adminlte.min.js.map" />
-    <None Include="wwwroot\js\admin\dist\js\demo.js" />
-    <None Include="wwwroot\js\admin\dist\js\pages\dashboard.js" />
-    <None Include="wwwroot\js\admin\dist\js\pages\dashboard2.js" />
-    <None Include="wwwroot\js\admin\dist\js\pages\dashboard3.js" />
   </ItemGroup>
 
 </Project>
