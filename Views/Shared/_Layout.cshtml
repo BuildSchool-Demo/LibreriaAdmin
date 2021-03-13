@@ -28,6 +28,8 @@
     <!-- Load the following for BootstrapVueIcons support -->
     <script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue-icons.min.js"></script>
 
+    @await RenderSectionAsync("topCSS", required: false)
+    @await RenderSectionAsync("topJS", required: false)
     <style>
     </style>
 </head>
@@ -105,7 +107,7 @@
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class
-    with font-awesome or any other icon font library -->
+                    with font-awesome or any other icon font library -->
                         <li class="nav-item">
                             <a href="~/Home/Index" class="nav-link">
                                 <i class="nav-icon fas fa-home"></i>
@@ -178,7 +180,7 @@
                                         <p>訂單管理</p>
                                     </a>
                                 </li>
-                               
+
 
                             </ul>
                         </li>
@@ -257,6 +259,10 @@
         <script src="~/js/admin/bootstrap.bundle.min.js"></script>
         <!-- AdminLTE App -->
         <script src="~/js/admin/adminlte.min.js"></script>
+        @await RenderSectionAsync("endCSS", required: false)
+        @await RenderSectionAsync("endJS", required: false)
+
+    </div>
 </body>
 
 </html>
