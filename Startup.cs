@@ -1,3 +1,7 @@
+using LibreriaAdmin.Interfaces;
+using LibreriaAdmin.Models;
+using LibreriaAdmin.Repository;
+using LibreriaAdmin.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -24,6 +28,15 @@ namespace LibreriaAdmin
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            //加入LibreriaContext
+            services.AddDbContext<LibreriaContext>();
+
+            //加入MemberService
+            services.AddTransient<IMemberService, MemberService>();
+
+            //加入ProductService
+            services.AddTransient<IProductService, ProductService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
