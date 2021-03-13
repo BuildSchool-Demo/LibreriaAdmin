@@ -1,4 +1,14 @@
-﻿<div id="exhibitonApp">
+﻿<div class="col-sm-6">
+    <h1 class="m-0">展覽管理</h1>
+</div>
+<div class="col-sm-6">
+    <ol class="breadcrumb float-sm-right">
+        <li class="breadcrumb-item"><a href="~/Home/Index">Home</a></li>
+        <li class="breadcrumb-item active">展覽管理</li>
+    </ol>
+</div>
+
+<div id="exhibitonApp" class="col-12">
     <b-container fluid>
         <!-- User Interface controls -->
         <b-row>
@@ -36,35 +46,29 @@
                  v-on:filtered="onFiltered">
 
             <template #cell(actions)="row">
+                <b-button size="sm" v-on:click="row.toggleDetails">
+                    {{ row.detailsShowing ? '關閉' : '開啟' }}
+                </b-button>
                 <b-button size="sm" v-on:click="info(row.item, row.index, $event.target)" class="mr-1">
                     開啟
                 </b-button>
-                <b-button size="sm" v-on:click="row.toggleDetails">
-                    {{ row.detailsShowing ? '關閉' : '開啟' }}
+                <b-button size="sm" v-on:click="email(row.item, row.index, $event.target)" class="mr-1">
+                    開啟
                 </b-button>
             </template>
 
             <template #row-details="row">
                 <b-card>
-                    <ul>
-                        <li v-for="(value, key) in row.item.detail"> {{ key }}:{{value}}</li>
-                    </ul>
+                    <p>{{row.item.exIntro}}</p>
                 </b-card>
             </template>
         </b-table>
 
-        
 
-        <!--<template #cell(imge)="row">
-        <b-button size="sm" v-on:click="info(row.item, row.index, $event.target)" class="mr-1">
-            開啟
-        </b-button>
-    </template>-->
         <!-- Info modal -->
-        <!--<b-modal :id="infoModal.id" :title="infoModal.title" ok-only v-on:hide="resetInfoModal">
-        <pre>{{ row.item.detail }}</pre>
-    </b-modal>-->
-
+        <b-modal :id="infoModal.id" :title="infoModal.title" ok-only ok-title="關閉" v-on:hide="resetInfoModal" size="xl">
+            <img v-bind:src="infoModal.content" />
+        </b-modal>
 
         <b-col sm="7" md="6" class="my-1">
             <b-pagination v-model="currentPage"

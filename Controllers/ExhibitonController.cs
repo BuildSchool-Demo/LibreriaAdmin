@@ -22,5 +22,10 @@ namespace LibreriaAdmin.Controllers
         {
             return View();
         }
+
+        public IActionResult EmailIndex()
+        {
+            return View();
+        }
     }
 }
