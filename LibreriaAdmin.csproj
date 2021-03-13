@@ -6,12 +6,16 @@
 
   <ItemGroup>
     <Compile Remove="Repositories\**" />
+    <Compile Remove="Service\**" />
     <Compile Remove="WebApiControllers\**" />
     <Content Remove="Repositories\**" />
+    <Content Remove="Service\**" />
     <Content Remove="WebApiControllers\**" />
     <EmbeddedResource Remove="Repositories\**" />
+    <EmbeddedResource Remove="Service\**" />
     <EmbeddedResource Remove="WebApiControllers\**" />
     <None Remove="Repositories\**" />
+    <None Remove="Service\**" />
     <None Remove="WebApiControllers\**" />
   </ItemGroup>
 
@@ -33,7 +37,9 @@
   <ItemGroup>
     <Folder Include="WebApiControllers\" />
     <Folder Include="wwwroot\img\" />
+    <Folder Include="Repository\" />
     <Folder Include="Service\" />
+    <Folder Include="ViewModels\" />
     <Folder Include="WebApiControllers\" />
   </ItemGroup>
 
