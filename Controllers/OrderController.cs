@@ -27,9 +27,9 @@ namespace LibreriaAdmin.Controllers
             return View();
         }
 
-        public BaseModel.BaseResult<List<OrderViewModel.OrderSingleResult>> GetAll()
+        public BaseModel.BaseResult<OrderViewModel.OrderListResult> GetAll()
         {
-            BaseModel.BaseResult<List<OrderViewModel.OrderSingleResult>>
+            BaseModel.BaseResult<OrderViewModel.OrderListResult>
                 result = _orderService.GetAll();
 
             return result;

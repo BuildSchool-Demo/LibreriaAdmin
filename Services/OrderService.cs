@@ -25,13 +25,13 @@ namespace LibreriaAdmin.Services
             this._mapper = config.CreateMapper();
         }
 
-        public BaseModel.BaseResult<List<OrderViewModel.OrderSingleResult>> GetAll()
+        public BaseModel.BaseResult<OrderViewModel.OrderListResult> GetAll()
         {
             var data = _dbRepository.GetAll<Order>();
 
             var resultVMs = this._mapper.Map<IEnumerable<OrderViewModel.OrderSingleResult>>(data).ToList();
-            var result = new BaseModel.BaseResult<List<OrderViewModel.OrderSingleResult>>();
-            result.Body = resultVMs;
+            var result = new BaseModel.BaseResult<OrderViewModel.OrderListResult>();
+            result.Body.OrderList = resultVMs;
 
             return result;
         }

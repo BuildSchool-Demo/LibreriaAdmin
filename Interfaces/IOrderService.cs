@@ -12,6 +12,6 @@ namespace LibreriaAdmin.Interfaces
         /// 取得所有訂單
         /// </summary>
         /// <returns></returns>
-        BaseModel.BaseResult<List<OrderViewModel.OrderSingleResult>> GetAll();
+        BaseModel.BaseResult<OrderViewModel.OrderListResult> GetAll();
     }
 }
