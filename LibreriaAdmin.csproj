@@ -40,7 +40,6 @@
     <Folder Include="wwwroot\img\" />
     <Folder Include="Repository\" />
     <Folder Include="ViewModels\" />
-    <Folder Include="WebApiControllers\" />
   </ItemGroup>
 
 </Project>

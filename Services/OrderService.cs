@@ -11,7 +11,7 @@ using LibreriaAdmin.Mappings;
 
 namespace LibreriaAdmin.Services
 {
-    public class OrderService
+    public class OrderService : IOrderService
     {
         private readonly LibreriaRepository _dbRepository;
 
