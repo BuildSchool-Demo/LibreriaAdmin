@@ -6,7 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using LibreriaAdmin.Interfaces;
-
+using AutoMapper;
+using LibreriaAdmin.Mappings;
 
 namespace LibreriaAdmin.Services
 {
@@ -14,35 +15,24 @@ namespace LibreriaAdmin.Services
     {
         private readonly LibreriaRepository _dbRepository;
 
+        private IMapper _mapper;
+
         public OrderService()
         {
             _dbRepository = new LibreriaRepository();
+
+            var config = new MapperConfiguration(cfg => cfg.AddProfile<ServiceMappings>());
+            this._mapper = config.CreateMapper();
         }
+
         public BaseModel.BaseResult<List<OrderViewModel.OrderSingleResult>> GetAll()
         {
-            var result = new BaseModel.BaseResult<List<OrderViewModel.OrderSingleResult>>();
-            
-            result.Body = _dbRepository.GetAll<Order>().Select(x => new OrderViewModel.OrderSingleResult()
-            {
-                OrderId=x.OrderId,
-                ShippingDate=x.ShippingDate,
-                OrderDate=x.OrderDate,
-                MemberId=x.MemberId,
-                ShipName=x.ShipName,
-                ShipCity=x.ShipCity,
-                ShipRegion=x.ShipRegion,
-                ShipAddress=x.ShipAddress,
-                ShipPostalCode=x.ShipPostalCode,
-                InvoiceType=x.InvoiceType,
-                InvoiceInfo=x.InvoiceInfo,
-                CreateTime=x.CreateTime,
-                UpdateTime=x.UpdateTime,
-                PaymentType=x.PaymentType,
-                PaymentState=x.PaymentState,
-                Member=x.Member,
-                OrderDetails=x.OrderDetails
+            var data = _dbRepository.GetAll<Order>();
 
-            }).ToList();
+            var resultVMs = this._mapper.Map<IEnumerable<OrderViewModel.OrderSingleResult>>(data).ToList();
+            var result = new BaseModel.BaseResult<List<OrderViewModel.OrderSingleResult>>();
+            result.Body = resultVMs;
+
             return result;
         }
 
