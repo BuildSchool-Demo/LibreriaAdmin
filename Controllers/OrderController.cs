@@ -24,10 +24,7 @@ namespace LibreriaAdmin.Controllers
 
         public IActionResult OrderIndex()
         {
-            BaseModel.BaseResult<List<OrderViewModel.OrderSingleResult>> 
-                result = _orderService.GetAll();
-
-            return View(result);
+            return View();
         }
 
         public BaseModel.BaseResult<List<OrderViewModel.OrderSingleResult>> GetAll()
