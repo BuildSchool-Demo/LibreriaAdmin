@@ -2,9 +2,7 @@
     el:"#rentalApp",
     data() {
         return {
-            items: [
-                //{ isActive: true, startDate: '2021/02/03', endDate: '2021/03/01', name: '一二三', _rowVariant: 'success', ExhibitonData: { '展覽名稱': '123', '展覽開始日期': '456', '展覽結束日期': '456'} },
-            ],
+            items: [],
             fields: [
                 { key: 'exCustomerName', label: '客戶姓名', sortable: true, sortDirection: 'desc', class: 'text-center'},
                 { key: 'exCustomerPhone', label: '客戶電話', sortable: true, sortDirection: 'desc', class: 'text-center' },
@@ -17,7 +15,7 @@
                     key: 'paymentState',
                     label: '付款狀態',
                     class: 'text-center',
-                    formatter: (value, key, item) => {
+                    formatter: (value) => {
                         return value ? '已付款' : '尚未付款'
                     },
                     sortable: true,
@@ -74,6 +72,18 @@
             // Trigger pagination to update the number of buttons/pages due to filtering
             this.totalRows = filteredItems.length
             this.currentPage = 1
+        },
+        getExhibitonDataFieldName(fieldKey) {
+            switch (fieldKey) {
+                case 'exName':
+                    return '展覽名稱';
+                case 'exhibitionStartTime':
+                    return '展覽開始時間';
+                case 'exhibitionEndTime':
+                    return '展覽結束時間';
+                default:
+                    return '';
+            }
         }
     }
 })

@@ -12,13 +12,13 @@ namespace LibreriaAdmin.Interfaces
         /// 取的所有展覽資料
         /// </summary>
         /// <returns></returns>
-        BaseModel.BaseResult<List<ExhibitonViewModel>> ExhibitonGetAll();
+        List<ExhibitonViewModel> ExhibitonGetAll();
 
         /// <summary>
         /// 取得所有租借訂單內容及顧客資料
         /// </summary>
         /// <returns></returns>
-        BaseModel.BaseResult<List<RentalViewModel>> RentalGetAll();
+        List<RentalViewModel> RentalGetAll();
 
         /// <summary>
         /// 寄信
@@ -29,5 +29,11 @@ namespace LibreriaAdmin.Interfaces
         /// <param name="body"></param>
         /// <returns></returns>
         string Send(string sender, string recipient, string subject, string body);
+
+        /// <summary>
+        /// 取得展覽資料及顧客資料
+        /// </summary>
+        /// <returns></returns>
+        List<ExhibitonEmailViewModel> EmailGetAll(int id);
     }
 }

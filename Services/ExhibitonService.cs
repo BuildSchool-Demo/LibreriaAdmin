@@ -14,22 +14,22 @@ namespace LibreriaAdmin.Services
 {
     public class ExhibitonService : IExhibitonService
     {
-        private readonly LibreriaRepository _dbRepository;
+        private readonly IRepository _dbRepository;
         private readonly IConfiguration _config;
 
-        public ExhibitonService(IConfiguration config)
+        public ExhibitonService(IConfiguration config, IRepository repository)
         {
-            _dbRepository = new LibreriaRepository();
+            _dbRepository = repository;
             _config = config;
 
         }
 
-        public BaseModel.BaseResult<List<ExhibitonViewModel>> ExhibitonGetAll()
+        public List<ExhibitonViewModel> ExhibitonGetAll()
         {
-            var result = new BaseModel.BaseResult<List<ExhibitonViewModel>>();
+            var result = new List<ExhibitonViewModel>();
 
-            result.Body = _dbRepository.GetAll<Exhibition>()
-                                       .Select(x => new ExhibitonViewModel()
+            result = _dbRepository.GetAll<Exhibition>()
+                                  .Select(x => new ExhibitonViewModel()
             {
                 ExhibitionId = x.ExhibitionId,
                 ExhibitionStartTime = x.ExhibitionStartTime.ToString("yyyy/MM/dd"),
@@ -46,26 +46,31 @@ namespace LibreriaAdmin.Services
             return result;
         }
 
-        public BaseModel.BaseResult<List<RentalViewModel>> RentalGetAll()
+        public List<RentalViewModel> RentalGetAll()
         {
-            var result = new BaseModel.BaseResult<List<RentalViewModel>>();
-            result.Body = (from o in _dbRepository.GetAll<ExhibitionOrder>()
-                           join c in _dbRepository.GetAll<ExhibitionCustomer>()
-                           on o.ExCustomerId equals c.ExCustomerId
-                           join e in _dbRepository.GetAll<Exhibition>()
-                           on o.ExCustomerId equals e.ExCustomerId
-                           select new RentalViewModel()
-                           {
-                               ExOrderId = o.ExOrderId,
-                               StartDate = o.StartDate,
-                               EndDate = o.EndDate,
-                               Price = o.Price,
-                               PaymentState = o.PaymentState,
-                               ExCustomerName = c.ExCustomerName,
-                               ExCustomerPhone = c.ExCustomerPhone,
-                               ExCustomerEmail = c.ExCustomerEmail,
-                              
-                           }).ToList();
+            var result = new List<RentalViewModel>();
+            result = (from o in _dbRepository.GetAll<ExhibitionOrder>()
+                      join c in _dbRepository.GetAll<ExhibitionCustomer>()
+                      on o.ExCustomerId equals c.ExCustomerId
+                      join e in _dbRepository.GetAll<Exhibition>()
+                      on o.ExCustomerId equals e.ExCustomerId
+                      select new RentalViewModel()
+                      {
+                          ExOrderId = o.ExOrderId,
+                          StartDate = o.StartDate,
+                          EndDate = o.EndDate,
+                          Price = o.Price,
+                          PaymentState = o.PaymentState,
+                          ExCustomerName = c.ExCustomerName,
+                          ExCustomerPhone = c.ExCustomerPhone,
+                          ExCustomerEmail = c.ExCustomerEmail,
+                          ExhibitonData = new RentalViewModel.ExhibitonDataModel
+                          {
+                              ExName = e.ExName,
+                              ExhibitionStartTime = e.ExhibitionStartTime.ToString("yyyy/MM/dd"),
+                              ExhibitionEndTime = e.ExhibitionEndTime.ToString("yyyy/MM/dd")
+                          }
+                      }).ToList();
             
             return result;
         }
@@ -81,14 +86,43 @@ namespace LibreriaAdmin.Services
                     Credentials = new NetworkCredential(id, password),
                     EnableSsl = true
                 };
-                client.Send(sender, recipient, subject, body);
+                client.Send(sender, recipient, subject, body + " " + Environment.NewLine + _config["MailCheckUrl"]);
+                return "信件已寄出";
             }
             catch(Exception ex)
             {
                 return ex.ToString();
             }
             
-            return "OK";
+            return "信件尚未寄出";
+        }
+
+        public List<ExhibitonEmailViewModel> EmailGetAll(int id)
+        {
+            var result = new List<ExhibitonEmailViewModel>();
+            result = (from e in _dbRepository.GetAll<Exhibition>()
+                      join c in _dbRepository.GetAll<ExhibitionCustomer>()
+                      on e.ExCustomerId equals c.ExCustomerId
+                      where (e.ExhibitionId == id)
+                      select new ExhibitonEmailViewModel()
+                      {
+                          ExhibitionId = e.ExhibitionId,
+                          ExhibitionStartTime = e.ExhibitionStartTime,
+                          ExhibitionEndTime = e.ExhibitionEndTime,
+                          ExhibitionIntro = e.ExhibitionIntro,
+                          MasterUnit = e.MasterUnit,
+                          ExhibitionPrice = e.ExhibitionPrice,
+                          EditModifyDate = e.EditModifyDate,
+                          ExCustomerId = e.ExCustomerId,
+                          ExPhoto = e.ExPhoto,
+                          ExName = e.ExName,
+                          ReviewState = e.ReviewState,
+                          ExCustomerName = c.ExCustomerName,
+                          ExCustomerPhone = c.ExCustomerPhone,
+                          ExCustomerEmail = c.ExCustomerEmail,
+                      }).ToList();
+
+            return result;
         }
     }
 }

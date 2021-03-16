@@ -3,16 +3,16 @@
     data: {
         AddVerify: true,
         inputData: {
-            Name: '',
-            Tel: '',
-            Email: '',
-            Price: '',
-            StartDate: '',
-            EndDate: '',
+            ExCustomerName: '',
+            ExCustomerPhone: '',
+            ExCustomerEmail: '',
+            ExhibitionPrice: '',
+            ExhibitionStartTime: '',
+            ExhibitionEndTime: '',
             ExName: '',
             MasterUnit:'',
-            Pic: '',
-            Intro:''
+            ExPhoto: '',
+            ExhibitionIntro:''
         },
         inputDataCheck: {
             AccountError: false,
@@ -29,6 +29,14 @@
             { value: 'b', text: 'Selected Option', disabled: true }
         ]
     },
+    //created: function () {
+    //    axios.get("/api/Exhibiton/GetEmailData")
+    //        .then((res) => {
+    //            console.log(res);
+    //            this.inputData = res.data.body;
+    //            this.isBusy = false;
+    //        })
+    //},
     watch: {
         'inputData.Account': {
             immediate: true,

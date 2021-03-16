@@ -1,30 +1,30 @@
-﻿let Vm = new Vue ({
-    el:'#sendMailapp',
+﻿let Vm = new Vue({
+    el: '#sendMailapp',
     data() {
         return {
             form: {
-                sender: '',
+                sender: 'LibreriaBSProject@gmail.com',
                 recipient: '',
                 subject: '',
                 body: '',
-                
+
             },
-            show: true
+            show: true,
         }
     },
     methods: {
         onSubmit(event) {
             event.preventDefault();
-            let formData = JSON.stringify(this.form);
-            this.$http.post('', formData).then(function (res) {
-                if (res.status == 200) {
-                    alert("成功")
-                }
-                else {
-                    alert("失敗")
-                }
-            })
-            
+            const options = {
+                method: 'POST',
+                headers: { 'content-type': 'application/json' },
+                data: JSON.stringify(this.form),
+                url: '/api/Exhibiton/SendMail',
+            };
+            axios(options).then((res) => {
+                alert(res.data);
+            });
+
         },
         onReset(event) {
             event.preventDefault()

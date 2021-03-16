@@ -64,7 +64,9 @@
                 <template #row-details="row">
                     <b-card>
                         <ul>
-                            <li v-for="(value, key) in row.item.exhibitonData"> {{ key }}:{{value}}</li>
+                            <li v-for="(value, key) in row.item.exhibitonData">
+                                {{ getExhibitonDataFieldName(key) }}:{{value}}
+                            </li>
                         </ul>
                     </b-card>
                 </template>

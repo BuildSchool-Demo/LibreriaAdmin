@@ -46,6 +46,13 @@ namespace LibreriaAdmin.ViewModels
         /// </summary>
         public string ExCustomerEmail { get; set; }
 
-        public List<string> ExhibitonData { get; set; }
+        public ExhibitonDataModel ExhibitonData { get; set; }
+
+        public class ExhibitonDataModel
+        {
+            public string ExName { get; set; }
+            public string ExhibitionStartTime { get; set; }
+            public string ExhibitionEndTime { get; set; }
+        }
     }
 }
