@@ -3,13 +3,16 @@
     data: {
         AddVerify: true,
         inputData: {
-            Account: '',
-            Password: '',
-            CheckPassword: '',
             Name: '',
             Tel: '',
-            Adress: '',
-            Single: true
+            Email: '',
+            Price: '',
+            StartDate: '',
+            EndDate: '',
+            ExName: '',
+            MasterUnit:'',
+            Pic: '',
+            Intro:''
         },
         inputDataCheck: {
             AccountError: false,
@@ -18,7 +21,13 @@
             PasswordErrorMsg: '',
             CheckPasswordError: false,
             CheckPasswordErrorMsg: '',
-        }
+        },
+        selected: null,
+        options: [
+            { value: null, text: 'Please select an option' },
+            { value: 'a', text: 'This is First option' },
+            { value: 'b', text: 'Selected Option', disabled: true }
+        ]
     },
     watch: {
         'inputData.Account': {

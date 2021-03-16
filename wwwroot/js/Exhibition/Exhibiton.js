@@ -1,63 +1,68 @@
 ﻿let rental = new Vue({
     el: "#exhibitonApp",
-    data() {
-        return {
-            items: [
-                { reply: true,review: true, exStartTime: '2021/02/03', exEndTime: '2021/03/01', exName: '一二三', ExPrice: 100, masterUnit: '234252', exPhoto: 'https://i.imgur.com/5hVqx53.jpg', exIntro: '3232546'},
-                { reply: true,review: false, exStartTime: '2021/03/03', exEndTime: '2021/04/01', exName: '四五六' },
-                { reply: true,review: false, exStartTime: '2021/04/03', exEndTime: '2021/05/01', exName: '七八九' },
-                { reply: true,review: true, exStartTime: '2021/05/03', exEndTime: '2021/06/01', exName: 'aaaa' },
-                { reply: true,review: false, exStartTime: '2021/06/03', exEndTime: '2021/07/01', exName: 'bbbb' },
-                { reply: true,review: true, exStartTime: '2021/08/03', exEndTime: '2021/09/01', exName: 'cccc' },
-                { reply: true,review: true, exStartTime: '2021/09/03', exEndTime: '2021/10/01', exName: 'dddd' },
-                { reply: true,review: true, exStartTime: '2021/10/03', exEndTime: '2021/11/01', exName: 'eeee' },
-                { reply: true,review: true, exStartTime: '2021/11/03', exEndTime: '2021/12/01', exName: 'ffff' },
-                { reply: true,review: true, exStartTime: '2021/12/03', exEndTime: '2022/01/01', exName: 'gggg' },
-                { reply: true,review: true, exStartTime: '2022/01/03', exEndTime: '2022/02/01', exName: 'hhhhh' }
-            ],
-            fields: [
-                { key: 'masterUnit', label: '主辦單位', sortable: true, sortDirection: 'desc' },
-                { key: 'exName', label: '展覽名稱', sortable: true, sortDirection: 'desc' },
-                { key: 'exStartTime', label: '展覽開始日期', sortable: true, class: 'text-center' },
-                { key: 'exEndTime', label: '展覽結束日期', sortable: true, class: 'text-center' },
-                { key: 'ExPrice', label: '門票', sortable: true, class: 'text-center' },
-                { key: 'actions', label: '展演簡介' },
-                { key: 'imge', label: '展演圖片' },
-                { key: 'email', label: '寄信' },
-                {
-                    key: 'review',
-                    label: '審核狀態',
-                    formatter: (value, key, item) => {
-                        return value ? '已審核' : '尚未完成'
-                    },
-                    sortable: true,
-                    sortByFormatted: true,
-                    filterByFormatted: true
+    data: {
+        //isError: false,
+        //isBusy: true,
+        items: [
+            //{ reply: true, ReviewState: true, ExhibitionStartTime: '2021/02/03', ExhibitionEndTime: '2021/03/01', MasterUnit: '一二三', ExhibitionPrice: 100, ExName: '234252', ExPhoto: 'https://i.imgur.com/5hVqx53.jpg', ExhibitionIntro: '3232546' },
+            
+        ],
+        fields: [
+            { key: 'masterUnit', label: '主辦單位', sortable: true, sortDirection: 'desc', class: 'text-center' },
+            { key: 'exName', label: '展覽名稱', sortable: true, sortDirection: 'desc', class: 'text-center' },
+            { key: 'exhibitionStartTime', label: '展覽開始日期', sortable: true, class: 'text-center' },
+            { key: 'exhibitionEndTime', label: '展覽結束日期', sortable: true, class: 'text-center' },
+            { key: 'exhibitionPrice', label: '門票', sortable: true, class: 'text-center' },
+            { key: 'exhibitionIntro', label: '展演簡介', class: 'text-center' },
+            { key: 'exPhoto', label: '展演圖片', class: 'text-center' },
+            { key: 'email', label: '寄信', class: 'text-center' },
+            {
+                key: 'reviewState',
+                label: '審核狀態',
+                class: 'text-center',
+                formatter: (value, key, item) => {
+                    return value ? '已審核' : '尚未完成'
                 },
-                {
-                    key: 'reply',
-                    label: '客人回覆',
-                    formatter: (value, key, item) => {
-                        return value ? '已回覆' : '尚未回覆'
-                    },
-                    sortable: true,
-                    sortByFormatted: true,
-                    filterByFormatted: true
-                },
+                sortable: true,
+                sortByFormatted: true,
+                filterByFormatted: true
+            },
+            //{
+            //    key: 'reply',
+            //    label: '客人回覆',
+            //    class: 'text-center',
+            //    formatter: (value, key, item) => {
+            //        return value ? '已回覆' : '尚未回覆'
+            //    },
+            //    sortable: true,
+            //    sortByFormatted: true,
+            //    filterByFormatted: true
+            //},
 
-            ],
-            totalRows: 1,
-            currentPage: 1,
-            perPage: 10,
-            sortBy: '',
-            sortDesc: false,
-            filter: null,
-            infoModal: {
-                id: 'info-modal',
-                title: '',
-                content: ''
-            }
+        ],
+        totalRows: 1,
+        currentPage: 1,
+        perPage: 10,
+        sortBy: '',
+        sortDesc: false,
+        filter: null,
+        infoModal: {
+            id: 'info-modal',
+            title: '',
+            content: ''
         }
+    },
+    created: function () {
+        axios.get("/api/Exhibiton/GetExhibitonData")
+            .then((res) => {
+                console.log(res);
+                this.items = res.data.body;
+                this.isBusy = false;
+            })
+            //.catch((err) => {
+            //    //this.isError = true;
+            //    console.log(err);
+            //})
     },
     computed: {
         sortOptions() {

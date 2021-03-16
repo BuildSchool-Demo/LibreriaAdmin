@@ -1,0 +1,7 @@
+﻿#rentalApp{
+    margin:auto;
+}
+.page{
+    display:flex;
+    justify-content:center;
+}

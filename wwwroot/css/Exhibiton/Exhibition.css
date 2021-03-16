@@ -1,0 +1,10 @@
+﻿#exhibitonApp{
+    margin:auto;
+}
+.page {
+    display: flex;
+    justify-content: center;
+}
+.modal-body img{
+    width:100%;
+}

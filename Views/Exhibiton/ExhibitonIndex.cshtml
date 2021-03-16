@@ -1,4 +1,9 @@
-﻿<div class="col-sm-6">
+﻿@section topCSS{
+    <link href="~/css/Exhibiton/Exhibition.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous"></script>
+}
+
+<div class="col-sm-6">
     <h1 class="m-0">展覽管理</h1>
 </div>
 <div class="col-sm-6">
@@ -8,14 +13,14 @@
     </ol>
 </div>
 
-<div id="exhibitonApp" class="col-12">
+<div id="exhibitonApp" class="col-11">
     <b-container fluid>
         <!-- User Interface controls -->
         <b-row>
-            <b-col lg="6" class="my-1">
+            <b-col lg="12" class="my-1">
                 <b-form-group label="搜尋"
                               label-for="filter-input"
-                              label-cols-sm="3"
+                              label-cols-sm="8"
                               label-align-sm="right"
                               label-size="sm"
                               class="mb-0">
@@ -33,7 +38,8 @@
         </b-row>
 
         <!-- Main table element -->
-        <b-table :items="items"
+        <b-table @*:busy="isBusy"*@
+                 :items="items"
                  :fields="fields"
                  :current-page="currentPage"
                  :per-page="perPage"
@@ -45,21 +51,35 @@
                  small
                  v-on:filtered="onFiltered">
 
-            <template #cell(actions)="row">
+            @*<template #table-busy>
+                    <div v-show="isBusy && !isError" class="text-center text-danger my-2">
+                        <b-spinner class="align-middle"></b-spinner>
+                        <strong>Loading...</strong>
+                    </div>
+                    <div class="my-5 align-middle text-center text-danger" v-show="isError">發生不明錯誤</div>
+                </template>*@
+
+            <template #cell(exhibitionIntro)="row">
                 <b-button size="sm" v-on:click="row.toggleDetails">
                     {{ row.detailsShowing ? '關閉' : '開啟' }}
                 </b-button>
-                <b-button size="sm" v-on:click="info(row.item, row.index, $event.target)" class="mr-1">
+            </template>
+
+            <template #cell(exPhoto)="pic">
+                <b-button size="sm" v-on:click="info(pic.item, pic.index, $event.target)" class="mr-1">
                     開啟
                 </b-button>
-                <b-button size="sm" v-on:click="email(row.item, row.index, $event.target)" class="mr-1">
-                    開啟
+            </template>
+
+            <template #cell(email)="email">
+                <b-button size="sm" v-on:click="email(email.item, email.index, $event.target)" class="mr-1">
+                    <a href="~/Exhibiton/SendMail">前往</a>
                 </b-button>
             </template>
 
             <template #row-details="row">
                 <b-card>
-                    <p>{{row.item.exIntro}}</p>
+                    <p>{{row.item.exhibitionIntro}}</p>
                 </b-card>
             </template>
         </b-table>
@@ -70,7 +90,7 @@
             <img v-bind:src="infoModal.content" />
         </b-modal>
 
-        <b-col sm="7" md="6" class="my-1">
+        <b-col sm="7" md="12" class="my-1 page">
             <b-pagination v-model="currentPage"
                           :total-rows="totalRows"
                           :per-page="perPage"
@@ -81,4 +101,8 @@
 
     </b-container>
 </div>
-<script src="~/js/Exhibition/Exhibiton.js"></script>
+
+@section endJS{
+
+    <script src="~/js/Exhibition/Exhibiton.js"></script>
+}
