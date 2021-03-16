@@ -28,5 +28,7 @@ namespace LibreriaAdmin.Interfaces
         /// <returns></returns>
         ProductViewModels.ProductSingleResult GetById(ProductViewModels.GetByIdRequest request);
 
+        ProductViewModels.ProductListResult GetTotalSale();
+
     }
 }

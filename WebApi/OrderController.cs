@@ -28,7 +28,7 @@ namespace LibreriaAdmin.WebApi
             {
                 return result;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 result.Msg = ex.Message;
                 result.IsSuccess = false;
@@ -36,7 +36,23 @@ namespace LibreriaAdmin.WebApi
                 return result;
             }
         }
+        public BaseModel.BaseResult<OrderViewModel.OrderListResult> Getbytoday()
+        {
+            BaseModel.BaseResult<OrderViewModel.OrderListResult> result = new BaseModel.BaseResult<OrderViewModel.OrderListResult>();
+            result.Body = _orderService.Getbytoday();
 
+            try
+            {
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Msg = ex.Message;
+                result.IsSuccess = false;
+
+                return result;
+            }
+        }
 
     }
 }

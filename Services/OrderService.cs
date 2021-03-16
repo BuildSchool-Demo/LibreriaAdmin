@@ -35,13 +35,12 @@ namespace LibreriaAdmin.Services
 
             return result;
         }
-        public OrderViewModel.OrderListResult GetByTime(OrderViewModel.OrderDateResult request)
+        public OrderViewModel.OrderListResult Getbytoday()
         {
             OrderViewModel.OrderListResult result = new OrderViewModel.OrderListResult();
-            var nowMonth = DateTime.Now.Month;
-            var monthNum = nowMonth - 2;
+            var nowday = DateTime.Now.Day;
 
-            var data = _dbRepository.GetAll<Order>().Where(x => x.OrderDate.Month == monthNum);
+            var data = _dbRepository.GetAll<Order>().Where(x => x.OrderDate.Day == nowday);
             var resultVMs = this._mapper.Map<IEnumerable<OrderViewModel.OrderSingleResult>>(data).ToList();
             result.OrderList = resultVMs;
 

@@ -40,8 +40,30 @@ namespace LibreriaAdmin.WebApi
             }
             
 
+        }
+        [HttpGet]
+        public BaseModel.BaseResult<ProductViewModels.ProductListResult> GetTotalSale()
+        {
+            var result = new BaseModel.BaseResult<ProductViewModels.ProductListResult>();
+
+            try
+            {
+                result.Body = _productService.GetTotalSale();
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Msg = ex.Message;
+                result.IsSuccess = false;
+
+                return result;
+            }
+
+
 
 
         }
     }
+
 }

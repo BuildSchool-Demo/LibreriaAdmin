@@ -103,33 +103,33 @@ namespace LibreriaAdmin.Services
 
             return result;
         }
-        //public BaseModel.BaseResult<List<ProductViewModels.ProductSingleResult>> GetByToTalSale()
-        //{
-        //    var result = new BaseModel.BaseResult<List<ProductViewModels.ProductSingleResult>>();
+        public ProductViewModels.ProductListResult GetTotalSale()
+        {
+            var result = new ProductViewModels.ProductListResult();
 
-        //    result.Body = _dbRepository.GetAll<Product>().OrderByDescending(x=>x.TotalSales).Take(6)
-        //        .Select(x => new ProductViewModels.ProductSingleResult()
-        //        {
-        //            ProductId = x.ProductId,
-        //            ProductName = x.ProductName,
-        //            UnitPrice = x.UnitPrice,
-        //            Isbn = x.Isbn,
-        //            SupplierId = x.SupplierId,
-        //            Author = x.Author,
-        //            Inventory = x.Inventory,
-        //            CategoryId = x.CategoryId,
-        //            PublishDate = x.PublishDate,
-        //            Sort = x.Sort,
-        //            CreateTime = x.CreateTime,
-        //            UpdateTime = x.UpdateTime,
-        //            Introduction = x.Introduction,
-        //            TotalSales = x.TotalSales,
-        //            IsFav = x.IsFav,
-        //            IsSpecial = x.IsSpecial
-        //        }).ToList();
+            result.ProductList = _dbRepository.GetAll<Product>().OrderByDescending(x=>x.TotalSales).Take(6)
+                .Select(x => new ProductViewModels.ProductSingleResult()
+                {
+                    ProductId = x.ProductId,
+                    ProductName = x.ProductName,
+                    UnitPrice = x.UnitPrice,
+                    Isbn = x.Isbn,
+                    SupplierId = x.SupplierId,
+                    Author = x.Author,
+                    Inventory = x.Inventory,
+                    CategoryId = x.CategoryId,
+                    PublishDate = x.PublishDate,
+                    Sort = x.Sort,
+                    CreateTime = x.CreateTime,
+                    UpdateTime = x.UpdateTime,
+                    Introduction = x.Introduction,
+                    TotalSales = x.TotalSales,
+                    IsFav = x.IsFav,
+                    IsSpecial = x.IsSpecial
+                }).ToList();
 
-        //    return result;
-        //}
+            return result;
+        }
 
     }
 }
