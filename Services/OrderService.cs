@@ -13,13 +13,13 @@ namespace LibreriaAdmin.Services
 {
     public class OrderService : IOrderService
     {
-        private readonly LibreriaRepository _dbRepository;
+        private readonly IRepository _dbRepository;
 
         private IMapper _mapper;
 
-        public OrderService()
+        public OrderService(IRepository repository)
         {
-            _dbRepository = new LibreriaRepository();
+            _dbRepository = repository;
 
             var config = new MapperConfiguration(cfg => cfg.AddProfile<ServiceMappings>());
             this._mapper = config.CreateMapper();
@@ -27,7 +27,7 @@ namespace LibreriaAdmin.Services
 
         public OrderViewModel.OrderListResult GetAll()
         {
-            var data = _dbRepository.GetAll<Order>();
+            var data = _dbRepository.GetAll<Order>().OrderByDescending(order => order.OrderDate);
 
             var resultVMs = this._mapper.Map<IEnumerable<OrderViewModel.OrderSingleResult>>(data).ToList();
             var result = new OrderViewModel.OrderListResult();
@@ -41,7 +41,7 @@ namespace LibreriaAdmin.Services
             var nowMonth = DateTime.Now.Month;
             var monthNum = nowMonth - 2;
 
-            var data = _dbRepository.GetAll<Order>().Where(x => x.OrderDate.Month == monthNum);
+            var data = _dbRepository.GetAll<Order>().Where(x => x.OrderDate.Month == monthNum).OrderByDescending(order => order.OrderDate);
             var resultVMs = this._mapper.Map<IEnumerable<OrderViewModel.OrderSingleResult>>(data).ToList();
             result.OrderList = resultVMs;
 

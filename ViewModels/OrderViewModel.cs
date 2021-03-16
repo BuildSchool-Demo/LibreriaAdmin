@@ -85,8 +85,7 @@ namespace LibreriaAdmin.ViewModels
             /// </summary>
             public string PaymentState { get; set; }
 
-            public virtual Member Member { get; set; }
-            public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+            public virtual List<OrderDetail> OrderDetails { get; set; }
         }
         public class OrderListResult
         {
