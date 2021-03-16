@@ -1,4 +1,5 @@
-﻿using LibreriaAdmin.Models;
+﻿using LibreriaAdmin.Interfaces;
+using LibreriaAdmin.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace LibreriaAdmin.Repository
 {
-    public class LibreriaRepository
+    public class LibreriaRepository : IRepository
     {
         private readonly DbContext _dbContext;
 

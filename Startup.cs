@@ -38,6 +38,9 @@ namespace LibreriaAdmin
             //º”»ÎProductService
             services.AddTransient<IProductService, ProductService>();
 
+            //repository signup
+            services.AddTransient<IRepository, LibreriaRepository>();
+
             services.AddTransient<IExhibitonService, ExhibitonService>();
         }
 

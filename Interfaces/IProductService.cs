@@ -12,21 +12,21 @@ namespace LibreriaAdmin.Interfaces
         /// 取得所有商品
         /// </summary>
         /// <returns></returns>
-        BaseModel.BaseResult<List<ProductViewModels.ProductSingleResult>> GetAll();
+        ProductViewModels.ProductListResult GetAll();
 
         /// <summary>
         /// 依类别查询商品
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        BaseModel.BaseResult<ProductViewModels.ProductListResult> GetByCategory(ProductViewModels.GetByCategoryRequest request);
+        ProductViewModels.ProductListResult GetByCategory(ProductViewModels.GetByCategoryRequest request);
 
         /// <summary>
         /// 依Id查询商品
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        BaseModel.BaseResult<ProductViewModels.ProductSingleResult> GetById(ProductViewModels.GetByIdRequest request);
+        ProductViewModels.ProductSingleResult GetById(ProductViewModels.GetByIdRequest request);
 
     }
 }
