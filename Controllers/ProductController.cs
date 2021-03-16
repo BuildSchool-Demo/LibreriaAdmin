@@ -1,4 +1,5 @@
 ﻿using LibreriaAdmin.Interfaces;
+using LibreriaAdmin.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -19,9 +20,6 @@ namespace LibreriaAdmin.Controllers
         {
             return View();
         }
-        public IActionResult ProductIndex()
-        {
-            return View();
-        }
+        
     }
 }

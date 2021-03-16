@@ -11,18 +11,18 @@ namespace LibreriaAdmin.Services
 {
     public class ProductService : IProductService
     {
-        private readonly LibreriaRepository _dbRepository;
+        private readonly IRepository _dbRepository;
 
-        public ProductService()
+        public ProductService(IRepository repository)
         {
-            _dbRepository = new LibreriaRepository();
+            _dbRepository = repository;
         }
 
-        public BaseModel.BaseResult<List<ProductViewModels.ProductSingleResult>> GetAll()
+        public ProductViewModels.ProductListResult GetAll()
         {
-            var result = new BaseModel.BaseResult<List<ProductViewModels.ProductSingleResult>>();
+            var result = new ProductViewModels.ProductListResult();
 
-            result.Body = _dbRepository.GetAll<Product>()
+            result.ProductList = _dbRepository.GetAll<Product>()
                 .Select(x => new ProductViewModels.ProductSingleResult()
             {
                 ProductId = x.ProductId,
@@ -46,11 +46,11 @@ namespace LibreriaAdmin.Services
             return result;
         }
 
-        public BaseModel.BaseResult<ProductViewModels.ProductListResult> GetByCategory(ProductViewModels.GetByCategoryRequest request)
+        public ProductViewModels.ProductListResult GetByCategory(ProductViewModels.GetByCategoryRequest request)
         {
-            BaseModel.BaseResult<ProductViewModels.ProductListResult> result = new BaseModel.BaseResult<ProductViewModels.ProductListResult>();
+            ProductViewModels.ProductListResult result = new ProductViewModels.ProductListResult();
 
-            var productList = _dbRepository.GetAll<Product>()
+            result.ProductList = _dbRepository.GetAll<Product>()
                 .Where(x => x.CategoryId == request.CategoryId)
                 .Select(x => new ProductViewModels.ProductSingleResult()
             {
@@ -72,42 +72,64 @@ namespace LibreriaAdmin.Services
                 IsSpecial = x.IsSpecial
             }).ToList();
 
-            result.Body = new ProductViewModels.ProductListResult()
+            return result;
+
+        }
+
+        public ProductViewModels.ProductSingleResult GetById(ProductViewModels.GetByIdRequest request)
+        {
+            var data = _dbRepository.GetAll<Product>()
+                .FirstOrDefault(x => x.ProductId == request.ProductId);
+
+            var result = new ProductViewModels.ProductSingleResult()
             {
-                ProductList = productList
+                ProductId = data.ProductId,
+                ProductName = data.ProductName,
+                UnitPrice = data.UnitPrice,
+                Isbn = data.Isbn,
+                SupplierId = data.SupplierId,
+                Author = data.Author,
+                Inventory = data.Inventory,
+                CategoryId = data.CategoryId,
+                PublishDate = data.PublishDate,
+                Sort = data.Sort,
+                CreateTime = data.CreateTime,
+                UpdateTime = data.UpdateTime,
+                Introduction = data.Introduction,
+                TotalSales = data.TotalSales,
+                IsFav = data.IsFav,
+                IsSpecial = data.IsSpecial
             };
 
             return result;
-
         }
+        //public BaseModel.BaseResult<List<ProductViewModels.ProductSingleResult>> GetByToTalSale()
+        //{
+        //    var result = new BaseModel.BaseResult<List<ProductViewModels.ProductSingleResult>>();
 
-        public BaseModel.BaseResult<ProductViewModels.ProductSingleResult> GetById(ProductViewModels.GetByIdRequest request)
-        {
-            var result = new BaseModel.BaseResult<ProductViewModels.ProductSingleResult>();
+        //    result.Body = _dbRepository.GetAll<Product>().OrderByDescending(x=>x.TotalSales).Take(6)
+        //        .Select(x => new ProductViewModels.ProductSingleResult()
+        //        {
+        //            ProductId = x.ProductId,
+        //            ProductName = x.ProductName,
+        //            UnitPrice = x.UnitPrice,
+        //            Isbn = x.Isbn,
+        //            SupplierId = x.SupplierId,
+        //            Author = x.Author,
+        //            Inventory = x.Inventory,
+        //            CategoryId = x.CategoryId,
+        //            PublishDate = x.PublishDate,
+        //            Sort = x.Sort,
+        //            CreateTime = x.CreateTime,
+        //            UpdateTime = x.UpdateTime,
+        //            Introduction = x.Introduction,
+        //            TotalSales = x.TotalSales,
+        //            IsFav = x.IsFav,
+        //            IsSpecial = x.IsSpecial
+        //        }).ToList();
 
-            result.Body = _dbRepository.GetAll<Product>()
-                .Where(x => x.ProductId == request.ProductId)
-                .Select(x => new ProductViewModels.ProductSingleResult()
-                {
-                    ProductId = x.ProductId,
-                    ProductName = x.ProductName,
-                    UnitPrice = x.UnitPrice,
-                    Isbn = x.Isbn,
-                    SupplierId = x.SupplierId,
-                    Author = x.Author,
-                    Inventory = x.Inventory,
-                    CategoryId = x.CategoryId,
-                    PublishDate = x.PublishDate,
-                    Sort = x.Sort,
-                    CreateTime = x.CreateTime,
-                    UpdateTime = x.UpdateTime,
-                    Introduction = x.Introduction,
-                    TotalSales = x.TotalSales,
-                    IsFav = x.IsFav,
-                    IsSpecial = x.IsSpecial
-                }).FirstOrDefault();
+        //    return result;
+        //}
 
-            return result;
-        }
     }
 }
