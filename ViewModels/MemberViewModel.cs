@@ -7,17 +7,40 @@ namespace LibreriaAdmin.ViewModels
 {
     public class MemberViewModel
     {
-        public string memberName { get; set; }
-        public string MobileNumber { get; set; }
-        public string HomeNumber { get; set; }
-        public string City { get; set; }
-        public string Region { get; set; }
-        public string Address { get; set; }
-        public string Email { get; set; }
-        public string memberUserName { get; set; }
-        public string memberPassword { get; set; }
-        public DateTime birthday { get; set; }
-        public int Gender { get; set; }
-        public string IDnumber { get; set; }
+        public class MemberBaseModel
+        {
+            /// <summary>
+            /// 會員基底模型
+            /// </summary>
+            public int memberId { get; set; }
+            public string memberName { get; set; }
+            public string mobileNumber { get; set; }
+            public string homeNumber { get; set; }
+            public string city { get; set; }
+            public string region { get; set; }
+            public string address { get; set; }
+            public string email { get; set; }
+            public string memberUserName { get; set; }
+            public string memberPassword { get; set; }
+            public DateTime birthday { get; set; }
+            public int gender { get; set; }
+            public string idnumber { get; set; }
+        }
+
+        /// <summary>
+        /// 取得多种商品模型
+        /// </summary>
+        public class MemberListResult
+        {
+            public List<MemberSingleResult> MemberList { get; set; }
+        }
+
+        /// <summary>
+        /// 取得單一會員模型
+        /// </summary>
+        public class MemberSingleResult : MemberBaseModel
+        {
+
+        }
     }
 }

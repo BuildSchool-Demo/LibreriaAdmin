@@ -11,29 +11,31 @@ namespace LibreriaAdmin.Services
 {
     public class MemberService : IMemberService
     {
-        private readonly LibreriaRepository _dbRepository;
+        private readonly IRepository _dbRepository;
 
-        public MemberService()
+        public MemberService(IRepository repository)
         {
-            _dbRepository = new LibreriaRepository();
+            _dbRepository = repository;
         }
 
-        public List<MemberViewModel> GetAll()
+        public MemberViewModel.MemberListResult GetAll()
         {
-            var result = (
-                from member in _dbRepository.GetAll<Member>()
-                select new MemberViewModel()
+            var result = new MemberViewModel.MemberListResult();
+
+            result.MemberList = _dbRepository.GetAll<Member>()
+                .Select(x => new MemberViewModel.MemberSingleResult()
                 {
-                    memberUserName = member.MemberUserName,
-                    MobileNumber = member.MobileNumber,
-                    HomeNumber = member.HomeNumber,
-                    Address = member.Address,
-                    Email = member.Email,
-                    memberName = member.MemberName,
-                    memberPassword = member.MemberPassword,
-                    birthday = member.Birthday,
-                    Gender = member.Gender,
-                    IDnumber = member.Idnumber
+                    memberId = x.MemberId,
+                    memberUserName = x.MemberUserName,
+                    mobileNumber = x.MobileNumber,
+                    homeNumber = x.HomeNumber,
+                    address = x.Address,
+                    email = x.Email,
+                    memberName = x.MemberName,
+                    memberPassword = x.MemberPassword,
+                    birthday = x.Birthday,
+                    gender = x.Gender,
+                    idnumber = x.Idnumber
                 }).ToList();
 
             return result;

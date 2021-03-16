@@ -106,49 +106,17 @@
         </b-col>
     </div>
 </div>
-
+<script src="~/js/Axios.js"></script>
 <script>
     let member = new Vue({
         el: "#member",
         data() {
             return {
-                items: [
-                    { id: 1, age: 40, email: '213@gmail.com', phone: 095555552365, name: { first: 'Dickerson', last: 'Macdonald' } },
-                    { id: 2, age: 20, email: '123@gmail.com', phone: 0975412365, name: { first: 'Lee', last: 'kevin' } },
-                    {
-                        id: 3,
-                        age: 9,
-                        email: '321@gmail.com',
-                        phone: 09333333332365,
-                        name: { first: 'Mini', last: 'Navarro' },
-                        _rowVariant: 'success'
-                    },
-                    { id: 4, age: 40, email: '213@gmail.com', phone: 095555552365, name: { first: 'Dickerson', last: 'Macdonald' } },
-                    { id: 5, age: 20, email: '123@gmail.com', phone: 0975412365, name: { first: 'Lee', last: 'kevin' } },
-                    {
-                        id: 6,
-                        age: 9,
-                        email: '321@gmail.com',
-                        phone: 09333333332365,
-                        name: { first: 'Mini', last: 'Navarro' },
-                        _rowVariant: 'success'
-                    },
-                    { id: 7, age: 40, email: '213@gmail.com', phone: 095555552365, name: { first: 'Dickerson', last: 'Macdonald' } },
-                    { id: 8, age: 20, email: '123@gmail.com', phone: 0975412365, name: { first: 'Lee', last: 'kevin' } },
-                    {
-                        id: 9,
-                        age: 9,
-                        email: '321@gmail.com',
-                        phone: 09333333332365,
-                        name: { first: 'Mini', last: 'Navarro' },
-                        _rowVariant: 'success'
-                    },
-                ],
+                items: [],
                 fields: [
-                    { key: 'id', label: '編號', sortable: true, sortDirection: 'desc' },
-                    { key: 'name', label: '會員名稱', class: 'text-center' },
-                    { key: 'age', label: '年齡', class: 'text-center' },
-                    { key: 'phone', label: '電話', class: 'text-center' },
+                    { key: 'memberId', label: '編號', sortable: true, sortDirection: 'desc' },
+                    { key: 'memberName', label: '會員名稱', class: 'text-center' },
+                    { key: 'mobileNumber', label: '電話', class: 'text-center' },
                     { key: 'email', label: '信箱', class: 'text-center' },
                     { key: 'actions', label: 'Actions' }
                 ],
@@ -167,6 +135,14 @@
                     content: ''
                 }
             }
+        },
+        created: function () {
+            axios.get("/Api/Member/GetAll")
+                .then((res) => {
+                    console.log(res);
+                    this.items = res.data.body.memberList;
+                    //this.isBusy = false;
+                });
         },
         computed: {
             sortOptions() {
