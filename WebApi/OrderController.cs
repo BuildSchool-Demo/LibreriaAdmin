@@ -1,14 +1,13 @@
 ﻿using LibreriaAdmin.Interfaces;
 using LibreriaAdmin.ViewModels;
-using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace LibreriaAdmin.Controllers
+namespace LibreriaAdmin.WebApi
 {
-    public class OrderController : Controller
+    public class OrderController
     {
         private readonly IOrderService _orderService;
 
@@ -17,14 +16,12 @@ namespace LibreriaAdmin.Controllers
             _orderService = orderService;
         }
 
-        public IActionResult Index()
+        public BaseModel.BaseResult<OrderViewModel.OrderListResult> GetAll()
         {
-            return View();
-        }
+            BaseModel.BaseResult<OrderViewModel.OrderListResult> result = new BaseModel.BaseResult<OrderViewModel.OrderListResult>();
+                result.Body = _orderService.GetAll();
 
-        public IActionResult OrderIndex()
-        {
-            return View();
+            return result;
         }
     }
 }
