@@ -77,9 +77,10 @@
 
 <section class="col-lg-7 connectedSortable">
     <!-- AREA CHART -->
-    <div class="card ">
+    <div class="card card-primary">
         <div class="card-header">
-            <h3 class="card-title">本季銷售總額 <span>(單位:萬)</span> </h3>
+            <h3 class="card-title">Area Chart</h3>
+
             <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="collapse">
                     <i class="fas fa-minus"></i>
@@ -88,11 +89,11 @@
         </div>
         <div class="card-body">
             <div class="chart">
-                <canvas id="areaChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                <canvas id="areaChart"
+                        style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
             </div>
         </div>
     </div>
-    <!-- /.card -->
     <div class="card">
         <div class="card-header border-0">
             <h3 class="card-title">暢銷商品排行</h3>
@@ -133,7 +134,7 @@
 </section>
 
 <section class="col-lg-5 connectedSortable">
-    
+
 
     <!-- Calendar -->
     <div class="card bg-gradient-success">
@@ -164,31 +165,35 @@
                     <i class="fas fa-times"></i>
                 </button>
             </div>
-            <!-- /. tools -->
         </div>
-        <!-- /.card-header -->
         <div class="card-body pt-0">
-            <!--The calendar -->
             <div id="calendar" style="width: 100%"></div>
         </div>
-        <!-- /.card-body -->
     </div>
-    <!-- /.card -->
+    <div class="card">
+        <div class="card-header border-0">
+            <h3 class="card-title">
+                <i class="fas fa-user"></i>
+                管理員登入紀錄
+            </h3>
+        </div>
+        <div class="card-body pt-0">
+
+        </div>
+    </div>
+
+
+
+
 </section>
 
 <!-- /.card -->
 
 @section endJS{
-    <!-- jQuery UI 1.11.4 -->
-    <script src="~/js/homeindex/jquery-ui.min.js"></script>
-    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-    <script>
-        $.widget.bridge('uibutton', $.ui.button)
-    </script>
+    
     <!--Chart.js-->
     <script src="~/js/homeindex/Chart.min.js"></script>
-    <!-- Sparkline -->
-    <script src="~/js/homeindex/sparkline.js"></script>
+
     <!-- daterangepicker -->
     <script src="~/js/homeindex/moment.min.js"></script>
     <script src="~/js/homeindex/daterangepicker.js"></script>
@@ -206,20 +211,13 @@
             format: 'L',
             inline: true
         })
-        // jQuery UI sortable for the todo list
-        $('.todo-list').sortable({
-            placeholder: 'sort-highlight',
-            handle: '.handle',
-            forcePlaceholderSize: true,
-            zIndex: 999999
-        })
-    </script>
-    <script>
-        window.onload = function areaChart() {
+
+
+        $(function () {
             var areaChartCanvas = $('#areaChart').get(0).getContext('2d')
 
             var areaChartData = {
-                labels: ['January', 'February', 'March'],
+                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
                 datasets: [
                     {
                         label: 'Digital Goods',
@@ -230,7 +228,18 @@
                         pointStrokeColor: 'rgba(60,141,188,1)',
                         pointHighlightFill: '#fff',
                         pointHighlightStroke: 'rgba(60,141,188,1)',
-                        data: [28, 48, 40]
+                        data: [28, 48, 40, 19, 86, 27, 90]
+                    },
+                    {
+                        label: 'Electronics',
+                        backgroundColor: 'rgba(210, 214, 222, 1)',
+                        borderColor: 'rgba(210, 214, 222, 1)',
+                        pointRadius: false,
+                        pointColor: 'rgba(210, 214, 222, 1)',
+                        pointStrokeColor: '#c1c7d1',
+                        pointHighlightFill: '#fff',
+                        pointHighlightStroke: 'rgba(220,220,220,1)',
+                        data: [65, 59, 80, 81, 56, 55, 40]
                     },
                 ]
             }
@@ -261,6 +270,6 @@
                 data: areaChartData,
                 options: areaChartOptions
             })
-        }
+        })
     </script>
 }
