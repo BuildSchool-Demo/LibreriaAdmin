@@ -177,10 +177,10 @@
                 }
             },
             created: function () {
-                axios.get('/Order/GetAll')
+                axios.get('/api/Order/GetAll')
                     .then((res) => {
                         console.log(res);
-                        this.items = res.data.body;
+                        this.items = res.data.body.orderList;
                         this.mounted();
                         this.isBusy = false;
                     })
