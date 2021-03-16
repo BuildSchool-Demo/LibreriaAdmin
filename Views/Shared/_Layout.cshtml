@@ -4,8 +4,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AdminLTE 3 | Starter</title>
-
+    <title>LibreriaAdmin</title>
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -31,10 +32,15 @@
     @await RenderSectionAsync("topCSS", required: false)
     @await RenderSectionAsync("topJS", required: false)
     <style>
+        .time {
+            text-align: center;
+            margin: auto;
+            color: #c2c7d0;
+        }
     </style>
 </head>
 
-<body class="hold-transition sidebar-mini">
+<body class="hold-transition sidebar-mini" >
     <div class="wrapper">
 
         <!-- Navbar -->
@@ -90,7 +96,11 @@
                         <a href="#" class="d-block">UserName</a>
                     </div>
                 </div>
-
+                <!--時間-->
+                <div class="mt-3 pb-3 mb-3 d-flex">
+                        <div class="time" id="time">
+                        </div>
+                </div>
                 <!-- SidebarSearch Form -->
                 <div class="form-inline">
                     <div class="input-group" data-widget="sidebar-search">
@@ -107,7 +117,7 @@
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class
-                    with font-awesome or any other icon font library -->
+                        with font-awesome or any other icon font library -->
                         <li class="nav-item">
                             <a href="~/Home/Index" class="nav-link">
                                 <i class="nav-icon fas fa-home"></i>
@@ -228,7 +238,7 @@
             <!-- Main content -->
             <div class="content">
                 <div class="container-fluid">
-                    <div class="row">
+                    <div class="row pt-2" id="APP">
                         @RenderBody()
 
 
@@ -252,18 +262,43 @@
             <!-- /.control-sidebar -->
         </div>
 
-        <!--AXIOS-->
-        <script src="~/js/Axios.js"></script>
-        <!-- jQuery -->
-        <script src="~/js/admin/jquery.min.js"></script>
-        <!-- Bootstrap 4 -->
-        <script src="~/js/admin/bootstrap.bundle.min.js"></script>
-        <!-- AdminLTE App -->
-        <script src="~/js/admin/adminlte.min.js"></script>
-        @await RenderSectionAsync("endCSS", required: false)
-        @await RenderSectionAsync("endJS", required: false)
+
 
     </div>
+    <!--AXIOS-->
+    <script src="~/js/Axios.js"></script>
+    <!-- jQuery -->
+    <script src="~/js/admin/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="~/js/admin/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="~/js/admin/adminlte.min.js"></script>
+    @await RenderSectionAsync("endCSS", required: false)
+    @await RenderSectionAsync("endJS", required: false)
+    <script>
+        function setTime() {
+            var myDate = new Date();
+            var year = myDate.getFullYear();
+            var month = myDate.getMonth();
+            var date = myDate.getDate();
+            var hours = myDate.getHours();
+            var minutes = myDate.getMinutes();
+            var seconds = myDate.getSeconds();
+            if (month < 10) {
+                month = '0' + month;
+            }
+            if (date < 10) {
+                date = '0' + date;
+            }
+            var dateTime = "當前時間" + year + '年' + "<br>" + month + '月' + +date + '日' + hours + '時' + minutes + '分' + seconds + '秒';
+            document.getElementById("time").innerHTML = dateTime;
+            setTimeout('setTime()', 1000);
+        }
+        window.onload = function () {
+            setTime();
+            setTimeout('setTime()', 1000);
+        }
+    </script>
 </body>
 
 </html>
