@@ -40,6 +40,9 @@ namespace LibreriaAdmin
             //º”»ÎProductService
             services.AddTransient<IProductService, ProductService>();
 
+            //™`§JOrderService
+            services.AddTransient<IOrderService, OrderService>();
+
             //repository signup
             services.AddTransient<IRepository, LibreriaRepository>();
             services.AddSwaggerDocument(config =>

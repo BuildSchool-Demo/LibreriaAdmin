@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="bootstrap" Version="3.3.6" />
     <PackageReference Include="Font.Awesome" Version="5.15.2" />
     <PackageReference Include="FontAwesome" Version="4.7.0" />
@@ -39,6 +40,7 @@
   <ItemGroup>
     <Folder Include="wwwroot\img\" />
     <Folder Include="Repository\" />
+    <Folder Include="ViewModels\" />
   </ItemGroup>
 
 </Project>
