@@ -210,7 +210,6 @@
             created: function () {
                 axios.get('/api/Order/Getbytoday')
                     .then((res) => {
-                        console.log(res);
                         this.todayOrderSum = res.data.body.orderList.length;
                     })
             },
@@ -218,13 +217,13 @@
         var app2 = new Vue({
             el: '#todayRent',
             data: {
-                todayRent: 0,
+                todayRent: 999,
             },
             created: function () {
-                axios.get('/api/Order/Getbytoday')
+                axios.get('/api/Exhibition/GetTodayExhibiton')
                     .then((res) => {
                         console.log(res);
-                        this.todayOrderSum = res.data.body.orderList.length;
+                        this.todayRent = res.data.body.length;
                     })
             },
         })
@@ -236,7 +235,6 @@
             created: function () {
                 axios.get('/api/Product/GetTotalSale')
                     .then((res) => {
-                        console.log(res);
                         this.items = res.data.body.productList;
                     })
             },
