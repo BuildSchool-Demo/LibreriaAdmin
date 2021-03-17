@@ -20,6 +20,12 @@ namespace LibreriaAdmin.Controllers
         {
             return View();
         }
-        
+
+
+        public IActionResult DailySale()
+        {
+            return View();
+        }
+
     }
 }

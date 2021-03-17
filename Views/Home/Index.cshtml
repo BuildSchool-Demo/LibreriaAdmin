@@ -24,7 +24,7 @@
 <div class="col-lg-3 col-6"id="todayOrder" >
     <div class="small-box bg-info">
         <div class="inner">
-            <h3>{{todayOrderSum}}</h3>
+            <h3>{{todayOrderSum}}筆</h3>
 
             <p>本日新訂單</p>
         </div>
@@ -37,7 +37,7 @@
 <div class="col-lg-3 col-6" id="todayRent">
     <div class="small-box bg-success">
         <div class="inner">
-            <h3>{{todayRent}}</h3>
+            <h3>{{todayRent}}筆</h3>
 
             <p>本日場地出租</p>
         </div>
@@ -109,7 +109,8 @@
                     <tr>
                         <th>書名</th>
                         <th>價錢</th>
-                        <th>銷售數量</th>
+                        <th>銷量</th>
+                        <th>總額</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -117,9 +118,12 @@
                         <td>
                             {{item.productName}}
                         </td>
-                        <td>{{item.unitPrice}}</td>
+                        <td>{{item.unitPrice}}元</td>
                         <td>
-                            {{item.totalSales}}
+                            {{item.totalSales}}本
+                        </td>
+                        <td>
+                            {{item.totalSales* item.unitPrice}}元
                         </td>
                     </tr>
                 </tbody>
@@ -156,9 +160,7 @@
                 <button type="button" class="btn btn-success btn-sm" data-card-widget="collapse">
                     <i class="fas fa-minus"></i>
                 </button>
-                <button type="button" class="btn btn-success btn-sm" data-card-widget="remove">
-                    <i class="fas fa-times"></i>
-                </button>
+                
             </div>
         </div>
         <div class="card-body pt-0">
@@ -229,7 +231,7 @@
         var app3 = new Vue({
             el: '#totalsale',
             data: {
-                items:[],
+                items: [],
             },
             created: function () {
                 axios.get('/api/Product/GetTotalSale')
