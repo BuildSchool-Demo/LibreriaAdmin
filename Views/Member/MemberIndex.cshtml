@@ -1,11 +1,4 @@
 ﻿
-<!--MemberCSS-->
-<link href="~/css/Member/Member.css" rel="stylesheet" />
-
-
-
-
-
 
 <div class="col-sm-6">
     <h1 class="m-0">會員資料</h1>
@@ -22,13 +15,13 @@
 <div id="member" class="col-12 m-auto">
 
     <template>
-
-        <b-container fluid >
-            <div class="memberContainer">
+        <b-container fluid>
             <!-- User Interface controls -->
             <b-row>
+               
+
                 <b-col lg="6" class="my-1">
-                    <b-form-group
+                    <b-form-group label="Filter"
                                   label-for="filter-input"
                                   label-cols-sm="3"
                                   label-align-sm="right"
@@ -41,13 +34,36 @@
                                           placeholder="Type to Search"></b-form-input>
 
                             <b-input-group-append>
-                                <b-button :disabled="!filter" v-on:click="filter = ''">搜尋</b-button>
+                                <b-button :disabled="!filter" v-on:click="filter = ''">Clear</b-button>
                             </b-input-group-append>
                         </b-input-group>
                     </b-form-group>
                 </b-col>
 
+                <b-col sm="5" md="6" class="my-1">
+                    <b-form-group label="Per page"
+                                  label-for="per-page-select"
+                                  label-cols-sm="6"
+                                  label-cols-md="4"
+                                  label-cols-lg="3"
+                                  label-align-sm="right"
+                                  label-size="sm"
+                                  class="mb-0">
+                        <b-form-select id="per-page-select"
+                                       v-model="perPage"
+                                       :options="pageOptions"
+                                       size="sm"></b-form-select>
+                    </b-form-group>
+                </b-col>
 
+                <b-col sm="7" md="6" class="my-1">
+                    <b-pagination v-model="currentPage"
+                                  :total-rows="totalRows"
+                                  :per-page="perPage"
+                                  align="fill"
+                                  size="sm"
+                                  class="my-0"></b-pagination>
+                </b-col>
             </b-row>
 
             <!-- Main table element -->
@@ -86,64 +102,53 @@
                 </template>
             </b-table>
 
-
             <!-- Info modal -->
             <b-modal :id="infoModal.id" :title="infoModal.title" ok-only v-on:hide="resetInfoModal">
                 <pre>{{ infoModal.content }}</pre>
             </b-modal>
-                </div>
         </b-container>
     </template>
 
-    <div class="page">
-        <b-col sm="6" md="6" class="my-1">
-            <b-pagination v-model="currentPage"
-                          :total-rows="totalRows"
-                          :per-page="perPage"
-                          align="fill"
-                          size="sm"
-                          class="my-0"></b-pagination>
-        </b-col>
-    </div>
+    
 </div>
 <script src="~/js/Axios.js"></script>
 <script>
-    let member = new Vue({
+    var member = new Vue({
         el: "#member",
-        data() {
-            return {
-                items: [],
-                fields: [
-                    { key: 'memberId', label: '編號', sortable: true, sortDirection: 'desc' },
-                    { key: 'memberName', label: '會員名稱', class: 'text-center' },
-                    { key: 'mobileNumber', label: '電話', class: 'text-center' },
-                    { key: 'email', label: '信箱', class: 'text-center' },
-                    { key: 'actions', label: 'Actions' }
-                ],
-                totalRows: 1,
-                currentPage: 1,
-                perPage: 5,
-                pageOptions: [5, 10, 15, { value: 100, text: "Show a lot" }],
-                sortBy: '',
-                sortDesc: false,
-                sortDirection: 'asc',
-                filter: null,
-                filterOn: [],
-                infoModal: {
-                    id: 'info-modal',
-                    title: '',
-                    content: ''
-                }
+        data: {
+            isError: false,
+            isBusy: true,
+            items: [],
+            fields: [
+                { key: 'memberId', label: '編號', sortable: true, sortDirection: 'desc' },
+                { key: 'memberName', label: '會員名稱', class: 'text-center' },
+                { key: 'mobileNumber', label: '電話', class: 'text-center' },
+                { key: 'email', label: '信箱', class: 'text-center' },
+                { key: 'actions', label: 'Actions' }
+            ],
+            totalRows: 1,
+            currentPage: 1,
+            perPage: 20,
+            pageOptions: [5, 10, 20, { value: 100, text: "Show a lot" }],
+            sortBy: '',
+            sortDesc: false,
+            sortDirection: 'asc',
+            filter: null,
+            filterOn: [],
+            infoModal: {
+                id: 'info-modal',
+                title: '',
+                content: ''
             }
         },
         created: function () {
             axios.get("/Api/Member/GetAll")
                 .then((res) => {
-                    console.log(res);
                     this.items = res.data.body.memberList;
+                    this.mounted();
                     //this.isBusy = false;
                 });
-        },
+        },  
         computed: {
             sortOptions() {
                 // Create an options list from our fields
@@ -172,8 +177,11 @@
                 // Trigger pagination to update the number of buttons/pages due to filtering
                 this.totalRows = filteredItems.length
                 this.currentPage = 1
+            },
+            mounted() {
+                // Set the initial number of items
+                this.totalRows = this.items.length
             }
-        }
-
+        },
     })
 </script>
