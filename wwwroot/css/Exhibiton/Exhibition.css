@@ -1,0 +1,14 @@
+﻿#exhibitonApp{
+    margin:auto;
+}
+#exhibitonApp a{
+    color:white;
+    border:none;
+}
+.page {
+    display: flex;
+    justify-content: center;
+}
+.modal-body img{
+    width:100%;
+}

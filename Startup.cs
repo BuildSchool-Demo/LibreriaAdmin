@@ -57,6 +57,8 @@ namespace LibreriaAdmin
                 config.AddSecurity("JWT Token", Enumerable.Empty<string>(), apiSchema);
                 config.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("JWT Token"));
             });
+
+            services.AddTransient<IExhibitonService, ExhibitonService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
