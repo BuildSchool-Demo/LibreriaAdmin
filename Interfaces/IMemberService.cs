@@ -8,6 +8,6 @@ namespace LibreriaAdmin.Interfaces
 {
     public interface IMemberService
     {
-        List<MemberViewModel> GetAll();
+        MemberViewModel.MemberListResult GetAll();
     }
 }

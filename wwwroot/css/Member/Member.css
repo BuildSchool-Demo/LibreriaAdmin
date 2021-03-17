@@ -1,0 +1,10 @@
+﻿.page{
+    display: flex;
+    justify-content: center;
+}
+.row {
+    justify-content: flex-end;
+}
+.memberContainer{
+    min-height: 400px;
+}
