@@ -79,6 +79,7 @@
                         </b-input-group>
                     </b-form-group>
                 </b-col>
+
                 <b-col lg="6" class="my-1">
                     <b-form-group v-model="sortDirection"
                                   label="Filter On"
@@ -141,16 +142,22 @@
                 <template #cell(name)="row">
                     {{ row.value }}
                 </template>
-                <template v-slot:cell(preview)="row">
-                    <div class="my-cell-overflow-y" style="max-width: 16px; overflow-y: auto;">
+                <template v-slot:cell(productName)="row" >
+                    <div style="max-width:250px; overflow-y:auto;">
                         {{ row.value }}
                     </div>
                 </template>
 
                 <template #cell(actions)="row">
 
-                    <b-button size="sm" v-on:click="row.toggleDetails">
+                    <b-button size="sm" v-on:click="row.toggleDetails" variant="success">
                         {{ row.detailsShowing ? 'Hide' : 'Show' }} Details
+                    </b-button>
+                    <b-button size="sm" variant="primary">
+                        Edit
+                    </b-button>
+                    <b-button size="sm" variant="danger">
+                      Delete
                     </b-button>
                 </template>
 
@@ -168,76 +175,8 @@
         </b-container>
     </template>
 </div>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+<script src="~/js/product/product.js"></script>
 
 
-
-
-<script>
-    var productAPP = new Vue({
-        el: '#product-index',
-        data() {
-            return {
-                items: [
-                    { productId: 1, publisher: "遠流", name: "kafka on the shore", author: 'Dickerson M', publisherData: "1983", stock: 30, price: 300, preview:"12333333333333333333331233333333333333333333123333333333333333333312333333333333333333331233333333333333333333" },
-                   
-                ],
-
-                fields: [
-                    { key: 'productId', label: '產品編號', sortable: true, sortDirection: 'desc' },
-                    { key: 'name', label: '書名', sortable: true, sortDirection: 'desc' },
-                    { key: 'price', label: '價格', sortable: true, sortDirection: 'desc' },
-                    { key: 'author', label: '作者名稱', sortable: true, sortDirection: 'desc' },
-                    { key: 'publisher', label: '出版社', sortable: true, class: 'text-center' },
-                    { key: 'publisherData', label: '出版日期', sortable: true, class: 'text-center' },
-                   
-                    {
-                        key: "stock", label: '庫存數量', sortable: true, sortByFormatted: true, filterByFormatted: true
-                    },
-                    {
-                        key: "preview", label: '簡介', sortable: true, sortByFormatted: true, filterByFormatted: true
-                    },
-
-                    { key: 'actions', label: '執行' }
-                ],
-                totalRows: 1,
-                currentPage: 1,
-                perPage: 5,
-                pageOptions: [5, 10, 15, { value: 100, text: "Show a lot" }],
-                sortBy: '',
-                sortDesc: false,
-                sortDirection: 'asc',
-                filter: null,
-                filterOn: []
-               
-            }
-        },
-        computed: {
-            sortOptions() {
-                // Create an options list from our fields
-                return this.fields
-                    .filter(f => f.sortable)
-                    .map(f => {
-                        return { text: f.label, value: f.key }
-                    })
-            }
-        },
-        mounted() {
-            // Set the initial number of items
-            this.totalRows = this.items.length
-        },
-        methods: {
-            
-            resetInfoModal() {
-                this.infoModal.title = ''
-                this.infoModal.content = ''
-            },
-            onFiltered(filteredItems) {
-                // Trigger pagination to update the number of buttons/pages due to filtering
-                this.totalRows = filteredItems.length
-                this.currentPage = 1
-            }
-        }
-    });
-
-
-</script>
