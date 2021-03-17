@@ -31,6 +31,11 @@ namespace LibreriaAdmin.ViewModels
             public int MemberId { get; set; }
 
             /// <summary>
+            /// 會員姓名
+            /// </summary>
+            public string MemberUserName { get; set; }
+
+            /// <summary>
             /// 收件人姓名
             /// </summary>
             public string ShipName { get; set; }
@@ -85,8 +90,7 @@ namespace LibreriaAdmin.ViewModels
             /// </summary>
             public string PaymentState { get; set; }
 
-            public virtual Member Member { get; set; }
-            public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+            public List<OrderDetail> OrderDetails { get; set; }
         }
         public class OrderListResult
         {

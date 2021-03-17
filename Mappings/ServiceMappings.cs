@@ -16,6 +16,11 @@ namespace LibreriaAdmin.Mappings
                 .IgnoreAllPropertiesWithAnInaccessibleSetter()
                 .ForMember(x => x.OrderId, y => y.MapFrom(o => o.OrderId))
                 .ReverseMap();
+
+            CreateMap<Member, OrderViewModel.OrderSingleResult>()
+                .IgnoreAllPropertiesWithAnInaccessibleSetter()
+                .ForMember(x => x.MemberUserName, y => y.MapFrom(o => o.MemberUserName))
+                .ReverseMap();
         }
     }
 }
