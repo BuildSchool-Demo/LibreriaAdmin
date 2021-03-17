@@ -27,14 +27,52 @@ namespace LibreriaAdmin.Services
 
         public OrderViewModel.OrderListResult GetAll()
         {
-            var data = _dbRepository.GetAll<Order>().OrderByDescending(order => order.OrderDate);
+            IEnumerable<OrderViewModel.OrderSingleResult> DataSets; //repository抓出的資料
 
-            var resultVMs = this._mapper.Map<IEnumerable<OrderViewModel.OrderSingleResult>>(data).ToList();
+            //抓取所有訂單
+            var OrderDataSets = _dbRepository.GetAll<Order>().OrderByDescending(order => order.OrderDate);
+            DataSets = this._mapper.Map<IEnumerable<OrderViewModel.OrderSingleResult>>(OrderDataSets);
+
+            //抓取所有會員
+            var MemberSets = _dbRepository.GetAll<Member>();
+
+
+
+
+            //放入OrderVMList
+            List<OrderViewModel.OrderSingleResult> OrderVMList;
+            OrderVMList = (from Order in _dbRepository.GetAll<Order>()
+                           join Member in _dbRepository.GetAll<Member>()
+                           on Order.MemberId equals Member.MemberId
+                           orderby Order.OrderDate descending
+                           select new OrderViewModel.OrderSingleResult()
+                           {
+                               OrderId = Order.OrderId,
+                               ShippingDate = Order.ShippingDate,
+                               OrderDate = Order.OrderDate,
+                               MemberId = Order.MemberId,
+                               MemberUserName = Member.MemberUserName,
+                               ShipName = Order.ShipName,
+                               ShipCity = Order.ShipCity,
+                               ShipRegion = Order.ShipRegion,
+                               ShipAddress = Order.ShipAddress,
+                               ShipPostalCode = Order.ShipPostalCode,
+                               InvoiceType = Order.InvoiceType,
+                               InvoiceInfo = Order.InvoiceInfo,
+                               CreateTime = Order.CreateTime,
+                               UpdateTime = Order.UpdateTime,
+                               PaymentType = Order.PaymentType,
+                               PaymentState = Order.PaymentState,
+                           }).ToList();
+
             var result = new OrderViewModel.OrderListResult();
-            result.OrderList = resultVMs;
+            result.OrderList = OrderVMList;
+
+
 
             return result;
         }
+
         public OrderViewModel.OrderListResult GetByTime(OrderViewModel.OrderDateResult request)
         {
             OrderViewModel.OrderListResult result = new OrderViewModel.OrderListResult();
@@ -42,8 +80,8 @@ namespace LibreriaAdmin.Services
             var monthNum = nowMonth - 2;
 
             var data = _dbRepository.GetAll<Order>().Where(x => x.OrderDate.Month == monthNum).OrderByDescending(order => order.OrderDate);
-            var resultVMs = this._mapper.Map<IEnumerable<OrderViewModel.OrderSingleResult>>(data).ToList();
-            result.OrderList = resultVMs;
+            var OrderVMs = this._mapper.Map<IEnumerable<OrderViewModel.OrderSingleResult>>(data).ToList();
+            result.OrderList = OrderVMs;
 
             return result;
         }

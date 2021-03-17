@@ -22,7 +22,52 @@
         <!-- User Interface controls -->
         <b-row>
             <b-col lg="6" class="my-1">
-                <b-form-group label="Filter"
+                <b-form-group label="排序方式"
+                              label-for="sort-by-select"
+                              label-cols-sm="3"
+                              label-align-sm="right"
+                              label-size="sm"
+                              class="mb-0"
+                              v-slot="{ ariaDescribedby }">
+                    <b-input-group size="sm">
+                        <b-form-select id="sort-by-select"
+                                       v-model="sortBy"
+                                       :options="sortOptions"
+                                       :aria-describedby="ariaDescribedby"
+                                       class="w-75">
+                            <template #first>
+                                <option value="">-- 無 --</option>
+                            </template>
+                        </b-form-select>
+
+                        <b-form-select v-model="sortDesc"
+                                       :disabled="!sortBy"
+                                       :aria-describedby="ariaDescribedby"
+                                       size="sm"
+                                       class="w-25">
+                            <option :value="false">遞增</option>
+                            <option :value="true">遞減</option>
+                        </b-form-select>
+                    </b-input-group>
+                </b-form-group>
+            </b-col>
+
+            @*<b-col lg="6" class="my-1">
+                <b-form-group label="Initial sort"
+                              label-for="initial-sort-select"
+                              label-cols-sm="3"
+                              label-align-sm="right"
+                              label-size="sm"
+                              class="mb-0">
+                    <b-form-select id="initial-sort-select"
+                                   v-model="sortDirection"
+                                   :options="['asc', 'desc', 'last']"
+                                   size="sm"></b-form-select>
+                </b-form-group>
+            </b-col>*@
+
+            <b-col lg="6" class="my-1">
+                <b-form-group label="搜尋條件"
                               label-for="filter-input"
                               label-cols-sm="3"
                               label-align-sm="right"
@@ -35,17 +80,35 @@
                                       placeholder="Type to Search"></b-form-input>
 
                         <b-input-group-append>
-                            <b-button :disabled="!filter" v-on:click="filter = ''">Clear</b-button>
+                            <b-button :disabled="!filter" @@click="filter = ''">清空搜尋條件</b-button>
                         </b-input-group-append>
                     </b-input-group>
                 </b-form-group>
             </b-col>
 
-
-
+            <b-col lg="6" class="my-1">
+                <b-form-group v-model="sortDirection"
+                              label="搜尋欄位"
+                              description="Leave all unchecked to filter on all data"
+                              label-cols-sm="3"
+                              label-align-sm="right"
+                              label-size="sm"
+                              class="mb-0"
+                              v-slot="{ ariaDescribedby }">
+                    <b-form-checkbox-group v-model="filterOn"
+                                           :aria-describedby="ariaDescribedby"
+                                           class="mt-1">
+                        <b-form-checkbox value="orderId">訂單編號</b-form-checkbox>
+                        <b-form-checkbox value="orderDate">訂單時間</b-form-checkbox>
+                        <b-form-checkbox value="shipName">收件人姓名</b-form-checkbox>
+                        <b-form-checkbox value="paymentType">付款方式</b-form-checkbox>
+                        <b-form-checkbox value="paymentState">付款狀態</b-form-checkbox>
+                    </b-form-checkbox-group>
+                </b-form-group>
+            </b-col>
 
             <b-col sm="5" md="6" class="my-1">
-                <b-form-group label="Per page"
+                <b-form-group label="每頁顯示筆數"
                               label-for="per-page-select"
                               label-cols-sm="6"
                               label-cols-md="4"
@@ -139,15 +202,11 @@
                 isBusy: true,
                 items: [],
                 fields: [
-                    { key: 'orderId', label: '訂單編號' },
-                    { key: 'orderDate', label: '訂單時間' },
-                    { key: 'shipName', label: '收件人姓名' },
-                    { key: 'shipCity', label: '收件人縣市' },
-                    { key: 'shipRegion', label: '收件人轄區' },
-                    { key: 'shipAddress', label: '收件人轄區' },
-                    { key: 'shipPostalCode', label: '收件人郵遞區號' },
-                    { key: 'paymentType', label: '付款方式' },
-                    { key: 'paymentState', label: '付款狀態' },
+                    { key: 'orderId', label: '訂單編號', sortable: true },
+                    { key: 'orderDate', label: '訂單時間', sortable: true },
+                    { key: 'memberUserName', label: '會員姓名', sortable: true },
+                    { key: 'paymentType', label: '付款方式', sortable: true },
+                    { key: 'paymentState', label: '付款狀態', sortable: true },
                     //{
                     //    key: 'isActive',
                     //    label: 'Is Active',
