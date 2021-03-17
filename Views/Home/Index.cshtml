@@ -21,25 +21,25 @@
     </ol>
 </div>
 
-<div class="col-lg-3 col-6">
+<div class="col-lg-3 col-6"id="todayOrder" >
     <div class="small-box bg-info">
         <div class="inner">
-            <h3>150</h3>
+            <h3>{{todayOrderSum}}</h3>
 
             <p>本日新訂單</p>
         </div>
         <div class="icon">
             <i class="ion ion-bag"></i>
         </div>
-        <a href="#" class="small-box-footer">前往更多 <i class="fas fa-arrow-circle-right"></i></a>
+        <a href="~/Order/OrderIndex" class="small-box-footer">前往更多 <i class="fas fa-arrow-circle-right"></i></a>
     </div>
 </div>
-<div class="col-lg-3 col-6">
+<div class="col-lg-3 col-6" id="todayRent">
     <div class="small-box bg-success">
         <div class="inner">
-            <h3>1</h3>
+            <h3>{{todayRent}}</h3>
 
-            <p>場地出租</p>
+            <p>本日場地出租</p>
         </div>
         <div class="icon">
             <i class="ion ion-stats-bars"></i>
@@ -52,12 +52,12 @@
         <div class="inner">
             <h3>65</h3>
 
-            <p>賣出商品數</p>
+            <p>本日營業額</p>
         </div>
         <div class="icon">
             <i class="ion ion-pie-graph"></i>
         </div>
-        <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+        <a href="#" class="small-box-footer">前往更多 <i class="fas fa-arrow-circle-right"></i></a>
     </div>
 </div>
 <div class="col-lg-3 col-6">
@@ -65,7 +65,7 @@
         <div class="inner">
             <h3>44</h3>
 
-            <p>新註冊會員</p>
+            <p>會員數量</p>
         </div>
         <div class="icon">
             <i class="ion ion-person-add"></i>
@@ -77,9 +77,10 @@
 
 <section class="col-lg-7 connectedSortable">
     <!-- AREA CHART -->
-    <div class="card ">
+    <div class="card card-primary">
         <div class="card-header">
-            <h3 class="card-title">本季銷售總額 <span>(單位:萬)</span> </h3>
+            <h3 class="card-title">Area Chart</h3>
+
             <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="collapse">
                     <i class="fas fa-minus"></i>
@@ -88,11 +89,11 @@
         </div>
         <div class="card-body">
             <div class="chart">
-                <canvas id="areaChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                <canvas id="areaChart"
+                        style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
             </div>
         </div>
     </div>
-    <!-- /.card -->
     <div class="card">
         <div class="card-header border-0">
             <h3 class="card-title">暢銷商品排行</h3>
@@ -102,28 +103,23 @@
                 </button>
             </div>
         </div>
-        <div class="card-body table-responsive p-0">
+        <div class="card-body table-responsive p-0" id="totalsale">
             <table class="table table-striped table-valign-middle">
                 <thead>
                     <tr>
-                        <th>Product</th>
-                        <th>Price</th>
-                        <th>Sales</th>
+                        <th>書名</th>
+                        <th>價錢</th>
+                        <th>銷售數量</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
+                    <tr v-for="item in items">
                         <td>
-                            <img src="dist/img/default-150x150.png" alt="Product 1" class="img-circle img-size-32 mr-2">
-                            Some Product
+                            {{item.productName}}
                         </td>
-                        <td>$13 USD</td>
+                        <td>{{item.unitPrice}}</td>
                         <td>
-                            <small class="text-success mr-1">
-                                <i class="fas fa-arrow-up"></i>
-                                12%
-                            </small>
-                            12,000 Sold
+                            {{item.totalSales}}
                         </td>
                     </tr>
                 </tbody>
@@ -133,7 +129,7 @@
 </section>
 
 <section class="col-lg-5 connectedSortable">
-    
+
 
     <!-- Calendar -->
     <div class="card bg-gradient-success">
@@ -164,31 +160,36 @@
                     <i class="fas fa-times"></i>
                 </button>
             </div>
-            <!-- /. tools -->
         </div>
-        <!-- /.card-header -->
         <div class="card-body pt-0">
-            <!--The calendar -->
             <div id="calendar" style="width: 100%"></div>
         </div>
-        <!-- /.card-body -->
     </div>
-    <!-- /.card -->
+    <div class="card">
+        <div class="card-header border-0">
+            <h3 class="card-title">
+                <i class="fas fa-user"></i>
+                管理員登入紀錄
+            </h3>
+        </div>
+        <div class="card-body pt-0">
+
+        </div>
+    </div>
+
+
+
+
 </section>
 
 <!-- /.card -->
 
 @section endJS{
-    <!-- jQuery UI 1.11.4 -->
-    <script src="~/js/homeindex/jquery-ui.min.js"></script>
-    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-    <script>
-        $.widget.bridge('uibutton', $.ui.button)
-    </script>
+    
     <!--Chart.js-->
     <script src="~/js/homeindex/Chart.min.js"></script>
-    <!-- Sparkline -->
-    <script src="~/js/homeindex/sparkline.js"></script>
+    <!--axios-->
+    <script src="~/js/Axios.js"></script>
     <!-- daterangepicker -->
     <script src="~/js/homeindex/moment.min.js"></script>
     <script src="~/js/homeindex/daterangepicker.js"></script>
@@ -198,7 +199,47 @@
     <script src="~/js/homeindex/summernote-bs4.min.js"></script>
     <!-- overlayScrollbars -->
     <script src="~/js/homeindex/jquery.overlayScrollbars.min.js"></script>
-
+    <script>
+        var app = new Vue({
+            el: '#todayOrder',
+            data: {
+                todayOrderSum:0,
+            },
+            created: function () {
+                axios.get('/api/Order/Getbytoday')
+                    .then((res) => {
+                        console.log(res);
+                        this.todayOrderSum = res.data.body.orderList.length;
+                    })
+            },
+        })
+        var app2 = new Vue({
+            el: '#todayRent',
+            data: {
+                todayRent: 0,
+            },
+            created: function () {
+                axios.get('/api/Order/Getbytoday')
+                    .then((res) => {
+                        console.log(res);
+                        this.todayOrderSum = res.data.body.orderList.length;
+                    })
+            },
+        })
+        var app3 = new Vue({
+            el: '#totalsale',
+            data: {
+                items:[],
+            },
+            created: function () {
+                axios.get('/api/Product/GetTotalSale')
+                    .then((res) => {
+                        console.log(res);
+                        this.items = res.data.body.productList;
+                    })
+            },
+        })
+    </script>
 
 
     <script>
@@ -206,20 +247,13 @@
             format: 'L',
             inline: true
         })
-        // jQuery UI sortable for the todo list
-        $('.todo-list').sortable({
-            placeholder: 'sort-highlight',
-            handle: '.handle',
-            forcePlaceholderSize: true,
-            zIndex: 999999
-        })
-    </script>
-    <script>
-        window.onload = function areaChart() {
+
+
+        $(function () {
             var areaChartCanvas = $('#areaChart').get(0).getContext('2d')
 
             var areaChartData = {
-                labels: ['January', 'February', 'March'],
+                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
                 datasets: [
                     {
                         label: 'Digital Goods',
@@ -230,7 +264,18 @@
                         pointStrokeColor: 'rgba(60,141,188,1)',
                         pointHighlightFill: '#fff',
                         pointHighlightStroke: 'rgba(60,141,188,1)',
-                        data: [28, 48, 40]
+                        data: [28, 48, 40, 19, 86, 27, 90]
+                    },
+                    {
+                        label: 'Electronics',
+                        backgroundColor: 'rgba(210, 214, 222, 1)',
+                        borderColor: 'rgba(210, 214, 222, 1)',
+                        pointRadius: false,
+                        pointColor: 'rgba(210, 214, 222, 1)',
+                        pointStrokeColor: '#c1c7d1',
+                        pointHighlightFill: '#fff',
+                        pointHighlightStroke: 'rgba(220,220,220,1)',
+                        data: [65, 59, 80, 81, 56, 55, 40]
                     },
                 ]
             }
@@ -261,6 +306,6 @@
                 data: areaChartData,
                 options: areaChartOptions
             })
-        }
+        })
     </script>
 }

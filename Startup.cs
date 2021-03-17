@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using NSwag;
+using NSwag.Generation.Processors.Security;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,8 +40,23 @@ namespace LibreriaAdmin
             //樓�蕧roductService
             services.AddTransient<IProductService, ProductService>();
 
+            //注入OrderService
+            services.AddTransient<IOrderService, OrderService>();
+
             //repository signup
             services.AddTransient<IRepository, LibreriaRepository>();
+            services.AddSwaggerDocument(config =>
+            {
+                var apiSchema = new OpenApiSecurityScheme()
+                {
+                    Type = OpenApiSecuritySchemeType.ApiKey,
+                    Name = "授權欄位",
+                    In = OpenApiSecurityApiKeyLocation.Header,
+                    Description = "請將token 填入欄位:Bearer{Token}"
+                };
+                config.AddSecurity("JWT Token", Enumerable.Empty<string>(), apiSchema);
+                config.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("JWT Token"));
+            });
 
             services.AddTransient<IExhibitonService, ExhibitonService>();
         }
@@ -50,6 +67,8 @@ namespace LibreriaAdmin
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseOpenApi();
+
             }
             else
             {
@@ -59,6 +78,7 @@ namespace LibreriaAdmin
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseSwaggerUi3();
 
             app.UseRouting();
 
