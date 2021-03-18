@@ -27,7 +27,10 @@ namespace LibreriaAdmin.Interfaces
         /// <param name="request"></param>
         /// <returns></returns>
         ProductViewModels.ProductSingleResult GetById(ProductViewModels.GetByIdRequest request);
-
+        /// <summary>
+        /// 取得銷售前8名商品
+        /// </summary>
+        /// <returns></returns>
         ProductViewModels.ProductListResult GetTotalSale();
 
     }
