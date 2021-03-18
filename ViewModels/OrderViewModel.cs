@@ -98,7 +98,7 @@ namespace LibreriaAdmin.ViewModels
                     decimal TotolPrice = 0;
                     foreach(var OrderDetail in OrderDetailList)
                     {
-                        TotolPrice += OrderDetail.UnitPrice;
+                        TotolPrice += OrderDetail.DetailPrice;
                     }
                     return TotolPrice;
                 } }
