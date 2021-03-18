@@ -13,7 +13,8 @@ namespace LibreriaAdmin.Interfaces
         /// </summary>
         /// <returns></returns>
         OrderViewModel.OrderListResult GetAll();
-        OrderViewModel.OrderListResult Getbytoday();
+        OrderViewModel.OrderListResult GetTodayOrderPrice();
+
 
     }
 }

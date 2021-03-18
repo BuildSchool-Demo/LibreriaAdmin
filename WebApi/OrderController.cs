@@ -39,7 +39,7 @@ namespace LibreriaAdmin.WebApi
         public BaseModel.BaseResult<OrderViewModel.OrderListResult> Getbytoday()
         {
             BaseModel.BaseResult<OrderViewModel.OrderListResult> result = new BaseModel.BaseResult<OrderViewModel.OrderListResult>();
-            result.Body = _orderService.Getbytoday();
+            result.Body = _orderService.GetTodayOrderPrice();
 
             try
             {
