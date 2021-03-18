@@ -203,7 +203,7 @@
         var app = new Vue({
             el: '#todayOrder',
             data: {
-                todayOrderSum:0,
+                todayOrderSum:999,
             },
             created: function () {
                 axios.get('/api/Order/Getbytoday')
@@ -235,7 +235,7 @@
                 axios.get('/api/Product/GetTotalSale')
                     .then((res) => {
                         console.log(res);
-                        this.items = res.data.body.productList;
+                        this.items = res.data.body.ProductList;
                     })
             },
         })

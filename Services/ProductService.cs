@@ -109,8 +109,7 @@ namespace LibreriaAdmin.Services
         {
             var result = new ProductViewModels.ProductListResult();
 
-            result.ProductList = _dbRepository.GetAll<Product>().OrderByDescending(x=>x.TotalSales).Take(6)
-                .Select(x => new ProductViewModels.ProductSingleResult()
+            result.ProductList = _dbRepository.GetAll<Product>().OrderByDescending(x=>x.TotalSales).Take(10).Select(x => new ProductViewModels.ProductSingleResult()
                 {
                     ProductId = x.ProductId,
                     ProductName = x.ProductName,
