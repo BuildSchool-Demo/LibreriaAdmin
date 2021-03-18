@@ -28,6 +28,7 @@ namespace LibreriaAdmin.ViewModels
             public int? TotalSales { get; set; }
             public bool IsFav { get; set; }
             public bool IsSpecial { get; set; }
+            public string Supplier { get; set; }
         }
 
         /// <summary>

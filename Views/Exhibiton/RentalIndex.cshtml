@@ -1,0 +1,93 @@
+﻿@section topCSS{
+    <link href="~/css/Exhibiton/Rental.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous"></script>
+
+}
+
+<div class="col-sm-6">
+    <h1 class="m-0">場地出租管理</h1>
+</div>
+<div class="col-sm-6">
+    <ol class="breadcrumb float-sm-right">
+        <li class="breadcrumb-item"><a href="~/Home/Index">Home</a></li>
+        <li class="breadcrumb-item active">場地出租管理</li>
+    </ol>
+</div>
+<div id="rentalApp" class="col-11">
+    <b-container fluid>
+        <!-- User Interface controls -->
+
+        <b-row>
+            <b-col lg="12" class="my-1">
+                <b-form-group label="搜尋"
+                              label-for="filter-input"
+                              label-cols-sm="8"
+                              label-align-sm="right"
+                              label-size="sm"
+                              class="mb-0">
+                    <b-input-group size="sm">
+                        <b-form-input id="filter-input"
+                                      v-model="filter"
+                                      type="search"></b-form-input>
+
+                        <b-input-group-append>
+                            <b-button :disabled="!filter" v-on:click="filter = ''">清除</b-button>
+                        </b-input-group-append>
+                    </b-input-group>
+                </b-form-group>
+            </b-col>
+
+            <!-- Main table element -->
+            <b-table :items="items"
+                     :fields="fields"
+                     :current-page="currentPage"
+                     :per-page="perPage"
+                     :filter="filter"
+                     @*:filter-included-fields="filterOn"*@
+                     :sort-by.sync="sortBy"
+                     :sort-desc.sync="sortDesc"
+                     @*:sort-direction="sortDirection"*@
+                     stacked="md"
+                     show-empty
+                     small
+                     v-on:filtered="onFiltered">
+
+                <template #cell(exhibitonData)="row">
+                    @*<b-button size="sm" v-on:click="info(row.item, row.index, $event.target)" class="mr-1">
+                            Info modal
+                        </b-button>*@
+                    <b-button size="sm" v-on:click="row.toggleDetails">
+                        {{ row.detailsShowing ? '關閉' : '開啟' }}
+                    </b-button>
+                </template>
+
+                <template #row-details="row">
+                    <b-card>
+                        <ul>
+                            <li v-for="(value, key) in row.item.exhibitonData">
+                                {{ getExhibitonDataFieldName(key) }}:{{value}}
+                            </li>
+                        </ul>
+                    </b-card>
+                </template>
+            </b-table>
+
+
+            <b-col sm="7" md="12" class="my-1 page">
+                <b-pagination v-model="currentPage"
+                              :total-rows="totalRows"
+                              :per-page="perPage"
+                              @*align="fill"*@
+                              size="sm"
+                              class="my-0"></b-pagination>
+            </b-col>
+
+            <!-- Info modal -->
+            @*<b-modal :id="infoModal.id" :title="infoModal.title" ok-only v-on:hide="resetInfoModal">
+                    <pre>{{ infoModal.content }}</pre>
+                </b-modal>*@
+    </b-container>
+</div>
+@section endJS{
+    <script src="~/js/Exhibition/Rental.js"></script>
+}

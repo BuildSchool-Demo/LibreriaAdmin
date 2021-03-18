@@ -16,10 +16,16 @@ namespace LibreriaAdmin.Controllers
         {
             _productService = productService;
         }
-        public IActionResult Index()
+        public IActionResult ProductIndex()
         {
             return View();
         }
-        
+
+
+        public IActionResult DailySale()
+        {
+            return View();
+        }
+
     }
 }
