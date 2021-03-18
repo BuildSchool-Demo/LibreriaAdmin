@@ -51,6 +51,10 @@ namespace LibreriaAdmin.ViewModels
         /// 審查狀態
         /// </summary>
         public bool ReviewState { get; set; }
+        /// <summary>
+        /// 租借送出日期
+        /// </summary>
+        public DateTime EditModifyDate { get; set; }
 
     }
 }

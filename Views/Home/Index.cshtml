@@ -21,7 +21,7 @@
     </ol>
 </div>
 
-<div class="col-lg-3 col-6"id="todayOrder" >
+<div class="col-lg-3 col-6" id="todayOrder">
     <div class="small-box bg-info">
         <div class="inner">
             <h3>{{todayOrderSum}}筆</h3>
@@ -47,10 +47,10 @@
         <a href="#" class="small-box-footer">前往更多 <i class="fas fa-arrow-circle-right"></i></a>
     </div>
 </div>
-<div class="col-lg-3 col-6">
+<div class="col-lg-3 col-6" id="todayOrderPrice">
     <div class="small-box bg-danger">
         <div class="inner">
-            <h3>65</h3>
+            <h3>{{todayOrderPrice}}元</h3>
 
             <p>本日營業額</p>
         </div>
@@ -160,7 +160,7 @@
                 <button type="button" class="btn btn-success btn-sm" data-card-widget="collapse">
                     <i class="fas fa-minus"></i>
                 </button>
-                
+
             </div>
         </div>
         <div class="card-body pt-0">
@@ -187,7 +187,7 @@
 <!-- /.card -->
 
 @section endJS{
-    
+
     <!--Chart.js-->
     <script src="~/js/homeindex/Chart.min.js"></script>
     <!--axios-->
@@ -205,26 +205,46 @@
         var app = new Vue({
             el: '#todayOrder',
             data: {
-                todayOrderSum:0,
+                todayOrderSum: 999,
             },
             created: function () {
                 axios.get('/api/Order/Getbytoday')
                     .then((res) => {
-                        console.log(res);
                         this.todayOrderSum = res.data.body.orderList.length;
+                    })
+            },
+        })
+        var app = new Vue({
+            el: '#todayOrderPrice',
+            data: {
+                todayOrderPrice: 999,
+            },
+            created: function () {
+                axios.get('/api/Order/Getbytoday')
+                    .then((res) => {
+                        if (res.data.body.orderList.length == 0) {
+                            this.todayOrderPrice = 0;
+                        }
+                        else {
+                            var sum = 0;
+                            for (var i = 0; i <= res.data.body.orderList.length - 1; i++) {
+                                sum = sum + res.data.body.orderList[`${i}`].orderPrice;
+                            }
+                            this.todayOrderPrice = sum;
+                        }
                     })
             },
         })
         var app2 = new Vue({
             el: '#todayRent',
             data: {
-                todayRent: 0,
+                todayRent: 999,
             },
             created: function () {
-                axios.get('/api/Order/Getbytoday')
+                axios.get('/api/Exhibition/GetTodayExhibiton')
                     .then((res) => {
                         console.log(res);
-                        this.todayOrderSum = res.data.body.orderList.length;
+                        this.todayRent = res.data.body.length;
                     })
             },
         })
@@ -236,7 +256,6 @@
             created: function () {
                 axios.get('/api/Product/GetTotalSale')
                     .then((res) => {
-                        console.log(res);
                         this.items = res.data.body.productList;
                     })
             },

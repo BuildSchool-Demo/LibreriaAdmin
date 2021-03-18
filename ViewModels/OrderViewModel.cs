@@ -90,11 +90,24 @@ namespace LibreriaAdmin.ViewModels
             /// </summary>
             public string PaymentState { get; set; }
 
-            public List<OrderDetail> OrderDetails { get; set; }
+            /// <summary>
+            /// 訂單金額
+            /// 此欄位唯讀
+            /// </summary>
+            public decimal OrderPrice { get {
+                    decimal TotolPrice = 0;
+                    foreach(var OrderDetail in OrderDetailList)
+                    {
+                        TotolPrice += OrderDetail.DetailPrice;
+                    }
+                    return TotolPrice;
+                } }
+
+            public List<OrderDetailViewModel.OrderSingleResult> OrderDetailList { get; set; }
         }
         public class OrderListResult
         {
-            public List<OrderSingleResult> OrderList { get; set; }
+            public List<OrderViewModel.OrderSingleResult> OrderList { get; set; }
         }
         public class OrderSingleResult:OrderBaseModle
         {
