@@ -38,6 +38,8 @@ namespace LibreriaAdmin.Services
                     idnumber = x.Idnumber
                 }).ToList();
 
+
+                
             return result;
         }
     }
