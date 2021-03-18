@@ -72,6 +72,7 @@ namespace LibreriaAdmin.Services
 
             return result;
         }
+
         public OrderViewModel.OrderListResult Getbytoday()
         {
             OrderViewModel.OrderListResult result = new OrderViewModel.OrderListResult();
