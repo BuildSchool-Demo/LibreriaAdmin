@@ -27,17 +27,7 @@ namespace LibreriaAdmin.Services
 
         public OrderViewModel.OrderListResult GetAll()
         {
-            IEnumerable<OrderViewModel.OrderSingleResult> DataSets; //repository抓出的資料
-
-            //抓取所有訂單
-            var OrderDataSets = _dbRepository.GetAll<Order>().OrderByDescending(order => order.OrderDate);
-            DataSets = this._mapper.Map<IEnumerable<OrderViewModel.OrderSingleResult>>(OrderDataSets);
-
-            //抓取所有會員
-            var MemberSets = _dbRepository.GetAll<Member>();
-
-
-
+            
 
             //放入OrderVMList
             List<OrderViewModel.OrderSingleResult> OrderVMList;
@@ -65,6 +55,16 @@ namespace LibreriaAdmin.Services
                                PaymentState = Order.PaymentState,
                            }).ToList();
 
+            OrderDetailViewModel.OrderListResult OrderDetailVMList = GetAllOrderDetail();
+            
+            foreach(var OrderVM in OrderVMList)
+            {
+                OrderVM.OrderDetailList =
+                    OrderDetailVMList.OrderDetailList
+                    .Where(OrderDetail => OrderDetail.OrderId == OrderVM.OrderId)
+                    .ToList();
+            }
+
             var result = new OrderViewModel.OrderListResult();
             result.OrderList = OrderVMList;
 
@@ -80,6 +80,35 @@ namespace LibreriaAdmin.Services
             var data = _dbRepository.GetAll<Order>().Where(x => x.OrderDate.Day == nowday);
             var resultVMs = this._mapper.Map<IEnumerable<OrderViewModel.OrderSingleResult>>(data).ToList();
             result.OrderList = resultVMs;
+
+            return result;
+        }
+
+        public OrderDetailViewModel.OrderListResult GetAllOrderDetail()
+        {
+            //放入OrderVMList
+            List<OrderDetailViewModel.OrderSingleResult> OrderDetailVMList;
+            OrderDetailVMList = (
+                from OrderDetail in _dbRepository.GetAll<OrderDetail>()
+                //join Order in _dbRepository.GetAll<Order>()
+                //on OrderDetail.OrderId equals Order.OrderId
+                join Product in _dbRepository.GetAll<Product>()
+                on OrderDetail.ProductId equals Product.ProductId
+                //orderby Order.OrderDate descending
+                select new OrderDetailViewModel.OrderSingleResult()
+                {
+                    OrderDetailId = OrderDetail.OrderDetailId,
+                    OrderId = OrderDetail.OrderId, //join OrderId
+                    Quantity = OrderDetail.Quantity,
+                    ProductId = OrderDetail.ProductId, //join Product
+                    ProductName = Product.ProductName,
+                    UnitPrice = Product.UnitPrice,
+                }).ToList();
+
+            var result = new OrderDetailViewModel.OrderListResult();
+            result.OrderDetailList = OrderDetailVMList;
+
+
 
             return result;
         }
