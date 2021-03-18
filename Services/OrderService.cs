@@ -72,17 +72,7 @@ namespace LibreriaAdmin.Services
 
             return result;
         }
-        public OrderViewModel.OrderListResult Getbytoday()
-        {
-            OrderViewModel.OrderListResult result = new OrderViewModel.OrderListResult();
-            var nowday = DateTime.Now.Day;
-
-            var data = _dbRepository.GetAll<Order>().Where(x => x.OrderDate.Day == nowday);
-            var resultVMs = this._mapper.Map<IEnumerable<OrderViewModel.OrderSingleResult>>(data).ToList();
-            result.OrderList = resultVMs;
-
-            return result;
-        }
+        
 
         public OrderDetailViewModel.OrderListResult GetAllOrderDetail()
         {
@@ -107,6 +97,63 @@ namespace LibreriaAdmin.Services
 
             var result = new OrderDetailViewModel.OrderListResult();
             result.OrderDetailList = OrderDetailVMList;
+
+
+
+            return result;
+        }
+
+
+
+
+
+
+
+
+
+
+        public OrderViewModel.OrderListResult GetTodayOrderPrice()
+        {
+
+            var today = DateTime.Now.Day;
+            //放入OrderVMList
+            List<OrderViewModel.OrderSingleResult> OrderVMList;
+            OrderVMList = (from Order in _dbRepository.GetAll<Order>().Where(x=>x.CreateTime.Day == today)
+                           join Member in _dbRepository.GetAll<Member>()
+                           on Order.MemberId equals Member.MemberId
+                           orderby Order.OrderDate descending
+                           select new OrderViewModel.OrderSingleResult()
+                           {
+                               OrderId = Order.OrderId,
+                               ShippingDate = Order.ShippingDate,
+                               OrderDate = Order.OrderDate,
+                               MemberId = Order.MemberId,
+                               MemberUserName = Member.MemberUserName,
+                               ShipName = Order.ShipName,
+                               ShipCity = Order.ShipCity,
+                               ShipRegion = Order.ShipRegion,
+                               ShipAddress = Order.ShipAddress,
+                               ShipPostalCode = Order.ShipPostalCode,
+                               InvoiceType = Order.InvoiceType,
+                               InvoiceInfo = Order.InvoiceInfo,
+                               CreateTime = Order.CreateTime,
+                               UpdateTime = Order.UpdateTime,
+                               PaymentType = Order.PaymentType,
+                               PaymentState = Order.PaymentState,
+                           }).ToList();
+
+            OrderDetailViewModel.OrderListResult OrderDetailVMList = GetAllOrderDetail();
+
+            foreach (var OrderVM in OrderVMList)
+            {
+                OrderVM.OrderDetailList =
+                    OrderDetailVMList.OrderDetailList
+                    .Where(OrderDetail => OrderDetail.OrderId == OrderVM.OrderId)
+                    .ToList();
+            }
+
+            var result = new OrderViewModel.OrderListResult();
+            result.OrderList = OrderVMList;
 
 
 
