@@ -100,7 +100,7 @@ namespace LibreriaAdmin.Services
                 UpdateTime = data.UpdateTime,
                 Introduction = data.Introduction,
                 TotalSales = data.TotalSales,
-                IsFav = data.IsFav,
+                //IsFav = data.IsFav,
                 IsSpecial = data.IsSpecial
             };
 
