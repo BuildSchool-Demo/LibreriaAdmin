@@ -18,7 +18,7 @@ namespace LibreriaAdmin.Services
         public CategoryViewModel.CategoryListResult GetAll()
         {
             var result = new CategoryViewModel.CategoryListResult();
-            result.CategoryList = _dbrepository.GetAll<Category>()
+            result.CategoryList = _dbrepository.GetAll<Category>() 
                 .Select(x => new CategoryViewModel.CategorySingleResult()
                 {
                     CategoryId = x.CategoryId,
