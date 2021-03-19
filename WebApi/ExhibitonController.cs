@@ -78,5 +78,23 @@ namespace LibreriaAdmin.WebApi
                 return result;
             }
         }
+        [HttpGet]
+        public BaseModel.BaseResult<List<ExhibitonViewModel>> GetTodayExhibiton()
+        {
+            var result = new BaseModel.BaseResult<List<ExhibitonViewModel>>();
+
+            try
+            {
+                result.Body = _service.ExhibitonGetToday();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Msg = ex.Message;
+                result.IsSuccess = false;
+                return result;
+            }
+
+        }
     }
 }

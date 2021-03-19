@@ -7,10 +7,27 @@ namespace LibreriaAdmin.ViewModels
 {
     public class OrderDetailViewModel
     {
+        public class OrderBaseModle
+        {
             /// <summary>
             /// 訂單細項編號
             /// </summary>
             public int OrderDetailId { get; set; }
+
+            /// <summary>
+            /// 訂單編號
+            /// </summary>
+            public int OrderId { get; set; }
+
+            /// <summary>
+            /// 數量
+            /// </summary>
+            public int Quantity { get; set; }
+
+            /// <summary>
+            /// 產品編號
+            /// </summary>
+            public int ProductId { get; set; }
 
             /// <summary>
             /// 書名
@@ -23,22 +40,26 @@ namespace LibreriaAdmin.ViewModels
             public decimal UnitPrice { get; set; }
 
             /// <summary>
-            /// 數量
-            /// </summary>
-            public int Quantity { get; set; }
-
-            /// <summary>
-            /// 產品編號
-            /// </summary>
-            public int ProductId { get; set; }
-
-
-            /// <summary>
             /// 本項金額
+            /// 此屬性唯讀
             /// </summary>
-            public decimal DetailPrice { get; set; }
-        
+            public decimal DetailPrice { get {
+                    return UnitPrice * Quantity;
+            } }
+        }
 
+        public class OrderListResult
+        {
+            public List<OrderDetailViewModel.OrderSingleResult> OrderDetailList { get; set; }
+        }
+        public class OrderSingleResult : OrderBaseModle
+        {
+
+        }
+        public class OrderDateResult
+        {
+            public DateTime OrderDate { get; set; }
+        }
 
 
     }

@@ -415,7 +415,7 @@ namespace LibreriaAdmin.Models
 
                 entity.Property(e => e.Inventory).HasComment("庫存");
 
-                entity.Property(e => e.IsFav).HasColumnName("isFav");
+                //entity.Property(e => e.IsFav).HasColumnName("isFav");
 
                 entity.Property(e => e.IsSpecial).HasColumnName("isSpecial");
 

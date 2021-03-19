@@ -19,7 +19,7 @@ namespace LibreriaAdmin.Interfaces
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        ProductViewModels.ProductListResult GetByCategory(ProductViewModels.GetByCategoryRequest request);
+        ProductViewModels.ProductListResult GetByCategory(int CategoryId);
 
         /// <summary>
         /// 依Id查询商品
@@ -27,7 +27,10 @@ namespace LibreriaAdmin.Interfaces
         /// <param name="request"></param>
         /// <returns></returns>
         ProductViewModels.ProductSingleResult GetById(ProductViewModels.GetByIdRequest request);
-
+        /// <summary>
+        /// 取得銷售前8名商品
+        /// </summary>
+        /// <returns></returns>
         ProductViewModels.ProductListResult GetTotalSale();
 
     }
