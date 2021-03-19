@@ -14,7 +14,7 @@ namespace LibreriaAdmin.Repository
 
         public LibreriaRepository()
         {
-            _dbContext = new LibreriaContext();
+            _dbContext = new LibreriaDatabaseContext();
         }
 
         public void Create<T>(T entity) where T : class
