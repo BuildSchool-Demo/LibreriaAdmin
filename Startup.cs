@@ -36,7 +36,7 @@ namespace LibreriaAdmin
             services.AddControllersWithViews();
 
             //加入LibreriaContext
-            services.AddDbContext<LibreriaDatabaseContext>(options => options.UseSqlServer("name=ConnectionStrings:LibreriaDataBaseContext"));
+            services.AddDbContext<LibreriaDatabaseContext>(options => options.UseSqlServer(Configuration.GetConnectionString("LibreriaDataBaseContext")));
 
             //加入MemberService
             services.AddTransient<IMemberService, MemberService>();

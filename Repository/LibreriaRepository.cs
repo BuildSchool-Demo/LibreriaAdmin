@@ -12,9 +12,9 @@ namespace LibreriaAdmin.Repository
     {
         private readonly DbContext _dbContext;
 
-        public LibreriaRepository()
+        public LibreriaRepository(LibreriaDatabaseContext libreriaDatabaseContext)
         {
-            _dbContext = new LibreriaDatabaseContext();
+            _dbContext = libreriaDatabaseContext;
         }
 
         public void Create<T>(T entity) where T : class
