@@ -214,90 +214,28 @@
 </div>
 @section endJS{
     <script>
-        var app = new Vue({
-            el: '#Category-1',
-            data: {
-                items: [],
-            },
-            created: function () {
-                axios.get('/api/Product/GetByCategory/1')
-                    .then((res) => {
-                        this.items = res.data.body.productList;
-                    })
-            },
-        })
-        var app = new Vue({
-            el: '#Category-2',
-            data: {
-                items: [],
-            },
-            created: function () {
-                axios.get('/api/Product/GetByCategory/2')
-                    .then((res) => {
-                        this.items = res.data.body.productList;
-                    })
-            },
-        })
-        var app = new Vue({
-            el: '#Category-3',
-            data: {
-                items: [],
-            },
-            created: function () {
-                axios.get('/api/Product/GetByCategory/3')
-                    .then((res) => {
-                        this.items = res.data.body.productList;
-                    })
-            },
-        })
-        var app = new Vue({
-            el: '#Category-4',
-            data: {
-                items: [],
-            },
-            created: function () {
-                axios.get('/api/Product/GetByCategory/4')
-                    .then((res) => {
-                        this.items = res.data.body.productList;
-                    })
-            },
-        })
-        var app = new Vue({
-            el: '#Category-5',
-            data: {
-                items: [],
-            },
-            created: function () {
-                axios.get('/api/Product/GetByCategory/5')
-                    .then((res) => {
-                        this.items = res.data.body.productList;
-                    })
-            },
-        })
-        var app = new Vue({
-            el: '#Category-6',
-            data: {
-                items: [],
-            },
-            created: function () {
-                axios.get('/api/Product/GetByCategory/6')
-                    .then((res) => {
-                        this.items = res.data.body.productList;
-                    })
-            },
-        })
-        var app = new Vue({
-            el: '#Category-7',
-            data: {
-                items: [],
-            },
-            created: function () {
-                axios.get('/api/Product/GetByCategory/7')
-                    .then((res) => {
-                        this.items = res.data.body.productList;
-                    })
-            },
-        })
+        window.onload =  function () {
+            axios.get(/api/Category/GetAll)
+                .then((category) => {
+                    var length = category.body.CategoryList.length;
+                    return length;
+                })
+        }
+        for (var i = 1; i <= length; i++) {
+            var app = new Vue({
+                el: `#Category-${i}`,
+                data: {
+                    items: [],
+                },
+                created: function () {
+                    axios.get(`/api/Product/GetByCategory/${i}`)
+                        .then((res) => {
+                            this.items = res.data.body.productList;
+                        })
+                },
+            })
+        }
+        
     </script>
 
 
