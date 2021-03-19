@@ -97,6 +97,22 @@ namespace LibreriaAdmin.Services
             return "信件尚未寄出";
         }
 
+        public ExhibitonSendMailViewModel.GetByCustomerEmailRequest GetCustomerData(int exhibitionId)
+        {
+            var result = (from c in _dbRepository.GetAll<ExhibitionCustomer>()
+                        join e in _dbRepository.GetAll<Exhibition>()
+                        on c.ExCustomerId equals e.ExCustomerId
+                        where e.ExhibitionId == exhibitionId
+                        select new ExhibitonSendMailViewModel.GetByCustomerEmailRequest()
+                        {
+                            exCustomerEmail = c.ExCustomerEmail,
+                            customerName = c.ExCustomerName
+                        }).FirstOrDefault();
+
+            return result;
+        }
+
+
         public ExhibitonEmailViewModel.EmailListResult EmailGetAll(int id)
         {
             var result = new ExhibitonEmailViewModel.EmailListResult();

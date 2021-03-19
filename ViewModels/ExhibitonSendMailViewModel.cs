@@ -10,6 +10,7 @@ namespace LibreriaAdmin.ViewModels
         public class SendMailBaseModel
         {
             public int exhibitionId { get; set; }
+            public string exCustomerEmail { get; set; }
             public string sender { get; set; }
             public string recipient { get; set; }
             public string subject { get; set; }
@@ -30,6 +31,11 @@ namespace LibreriaAdmin.ViewModels
         public class SendMailSingleResult : SendMailBaseModel
         {
 
+        }
+        public class GetByCustomerEmailRequest
+        {
+            public string exCustomerEmail { get; set; }
+            public string customerName { get; set; }
         }
     }
 }

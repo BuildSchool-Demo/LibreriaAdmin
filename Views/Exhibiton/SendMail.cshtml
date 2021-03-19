@@ -12,15 +12,20 @@
     <link href="~/css/Exhibiton/SendMail.css" rel="stylesheet" />
 }
 <script type="text/javascript">
-    var exhibitionId = @((int)ViewBag.exhibitionId);
+    var customerData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewData["customerData"]));
 </script>
 
 <div id="sendMailapp" class="col-12">
-    <div class="col-6">
-        
-    </div>
-    <div class="col-6">
-        <b-form v-on:submit="onSubmit" v-on:reset="onReset" v-if="show">
+    
+    
+    <b-form v-on:submit="onSubmit" v-on:reset="onReset" v-if="show">
+        <div class="col-6">
+            <h4>預覽</h4>
+            <div class="emailContent">
+
+            </div>
+        </div>
+        <div class="col-6">
             <div class="input-group">
                 <div class="col-10">
                     <input type="hidden" v-model="form.exhibitionId">
@@ -68,9 +73,9 @@
                     <b-button type="reset" variant="danger">清除</b-button>
                 </div>
             </div>
-        </b-form>
-    </div>
-    
+        </div>
+
+    </b-form>
 
 </div>
 

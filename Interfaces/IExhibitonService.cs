@@ -33,7 +33,15 @@ namespace LibreriaAdmin.Interfaces
         /// <summary>
         /// 取得展覽資料及顧客資料
         /// </summary>
+        /// <param name="exhibitonId"></param>
         /// <returns></returns>
-        ExhibitonEmailViewModel.EmailListResult EmailGetAll(int id);
+        ExhibitonEmailViewModel.EmailListResult EmailGetAll(int exhibitonId);
+
+        /// <summary>
+        /// 取得客戶Email
+        /// </summary>
+        /// <param name="exhibitonId"></param>
+        /// <returns></returns>
+        ExhibitonSendMailViewModel.GetByCustomerEmailRequest GetCustomerData(int exhibitonId);
     }
 }

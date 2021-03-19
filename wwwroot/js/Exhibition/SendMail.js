@@ -7,7 +7,6 @@
                 recipient: '',
                 subject: '',
                 body: '',
-                exhibitionId: exhibitionId
             },
             show: true,
         }
