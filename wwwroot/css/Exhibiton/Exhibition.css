@@ -5,10 +5,10 @@
     color:white;
     border:none;
 }
+#exhibitonApp img {
+    width: 100%;
+}
 .page {
     display: flex;
     justify-content: center;
-}
-.modal-body img{
-    width:100%;
 }

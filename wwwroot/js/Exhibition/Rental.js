@@ -41,7 +41,7 @@
         axios.get("/api/Exhibiton/GetRentalDate")
             .then((res) => {
                 console.log(res);
-                this.items = res.data.body;
+                this.items = res.data.body.rentalList;
                 this.isBusy = false;
             })
         //.catch((err) => {

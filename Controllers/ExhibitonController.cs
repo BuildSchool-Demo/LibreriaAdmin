@@ -37,8 +37,9 @@ namespace LibreriaAdmin.Controllers
             return View();
         }
 
-        public IActionResult SendMail()
+        public IActionResult SendMail(int exhibitionId)
         {
+            ViewBag.exhibitionId = exhibitionId;
             return View();
         }
         
