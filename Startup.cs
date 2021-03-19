@@ -2,17 +2,20 @@ using LibreriaAdmin.Interfaces;
 using LibreriaAdmin.Models;
 using LibreriaAdmin.Repository;
 using LibreriaAdmin.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using NSwag;
 using NSwag.Generation.Processors.Security;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace LibreriaAdmin
@@ -32,7 +35,7 @@ namespace LibreriaAdmin
             services.AddControllersWithViews();
 
             //加入LibreriaContext
-            services.AddDbContext<LibreriaContext>();
+            services.AddDbContext<LibreriaDatabaseContext>();
 
             //加入MemberService
             services.AddTransient<IMemberService, MemberService>();
@@ -60,7 +63,18 @@ namespace LibreriaAdmin
                 config.AddSecurity("JWT Token", Enumerable.Empty<string>(), apiSchema);
                 config.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("JWT Token"));
             });
-
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        .AddJwtBearer(options =>
+            options.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = Configuration["Jwt:Issuer"],
+                ValidAudience = Configuration["Jwt:Issuer"],
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
+            });
             services.AddTransient<IExhibitonService, ExhibitonService>();
         }
 
@@ -84,6 +98,8 @@ namespace LibreriaAdmin
             app.UseSwaggerUi3();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

@@ -22,7 +22,7 @@ namespace LibreriaAdmin.ViewModels
             public string email { get; set; }
             public string memberUserName { get; set; }
             public string memberPassword { get; set; }
-            public DateTime birthday { get; set; }
+            public DateTime? birthday { get; set; }
             public int gender { get; set; }
             public string idnumber { get; set; }
         }
