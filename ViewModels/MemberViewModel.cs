@@ -25,16 +25,7 @@ namespace LibreriaAdmin.ViewModels
             public DateTime? birthday { get; set; }
             public int gender { get; set; }
             public string idnumber { get; set; }
-            public decimal unitprice { get; set; }
-            public int quantity { get; set; }
-            public decimal orderPrice { get; set; }
-            public decimal DetailPrice
-            {
-                get
-                {
-                    return unitprice * quantity;
-                }
-            }
+            public decimal ordersum { get; set; }
         }
 
         /// <summary>
