@@ -19,7 +19,7 @@ namespace LibreriaAdmin.Interfaces
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        ProductViewModels.ProductListResult GetByCategory(ProductViewModels.GetByCategoryRequest request);
+        ProductViewModels.ProductListResult GetByCategory(int CategoryId);
 
         /// <summary>
         /// 依Id查询商品

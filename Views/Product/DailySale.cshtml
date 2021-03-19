@@ -1,14 +1,329 @@
 ﻿@section topCSS{
+
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+
+        h1 {
+            margin: 30px auto 30px auto;
+            color: #09fbd2;
+            width: 100%;
+            text-align: center;
+        }
+
+        ul.menu {
+            padding: 0;
+            list-style: none;
+            margin: 20px auto;
+            font-family: 'Century Gothic';
+            -webkit-box-shadow: 0px 0px 25px #00000070;
+            box-shadow: 0px 0px 25px #00000070;
+            clear: both;
+            display: table;
+            width: 100%;
+            min-height: 85vh;
+            background: #3e5165;
+        }
+
+            ul.menu .list {
+                font-size: 14px;
+                border-bottom: 1px solid #324252;
+                position: relative;
+                width: 100%;
+                -webkit-box-sizing: border-box;
+                box-sizing: border-box;
+                height: 50px;
+                vertical-align: sub;
+                background: #3e5165;
+                clear: both;
+            }
+
+                ul.menu .list:after {
+                    content: "\f107";
+                    font-family: FontAwesome;
+                    position: absolute;
+                    right: 17px;
+                    top: 17px;
+                    padding: 0px 5px;
+                    color: #fff;
+                }
+
+                ul.menu .list:before {
+                    content: '\f07b';
+                    font-family: FontAwesome;
+                    position: absolute;
+                    left: 17px;
+                    top: 17px;
+                    padding: 0px 5px;
+                    color: #fff;
+                }
+
+                ul.menu .list a {
+                    text-decoration: none;
+                    color: #fff;
+                    padding: 17px 0px 17px 45px;
+                    display: block;
+                    height: 100%;
+                    -webkit-box-sizing: border-box;
+                    box-sizing: border-box;
+                }
+
+                    ul.menu .list a:hover {
+                        background-color: #324252;
+                        -webkit-transition: 300ms all;
+                        transition: 300ms all;
+                        color: #09fbd2;
+                    }
+
+                ul.menu .list .items {
+                    height: 0px;
+                    overflow: hidden;
+                }
+
+                    ul.menu .list .items a {
+                        padding: 17px;
+                    }
+
+                        ul.menu .list .items a:hover {
+                            background-color: #3f5d79;
+                            color: #fff;
+                            -webkit-transition: 300ms all;
+                            transition: 300ms all;
+                        }
+            ul.menu .active:after {
+                content: "\f106";
+                font-family: FontAwesome;
+                position: absolute;
+                right: 17px;
+                top: 17px;
+                padding: 0px 5px;
+                color: #fff;
+            }
+
+            ul.menu .active:before {
+                content: '\f07c';
+                font-family: FontAwesome;
+                position: absolute;
+                left: 17px;
+                top: 17px;
+                padding: 0px 5px;
+                color: #fff;
+            }
+
+            ul.menu .active > .items {
+                display: block;
+                background: #23313f;
+                padding: 0px;
+                height: auto;
+                color: #fff;
+                -webkit-transition-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
+                transition-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
+                -webkit-transition: all 200ms;
+                transition: all 200ms;
+                clear: both;
+                float: left;
+                width: 100%;
+            }
+                ul.menu .active > .items .active > .items {
+                    background-color: #2f4b67;
+                }
+
+            ul.menu .active > a {
+                color: #46efa4;
+                text-transform: uppercase;
+                font-weight: bold;
+            }
+
+            ul.menu .active .list {
+                background: #697d92;
+            }
+
+                ul.menu .active .list a {
+                    padding: 17px 0px 17px 45px;
+                }
+
+        .book {
+            padding: 10px;
+            border: 1px solid #324252;
+        }
+
+        .menubar {
+        }
+    </style>
 }
 
 
-<section class="col-2">
-</section>
+<div class="col-3 menubar">
+    <ul class="menu">
+        <li class="list" id="Category-1">
+            <a href="#">人文社科 </a>
+            <ul class="items" v-for="item in items">
+                <li class="book"> {{item.productName}}</li>
+            </ul>
+        </li>
+        <li class="list" id="Category-2">
+            <a href="#">旅遊</a>
+            <ul class="items" v-for="item in items">
+                <li class="book"> {{item.productName}}</li>
 
-<section class="col-10">
-    
-</section>
+            </ul>
+        </li>
+        <li class="list" id="Category-3">
+            <a href="#">童書</a>
+            <ul class="items" v-for="item in items">
+                <li class="book"> {{item.productName}}</li>
+
+            </ul>
+        </li>
+        <li class="list" id="Category-4">
+            <a href="#">電腦</a>
+            <ul class="items" v-for="item in items">
+                <li class="book"> {{item.productName}}</li>
+
+            </ul>
+        </li>
+        <li class="list" id="Category-5">
+            <a href="#">自然科普</a>
+            <ul class="items" v-for="item in items">
+                <li class="book"> {{item.productName}}</li>
+
+            </ul>
+        </li>
+        <li class="list" id="Category-6">
+            <a href="#">文學小說</a>
+            <ul class="items" v-for="item in items">
+                <li class="book"> {{item.productName}}</li>
+
+            </ul>
+        </li>
+        <li class="list" id="Category-7">
+            <a href="#">商業</a>
+            <ul class="items" v-for="item in items">
+                <li class="book"> {{item.productName}}</li>
+
+            </ul>
+        </li>
+    </ul>
+
+</div>
+
+<div class="col-9">
+
+</div>
 @section endJS{
+    <script>
+        var app = new Vue({
+            el: '#Category-1',
+            data: {
+                items: [],
+            },
+            created: function () {
+                axios.get('/api/Product/GetByCategory/1')
+                    .then((res) => {
+                        this.items = res.data.body.productList;
+                    })
+            },
+        })
+        var app = new Vue({
+            el: '#Category-2',
+            data: {
+                items: [],
+            },
+            created: function () {
+                axios.get('/api/Product/GetByCategory/2')
+                    .then((res) => {
+                        this.items = res.data.body.productList;
+                    })
+            },
+        })
+        var app = new Vue({
+            el: '#Category-3',
+            data: {
+                items: [],
+            },
+            created: function () {
+                axios.get('/api/Product/GetByCategory/3')
+                    .then((res) => {
+                        this.items = res.data.body.productList;
+                    })
+            },
+        })
+        var app = new Vue({
+            el: '#Category-4',
+            data: {
+                items: [],
+            },
+            created: function () {
+                axios.get('/api/Product/GetByCategory/4')
+                    .then((res) => {
+                        this.items = res.data.body.productList;
+                    })
+            },
+        })
+        var app = new Vue({
+            el: '#Category-5',
+            data: {
+                items: [],
+            },
+            created: function () {
+                axios.get('/api/Product/GetByCategory/5')
+                    .then((res) => {
+                        this.items = res.data.body.productList;
+                    })
+            },
+        })
+        var app = new Vue({
+            el: '#Category-6',
+            data: {
+                items: [],
+            },
+            created: function () {
+                axios.get('/api/Product/GetByCategory/6')
+                    .then((res) => {
+                        this.items = res.data.body.productList;
+                    })
+            },
+        })
+        var app = new Vue({
+            el: '#Category-7',
+            data: {
+                items: [],
+            },
+            created: function () {
+                axios.get('/api/Product/GetByCategory/7')
+                    .then((res) => {
+                        this.items = res.data.body.productList;
+                    })
+            },
+        })
+    </script>
+
+
+    <script>
+        const list = document.querySelectorAll('.list');
+
+        function accordion(e) {
+            e.stopPropagation();
+            if (this.classList.contains('active')) {
+                this.classList.remove('active');
+            }
+            else if (this.parentElement.parentElement.classList.contains('active')) {
+                this.classList.add('active');
+            }
+            else {
+                for (i = 0; i < list.length; i++) {
+                    list[i].classList.remove('active');
+                }
+                this.classList.add('active');
+            }
+        }
+        for (i = 0; i < list.length; i++) {
+            list[i].addEventListener('click', accordion);
+        }
+
+    </script>
 
 
 
