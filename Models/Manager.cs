@@ -12,16 +12,16 @@ namespace LibreriaAdmin.Models
     public partial class Manager
     {
         [Key]
-        [StringLength(128)]
-        public string ManagerId { get; set; }
+        public int ManagerId { get; set; }
         [StringLength(50)]
         public string ManagerUsername { get; set; }
+        [Required]
         [StringLength(50)]
         public string ManagerPassword { get; set; }
         public string ManagerPhoto { get; set; }
+        [Required]
         [StringLength(50)]
         public string ManagerName { get; set; }
-        [StringLength(50)]
-        public string JobTitle { get; set; }
+        public int ManagerRoleId { get; set; }
     }
 }
