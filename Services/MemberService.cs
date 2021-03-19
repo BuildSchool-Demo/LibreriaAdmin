@@ -22,25 +22,39 @@ namespace LibreriaAdmin.Services
         {
             var result = new MemberViewModel.MemberListResult();
 
-            result.MemberList = _dbRepository.GetAll<Member>()
-                .Select(x => new MemberViewModel.MemberSingleResult()
-                {
-                    memberId = x.MemberId,
-                    memberUserName = x.MemberUserName,
-                    mobileNumber = x.MobileNumber,
-                    homeNumber = x.HomeNumber,
-                    address = x.Address,
-                    email = x.Email,
-                    memberName = x.MemberName,
-                    memberPassword = x.MemberPassword,
-                    birthday = x.Birthday,
-                    gender = x.Gender,
-                    idnumber = x.Idnumber
-                }).ToList();
+            result.MemberList =
+                (from Member in _dbRepository.GetAll<Member>()
+                 select new MemberViewModel.MemberSingleResult()
+                 {
+                     memberId = Member.MemberId,
+                     memberUserName = Member.MemberUserName,
+                     mobileNumber = Member.MobileNumber,
+                     homeNumber = Member.HomeNumber,
+                     address = Member.Address,
+                     email = Member.Email,
+                     memberName = Member.MemberName,
+                     memberPassword = Member.MemberPassword,
+                     birthday = Member.Birthday,
+                     gender = Member.Gender,
+                     idnumber = Member.Idnumber
+                 }).ToList();
 
 
-                
             return result;
+        }
+
+        public OrderViewModel.OrderListResult GetByMemberId(int id)
+        {
+            var result = new OrderViewModel.OrderListResult();
+
+            result.OrderList = (from o in _dbRepository.GetAll<Order>().Where(x => x.MemberId == id)
+                                join od in _dbRepository.GetAll<OrderDetail>()
+                                on o.OrderId equals od.OrderId
+                                select new OrderViewModel.OrderSingleResult
+                                {
+                                    
+                                });
+
         }
     }
 }
