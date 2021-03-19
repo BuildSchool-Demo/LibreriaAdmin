@@ -35,7 +35,7 @@ namespace LibreriaAdmin
             services.AddControllersWithViews();
 
             //加入LibreriaContext
-            services.AddDbContext<LibreriaContext>();
+            services.AddDbContext<LibreriaDatabaseContext>();
 
             //加入MemberService
             services.AddTransient<IMemberService, MemberService>();

@@ -41,7 +41,6 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\img\" />
-    <Folder Include="Repository\" />
   </ItemGroup>
 
 </Project>
