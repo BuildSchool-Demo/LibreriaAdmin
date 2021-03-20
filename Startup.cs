@@ -39,6 +39,9 @@ namespace LibreriaAdmin
 
             //加入MemberService
             services.AddTransient<IMemberService, MemberService>();
+            //
+            services.AddTransient<ICategoryService, CategoryService>();
+
 
             //加入ProductService
             services.AddTransient<IProductService, ProductService>();
