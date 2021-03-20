@@ -38,5 +38,24 @@ namespace LibreriaAdmin.WebApi
                 return result;
             }
         }
+
+        [HttpGet("{id}")]
+        public BaseModel.BaseResult<OrderViewModel.OrderListResult> GetByMemberId(int id)
+        {
+            var result = new BaseModel.BaseResult<OrderViewModel.OrderListResult>();
+
+            try
+            {
+                result.Body = _memberService.GetByMemberId(id);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Msg = ex.Message;
+                result.IsSuccess = false;
+
+                return result;
+            }
+        }
     }
 }
