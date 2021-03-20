@@ -17,6 +17,6 @@ namespace LibreriaAdmin.Interfaces
         /// 取得單一管理者
         /// </summary>
         /// <returns></returns>
-        BaseModel.BaseResult<ManagerViewModel.ManagerSingleResult> GetManager(ManagerViewModel.ManagerSingleResult ManagerVM);
+        BaseModel.BaseResult<ManagerViewModel.ManagerSingleResult> GetManager(int managerID);
     }
 }

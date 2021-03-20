@@ -1,5 +1,6 @@
 ﻿using LibreriaAdmin.Interfaces;
 using LibreriaAdmin.ViewModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -8,9 +9,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace LibreriaAdmin.Controllers
+namespace LibreriaAdmin.WebApi
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class ManagerController : ControllerBase
     {
@@ -31,24 +32,12 @@ namespace LibreriaAdmin.Controllers
 
             return response;
         }
-       
-        public BaseModel.BaseResult<ManagerViewModel.ManagerSingleResult> GetManager()
+
+        [HttpGet]
+        public BaseModel.BaseResult<ManagerViewModel.ManagerSingleResult> GetManager(int managerID)
         {
-            var result = new BaseModel.BaseResult<ManagerViewModel.ManagerSingleResult>();
-
-            try
-            {
-                //result.Body = _manageService.GetManager();
-                return result;
-            }
-            catch(Exception ex)
-            {
-                result.Msg = ex.Message;
-                result.IsSuccess = false;
-
-                return result;
-            }
+            var Managers = _manageService.GetManager(managerID);
+            return Managers;
         }
     }
 }
-    

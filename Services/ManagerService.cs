@@ -22,6 +22,7 @@ namespace LibreriaAdmin.Services
             result.ManagerList = _repository.GetAll<Manager>()
                 .Select(x => new ManagerViewModel.ManagerSingleResult()
                 {
+                    ManagerID=x.ManagerId,
                     ManagerName = x.ManagerName,
                     ManagerPassword = x.ManagerPassword,
                     ManagerUserName = x.ManagerUsername,
@@ -31,10 +32,10 @@ namespace LibreriaAdmin.Services
             return result;
         }
       
-        public BaseModel.BaseResult<ManagerViewModel.ManagerSingleResult> GetManager(ManagerViewModel.ManagerSingleResult ManagerVM)
+        public BaseModel.BaseResult<ManagerViewModel.ManagerSingleResult> GetManager(int managerID)
         {
             var result = new BaseModel.BaseResult<ManagerViewModel.ManagerSingleResult>();
-            var manager = _repository.GetAll<Manager>().Where(x => x.ManagerName == ManagerVM.ManagerName).FirstOrDefault();
+            var manager = _repository.GetAll<Manager>().Where(x => x.ManagerId == managerID ).FirstOrDefault();
             try
             {
                 if (manager != null)

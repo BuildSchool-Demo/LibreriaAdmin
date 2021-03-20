@@ -9,6 +9,8 @@ namespace LibreriaAdmin.ViewModels
     {
         public class ManagerBaseModel
         {
+          
+            public int ManagerID { get; set; }
             /// <summary>
             /// 帳號
             /// </summary>
