@@ -152,14 +152,12 @@ namespace LibreriaAdmin.Services
             notCanDelete = _dbRepository.GetAll<Favorite>().ToList()
                 .Exists(Favorite => Favorite.ProductId == productId);
             if (notCanDelete == true) return false;
-
             //刪Preview
             List<Preview> previewList = _dbRepository.GetAll<Preview>().Where(x => x.ProductId == productId).ToList();
             foreach(Preview preview in previewList)
             {
                 _dbRepository.Delete(preview);
             }
-
             Product product = _dbRepository.GetAll<Product>().FirstOrDefault(x => x.ProductId == productId);
             if(!(product is null))
             {
