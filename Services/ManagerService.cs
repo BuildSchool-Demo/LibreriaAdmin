@@ -1,6 +1,7 @@
 ﻿using LibreriaAdmin.Interfaces;
 using LibreriaAdmin.Models;
 using LibreriaAdmin.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,8 +48,39 @@ namespace LibreriaAdmin.Services
             catch(Exception ex)
             {
                 result.IsSuccess = false;
+                ex.ToString();
             }
 
+            return result;
+        }
+        public BaseModel.BaseResult<ManagerViewModel.ManagerSingleResult> CreateManager([FromBody] ManagerViewModel.ManagerSingleResult manager)
+        {
+            var result = new BaseModel.BaseResult<ManagerViewModel.ManagerSingleResult>();
+            Manager newManager = null;
+
+            newManager = new Manager
+            {
+                ManagerId = manager.ManagerID,
+                ManagerName = manager.ManagerName,
+                ManagerPassword = manager.ManagerPassword,
+                ManagerUsername = manager.ManagerUserName,
+                ManagerRoleId = manager.ManagerRoleID
+            };
+
+            try
+            {
+                _repository.Create<Manager>(newManager);
+                if (newManager  != null)
+                {
+                    result.IsSuccess = true;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+                result.IsSuccess = false;
+            }
             return result;
         }
     }

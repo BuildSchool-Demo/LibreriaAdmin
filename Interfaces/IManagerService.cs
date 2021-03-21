@@ -1,4 +1,6 @@
-﻿using LibreriaAdmin.ViewModels;
+﻿using LibreriaAdmin.Models;
+using LibreriaAdmin.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,5 +20,8 @@ namespace LibreriaAdmin.Interfaces
         /// </summary>
         /// <returns></returns>
         BaseModel.BaseResult<ManagerViewModel.ManagerSingleResult> GetManager(int managerID);
+
+        BaseModel.BaseResult<ManagerViewModel.ManagerSingleResult> CreateManager([FromBody] ManagerViewModel.ManagerSingleResult manager);
+
     }
 }
