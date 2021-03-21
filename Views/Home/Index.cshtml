@@ -272,7 +272,7 @@
             created: function () {
                 axios.get('/api/Member/GetAll')
                     .then((res) => {
-                        this.memberNum = res.data.body.MemberList.length;
+                        this.memberNum = res.data.body.memberList.length;
                     })
             },
         })
