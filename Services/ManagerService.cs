@@ -33,10 +33,10 @@ namespace LibreriaAdmin.Services
             return result;
         }
       
-        public BaseModel.BaseResult<ManagerViewModel.ManagerSingleResult> GetManager(int managerID)
+        public BaseModel.BaseResult<ManagerViewModel.ManagerSingleResult> GetManagerAuthentication(LoginViewModel loginVM)
         {
             var result = new BaseModel.BaseResult<ManagerViewModel.ManagerSingleResult>();
-            var manager = _repository.GetAll<Manager>().Where(x => x.ManagerId == managerID ).FirstOrDefault();
+            var manager = _repository.GetAll<Manager>().Where(x => x.ManagerName == loginVM.Username && x.ManagerPassword == loginVM.Password).FirstOrDefault();
             try
             {
                 if (manager != null)

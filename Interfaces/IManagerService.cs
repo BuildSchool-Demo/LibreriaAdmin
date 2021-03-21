@@ -19,7 +19,7 @@ namespace LibreriaAdmin.Interfaces
         /// 取得單一管理者
         /// </summary>
         /// <returns></returns>
-        BaseModel.BaseResult<ManagerViewModel.ManagerSingleResult> GetManager(int managerID);
+        BaseModel.BaseResult<ManagerViewModel.ManagerSingleResult> GetManagerAuthentication(LoginViewModel loginVM);
 
         BaseModel.BaseResult<ManagerViewModel.ManagerSingleResult> CreateManager([FromBody] ManagerViewModel.ManagerSingleResult manager);
 

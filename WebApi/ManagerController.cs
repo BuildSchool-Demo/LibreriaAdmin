@@ -4,9 +4,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -25,13 +28,6 @@ namespace LibreriaAdmin.WebApi
             _config = config;
             _logger = logger;
             _manageService = managerService;
-        }
-        public IActionResult Login([FromForm] ManagerViewModel loginVM)
-        {
-            _logger.LogWarning(2001, DateTime.Now.ToLongTimeString() + " Token POST方法被呼叫");
-            IActionResult response = Unauthorized();
-
-            return response;
         }
 
         [HttpGet]
@@ -53,12 +49,7 @@ namespace LibreriaAdmin.WebApi
             }
         }
 
-        [HttpGet]
-        public BaseModel.BaseResult<ManagerViewModel.ManagerSingleResult> GetManager(int managerID)
-        {
-            var Manager = _manageService.GetManager(managerID);
-            return Manager;
-        }
+        
         [HttpPost]
         //public async Task<ActionResult<ManagerViewModel.ManagerSingleResult>> CreateManager([FromBody] ManagerViewModel.ManagerSingleResult manager)
         public ActionResult<ManagerViewModel.ManagerSingleResult> CreateManager([FromBody] ManagerViewModel.ManagerSingleResult manager)
@@ -72,6 +63,46 @@ namespace LibreriaAdmin.WebApi
             }
 
             return Ok();
+        }
+
+        //Login
+        [HttpPost]
+        public IActionResult Login([FromBody] LoginViewModel loginVM)
+        {
+            _logger.LogWarning(2001, DateTime.Now.ToLongTimeString() + " Token控制器POST方法被呼叫");
+
+            IActionResult response = Unauthorized();
+
+            var user = GetManagerAuthentication(loginVM);
+
+            if (user != null)
+            {
+                var tokenString = GenerateJsonWebToken(loginVM);
+                response = Ok(new { token = tokenString });
+            }
+
+            return response;
+        }
+
+        private BaseModel.BaseResult<ManagerViewModel.ManagerSingleResult> GetManagerAuthentication(LoginViewModel loginVM)
+        {
+            var Manager = _manageService.GetManagerAuthentication(loginVM);
+            return Manager;
+        }
+
+        private string GenerateJsonWebToken(LoginViewModel userInfo)
+        {
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+            var token = new JwtSecurityToken(
+                _config["Jwt:Issuer"],
+                _config["Jwt:Issuer"],
+                null,
+                expires: DateTime.Now.AddMinutes(120),
+                signingCredentials: credentials);
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
 }
