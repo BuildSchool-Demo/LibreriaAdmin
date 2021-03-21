@@ -24,12 +24,12 @@ namespace LibreriaAdmin.Services
 
         }
 
-        public List<ExhibitonViewModel> ExhibitonGetAll()
+        public ExhibitonViewModel.ExhibitonListResult ExhibitonGetAll()
         {
-            var result = new List<ExhibitonViewModel>();
+            var result = new ExhibitonViewModel.ExhibitonListResult();
 
-            result = _dbRepository.GetAll<Exhibition>()
-                                  .Select(x => new ExhibitonViewModel()
+            result.ExhibitonList = _dbRepository.GetAll<Exhibition>()
+                                  .Select(x => new ExhibitonViewModel.ExhibitonSingleResult()
             {
                 ExhibitionId = x.ExhibitionId,
                 ExhibitionStartTime = x.ExhibitionStartTime.ToString("yyyy/MM/dd"),
@@ -46,15 +46,15 @@ namespace LibreriaAdmin.Services
             return result;
         }
 
-        public List<RentalViewModel> RentalGetAll()
+        public RentalViewModel.RentalListResult RentalGetAll()
         {
-            var result = new List<RentalViewModel>();
-            result = (from o in _dbRepository.GetAll<ExhibitionOrder>()
+            var result = new RentalViewModel.RentalListResult();
+            result.RentalList = (from o in _dbRepository.GetAll<ExhibitionOrder>()
                       join c in _dbRepository.GetAll<ExhibitionCustomer>()
                       on o.ExCustomerId equals c.ExCustomerId
                       join e in _dbRepository.GetAll<Exhibition>()
                       on o.ExCustomerId equals e.ExCustomerId
-                      select new RentalViewModel()
+                      select new RentalViewModel.RentalSingleResult()
                       {
                           ExOrderId = o.ExOrderId,
                           StartDate = o.StartDate,
@@ -97,14 +97,30 @@ namespace LibreriaAdmin.Services
             return "信件尚未寄出";
         }
 
-        public List<ExhibitonEmailViewModel> EmailGetAll(int id)
+        public ExhibitonSendMailViewModel.GetByCustomerEmailRequest GetCustomerData(int exhibitionId)
         {
-            var result = new List<ExhibitonEmailViewModel>();
-            result = (from e in _dbRepository.GetAll<Exhibition>()
+            var result = (from c in _dbRepository.GetAll<ExhibitionCustomer>()
+                        join e in _dbRepository.GetAll<Exhibition>()
+                        on c.ExCustomerId equals e.ExCustomerId
+                        where e.ExhibitionId == exhibitionId
+                        select new ExhibitonSendMailViewModel.GetByCustomerEmailRequest()
+                        {
+                            exCustomerEmail = c.ExCustomerEmail,
+                            customerName = c.ExCustomerName
+                        }).FirstOrDefault();
+
+            return result;
+        }
+
+
+        public ExhibitonEmailViewModel.EmailListResult EmailGetAll(int id)
+        {
+            var result = new ExhibitonEmailViewModel.EmailListResult();
+            result.EmailList = (from e in _dbRepository.GetAll<Exhibition>()
                       join c in _dbRepository.GetAll<ExhibitionCustomer>()
                       on e.ExCustomerId equals c.ExCustomerId
                       where (e.ExhibitionId == id)
-                      select new ExhibitonEmailViewModel()
+                      select new ExhibitonEmailViewModel.EmailSingleResult()
                       {
                           ExhibitionId = e.ExhibitionId,
                           ExhibitionStartTime = e.ExhibitionStartTime,
