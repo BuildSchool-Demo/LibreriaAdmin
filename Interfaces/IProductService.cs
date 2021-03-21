@@ -33,5 +33,7 @@ namespace LibreriaAdmin.Interfaces
         /// <returns></returns>
         ProductViewModels.ProductListResult GetTotalSale();
 
+        public bool Remove(int ProductId);
+
     }
 }

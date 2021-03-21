@@ -6,15 +6,12 @@ using System.Threading.Tasks;
 
 namespace LibreriaAdmin.Interfaces
 {
-    public interface IOrderService
+    public interface ICategoryService
     {
         /// <summary>
-        /// 取得所有訂單
+        /// 取的全部書籍分類
         /// </summary>
         /// <returns></returns>
-        OrderViewModel.OrderListResult GetAll();
-        OrderViewModel.OrderListResult GetTodayOrderPrice();
-        OrderViewModel.OrderListResult GetMonthOrderPrice(int month);
-
+        CategoryViewModel.CategoryListResult GetAll();
     }
 }
