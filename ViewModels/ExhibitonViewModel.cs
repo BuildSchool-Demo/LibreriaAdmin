@@ -61,6 +61,7 @@ namespace LibreriaAdmin.ViewModels
             /// 審查狀態
             /// </summary>
             public bool ReviewState { get; set; }
+            public DateTime EditModifyDate { get; set; }
         }
 
 

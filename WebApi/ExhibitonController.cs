@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 namespace LibreriaAdmin.WebApi
 {
     [Route("api/[controller]/[action]")]
+    [ApiController]
+
     public class ExhibitonController : ControllerBase
     {
         public IExhibitonService _service;
@@ -79,13 +81,13 @@ namespace LibreriaAdmin.WebApi
             }
         }
         [HttpGet]
-        public BaseModel.BaseResult<List<ExhibitonViewModel>> GetTodayExhibiton()
+        public BaseModel.BaseResult<ExhibitonViewModel.ExhibitonListResult> GetTodayExhibiton()
         {
-            var result = new BaseModel.BaseResult<List<ExhibitonViewModel>>();
+            var result = new BaseModel.BaseResult<ExhibitonViewModel.ExhibitonListResult>();
 
             try
             {
-                result.Body = _service.ExhibitonGetToday();
+                result.Body = _service.GetTodayExhibiton();
                 return result;
             }
             catch (Exception ex)

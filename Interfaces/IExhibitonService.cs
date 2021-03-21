@@ -43,5 +43,10 @@ namespace LibreriaAdmin.Interfaces
         /// <param name="exhibitonId"></param>
         /// <returns></returns>
         ExhibitonSendMailViewModel.GetByCustomerEmailRequest GetCustomerData(int exhibitonId);
+
+
+
+        ExhibitonViewModel.ExhibitonListResult GetTodayExhibiton();
+
     }
 }

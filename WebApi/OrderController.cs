@@ -53,6 +53,24 @@ namespace LibreriaAdmin.WebApi
                 return result;
             }
         }
+        [HttpGet("{month}")]
 
+        public BaseModel.BaseResult<OrderViewModel.OrderListResult> GetMonthOrderPrice(int month)
+        {
+            BaseModel.BaseResult<OrderViewModel.OrderListResult> result = new BaseModel.BaseResult<OrderViewModel.OrderListResult>();
+            result.Body = _orderService.GetMonthOrderPrice(month);
+
+            try
+            {
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Msg = ex.Message;
+                result.IsSuccess = false;
+
+                return result;
+            }
+        }
     }
 }

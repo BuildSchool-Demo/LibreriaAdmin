@@ -140,13 +140,12 @@ namespace LibreriaAdmin.Services
 
             return result;
         }
-        public List<ExhibitonViewModel> ExhibitonGetToday()
+        public ExhibitonViewModel.ExhibitonListResult GetTodayExhibiton()
         {
-            var nowday = DateTime.Now.Day;
-            var result = new List<ExhibitonViewModel>();
-
-            result = _dbRepository.GetAll<Exhibition>().Where(x=>x.EditModifyDate.Day==nowday)
-                                  .Select(x => new ExhibitonViewModel()
+            var result = new ExhibitonViewModel.ExhibitonListResult();
+            var today = DateTime.Now.Day;
+            result.ExhibitonList = _dbRepository.GetAll<Exhibition>().Where(x => x.EditModifyDate.Day == today)
+                                  .Select(x => new ExhibitonViewModel.ExhibitonSingleResult()
                                   {
                                       ExhibitionId = x.ExhibitionId,
                                       ExhibitionStartTime = x.ExhibitionStartTime.ToString("yyyy/MM/dd"),
@@ -158,7 +157,9 @@ namespace LibreriaAdmin.Services
                                       ExPhoto = x.ExPhoto,
                                       ExName = x.ExName,
                                       ReviewState = x.ReviewState,
-                                      EditModifyDate = x.EditModifyDate
+                                      EditModifyDate =x.EditModifyDate
+
+
                                   }).ToList();
             return result;
         }
