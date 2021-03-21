@@ -1,329 +1,441 @@
 ﻿@section topCSS{
-
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
-        body {
+        * {
             padding: 0;
             margin: 0;
+            box-sizing: border-box;
         }
 
-        h1 {
-            margin: 30px auto 30px auto;
-            color: #09fbd2;
-            width: 100%;
+        body {
+            font-family: "Poppins", sans-serif;
+        }
+
+
+        .tabs {
+            display: flex;
+            position: relative;
+        }
+
+            .tabs .line {
+                position: absolute;
+                left: 0;
+                bottom: 0;
+                width: 0;
+                height: 6px;
+                border-radius: 15px;
+                background-color: #c23564;
+                transition: all 0.2s ease;
+            }
+
+        .tab-item {
+            min-width: 80px;
+            padding: 16px 20px 11px 20px;
+            font-size: 20px;
             text-align: center;
+            color: #c23564;
+            background-color: #fff;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+            border-bottom: 5px solid transparent;
+            opacity: 0.6;
+            cursor: pointer;
+            transition: all 0.5s ease;
         }
 
-        ul.menu {
-            padding: 0;
-            list-style: none;
-            margin: 20px auto;
-            font-family: 'Century Gothic';
-            -webkit-box-shadow: 0px 0px 25px #00000070;
-            box-shadow: 0px 0px 25px #00000070;
-            clear: both;
-            display: table;
-            width: 100%;
-            min-height: 85vh;
-            background: #3e5165;
+        .tab-icon {
+            font-size: 24px;
+            width: 32px;
+            position: relative;
+            top: 2px;
         }
 
-            ul.menu .list {
-                font-size: 14px;
-                border-bottom: 1px solid #324252;
-                position: relative;
-                width: 100%;
-                -webkit-box-sizing: border-box;
-                box-sizing: border-box;
-                height: 50px;
-                vertical-align: sub;
-                background: #3e5165;
-                clear: both;
-            }
+        .tab-item:hover {
+            opacity: 1;
+            background-color: rgba(194, 53, 100, 0.05);
+            border-color: rgba(194, 53, 100, 0.1);
+        }
 
-                ul.menu .list:after {
-                    content: "\f107";
-                    font-family: FontAwesome;
-                    position: absolute;
-                    right: 17px;
-                    top: 17px;
-                    padding: 0px 5px;
-                    color: #fff;
-                }
+        .tab-item.active {
+            opacity: 1;
+        }
 
-                ul.menu .list:before {
-                    content: '\f07b';
-                    font-family: FontAwesome;
-                    position: absolute;
-                    left: 17px;
-                    top: 17px;
-                    padding: 0px 5px;
-                    color: #fff;
-                }
+        .tab-content {
+            padding: 28px 0;
+        }
 
-                ul.menu .list a {
-                    text-decoration: none;
-                    color: #fff;
-                    padding: 17px 0px 17px 45px;
-                    display: block;
-                    height: 100%;
-                    -webkit-box-sizing: border-box;
-                    box-sizing: border-box;
-                }
+        .tab-pane {
+            color: #333;
+            display: none;
+        }
 
-                    ul.menu .list a:hover {
-                        background-color: #324252;
-                        -webkit-transition: 300ms all;
-                        transition: 300ms all;
-                        color: #09fbd2;
-                    }
-
-                ul.menu .list .items {
-                    height: 0px;
-                    overflow: hidden;
-                }
-
-                    ul.menu .list .items a {
-                        padding: 17px;
-                    }
-
-                        ul.menu .list .items a:hover {
-                            background-color: #3f5d79;
-                            color: #fff;
-                            -webkit-transition: 300ms all;
-                            transition: 300ms all;
-                        }
-            ul.menu .active:after {
-                content: "\f106";
-                font-family: FontAwesome;
-                position: absolute;
-                right: 17px;
-                top: 17px;
-                padding: 0px 5px;
-                color: #fff;
-            }
-
-            ul.menu .active:before {
-                content: '\f07c';
-                font-family: FontAwesome;
-                position: absolute;
-                left: 17px;
-                top: 17px;
-                padding: 0px 5px;
-                color: #fff;
-            }
-
-            ul.menu .active > .items {
+            .tab-pane.active {
                 display: block;
-                background: #23313f;
-                padding: 0px;
-                height: auto;
-                color: #fff;
-                -webkit-transition-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
-                transition-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
-                -webkit-transition: all 200ms;
-                transition: all 200ms;
-                clear: both;
-                float: left;
-                width: 100%;
-            }
-                ul.menu .active > .items .active > .items {
-                    background-color: #2f4b67;
-                }
-
-            ul.menu .active > a {
-                color: #46efa4;
-                text-transform: uppercase;
-                font-weight: bold;
             }
 
-            ul.menu .active .list {
-                background: #697d92;
+            .tab-pane h2 {
+                font-size: 24px;
+                margin-bottom: 8px;
             }
-
-                ul.menu .active .list a {
-                    padding: 17px 0px 17px 45px;
-                }
-
-        .book {
-            padding: 10px;
-            border: 1px solid #324252;
-        }
-
-        .menubar {
-        }
     </style>
+    <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap/dist/css/bootstrap.min.css" />
+    <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.css" />
+    <script src="//polyfill.io/v3/polyfill.min.js?features=es2015%2CIntersectionObserver"
+            crossorigin="anonymous"></script>
+    <script src="//unpkg.com/vue@latest/dist/vue.min.js"></script>
+    <script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js"></script>
+    <script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue-icons.min.js"></script>
 }
 
 
-<div class="col-3 menubar">
-    <ul class="menu">
-        <li class="list" id="Category-1">
-            <a href="#">人文社科 </a>
-            <ul class="items" v-for="item in items">
-                <li class="book"> {{item.productName}}</li>
-            </ul>
-        </li>
-        <li class="list" id="Category-2">
-            <a href="#">旅遊</a>
-            <ul class="items" v-for="item in items">
-                <li class="book"> {{item.productName}}</li>
+<div id="Category" class="col-12">
+    <div>
+        <!-- Tab items -->
+        <div class="tabs">
+            <div class="tab-item active">
 
-            </ul>
-        </li>
-        <li class="list" id="Category-3">
-            <a href="#">童書</a>
-            <ul class="items" v-for="item in items">
-                <li class="book"> {{item.productName}}</li>
+                人文社科
+            </div>
+            <div class="tab-item">
 
-            </ul>
-        </li>
-        <li class="list" id="Category-4">
-            <a href="#">電腦</a>
-            <ul class="items" v-for="item in items">
-                <li class="book"> {{item.productName}}</li>
+                旅遊
+            </div>
+            <div class="tab-item">
 
-            </ul>
-        </li>
-        <li class="list" id="Category-5">
-            <a href="#">自然科普</a>
-            <ul class="items" v-for="item in items">
-                <li class="book"> {{item.productName}}</li>
+                童書
+            </div>
+            <div class="tab-item">
 
-            </ul>
-        </li>
-        <li class="list" id="Category-6">
-            <a href="#">文學小說</a>
-            <ul class="items" v-for="item in items">
-                <li class="book"> {{item.productName}}</li>
+                電腦
+            </div>
+            <div class="tab-item">
 
-            </ul>
-        </li>
-        <li class="list" id="Category-7">
-            <a href="#">商業</a>
-            <ul class="items" v-for="item in items">
-                <li class="book"> {{item.productName}}</li>
+                自然科普
+            </div>
+            <div class="tab-item">
 
-            </ul>
-        </li>
-    </ul>
+                文學小說
+            </div>
+            <div class="tab-item">
 
+                商業
+            </div>
+
+            <div class="line"></div>
+        </div>
+
+        <!-- Tab content -->
+        <div class="tab-content">
+            <div class="tab-pane active" id="category-1">
+                <table aria-busy="false" aria-colcount="5" aria-multiselectable="true"
+                       class="table b-table b-table-selectable b-table-select-multi" id="__BVID__5">
+                    <thead>
+                        <tr>
+                            <th>特價狀況</th>
+                            <th>ID</th>
+                            <th>書名</th>
+                            <th>價錢</th>
+                            <th>銷量</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="item in items" v-on:click="ChangeSpecial">
+                            <td id="isSpecial" v-if="item.isSpecial">
+                                <i class="fas fa-check"></i>
+                            </td>
+                            <td v-else></td>
+                            <td>
+                                {{item.productId}}
+                            </td>
+                            <td>
+                                {{item.productName}}
+                            </td>
+                            <td>
+                                {{item.unitPrice}}
+                            </td>
+                            <td>
+                                {{item.totalSales}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-pane" id="category-2">
+                <table aria-busy="false" aria-colcount="5" aria-multiselectable="true"
+                       class="table b-table b-table-selectable b-table-select-multi" id="__BVID__5">
+                    <thead>
+                        <tr>
+                            <th>特價狀況</th>
+                            <th>ID</th>
+                            <th>書名</th>
+                            <th>價錢</th>
+                            <th>銷量</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="item in items">
+                            <td id="isSpecial" v-if="item.isSpecial">
+                                <i class="fas fa-check"></i>
+                            </td>
+                            <td v-else></td>
+                            <td>
+                                {{item.productId}}
+                            </td>
+                            <td>
+                                {{item.productName}}
+                            </td>
+                            <td>
+                                {{item.unitPrice}}
+                            </td>
+                            <td>
+                                {{item.totalSales}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-pane" id="category-3">
+                <table aria-busy="false" aria-colcount="5" aria-multiselectable="true"
+                       class="table b-table b-table-selectable b-table-select-multi" id="__BVID__5">
+                    <thead>
+                        <tr>
+                            <th>特價狀況</th>
+                            <th>ID</th>
+                            <th>書名</th>
+                            <th>價錢</th>
+                            <th>銷量</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="item in items">
+                            <td id="isSpecial" v-if="item.isSpecial">
+                                <i class="fas fa-check"></i>
+                            </td>
+                            <td v-else></td>
+                            <td>
+                                {{item.productId}}
+                            </td>
+                            <td>
+                                {{item.productName}}
+                            </td>
+                            <td>
+                                {{item.unitPrice}}
+                            </td>
+                            <td>
+                                {{item.totalSales}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-pane" id="category-4">
+                <table aria-busy="false" aria-colcount="5" aria-multiselectable="true"
+                       class="table b-table b-table-selectable b-table-select-multi" id="__BVID__5">
+                    <thead>
+                        <tr>
+                            <th>特價狀況</th>
+                            <th>ID</th>
+                            <th>書名</th>
+                            <th>價錢</th>
+                            <th>銷量</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="item in items">
+                            <td id="isSpecial" v-if="item.isSpecial">
+                                <i class="fas fa-check"></i>
+                            </td>
+                            <td v-else></td>
+                            <td>
+                                {{item.productId}}
+                            </td>
+                            <td>
+                                {{item.productName}}
+                            </td>
+                            <td>
+                                {{item.unitPrice}}
+                            </td>
+                            <td>
+                                {{item.totalSales}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-pane" id="category-5">
+                <table aria-busy="false" aria-colcount="5" aria-multiselectable="true"
+                       class="table b-table b-table-selectable b-table-select-multi" id="__BVID__5">
+                    <thead>
+                        <tr>
+                            <th>特價狀況</th>
+                            <th>ID</th>
+                            <th>書名</th>
+                            <th>價錢</th>
+                            <th>銷量</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="item in items">
+                            <td id="isSpecial" v-if="item.isSpecial">
+                                <i class="fas fa-check"></i>
+                            </td>
+                            <td v-else></td>
+                            <td>
+                                {{item.productId}}
+                            </td>
+                            <td>
+                                {{item.productName}}
+                            </td>
+                            <td>
+                                {{item.unitPrice}}
+                            </td>
+                            <td>
+                                {{item.totalSales}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-pane" id="category-6">
+                <table aria-busy="false" aria-colcount="5" aria-multiselectable="true"
+                       class="table b-table b-table-selectable b-table-select-multi" id="__BVID__5">
+                    <thead>
+                        <tr>
+                            <th>特價狀況</th>
+                            <th>ID</th>
+                            <th>書名</th>
+                            <th>價錢</th>
+                            <th>銷量</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="item in items">
+                            <td id="isSpecial" v-if="item.isSpecial">
+                                <i class="fas fa-check"></i>
+                            </td>
+                            <td v-else></td>
+                            <td>
+                                {{item.productId}}
+                            </td>
+                            <td>
+                                {{item.productName}}
+                            </td>
+                            <td>
+                                {{item.unitPrice}}
+                            </td>
+                            <td>
+                                {{item.totalSales}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-pane" id="category-7">
+                <table aria-busy="false" aria-colcount="5" aria-multiselectable="true"
+                       class="table b-table b-table-selectable b-table-select-multi" id="__BVID__5">
+                    <thead>
+                        <tr>
+                            <th>特價狀況</th>
+                            <th>ID</th>
+                            <th>書名</th>
+                            <th>價錢</th>
+                            <th>銷量</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="item in items">
+                            <td id="isSpecial" v-if="item.isSpecial">
+                                <i class="fas fa-check"></i>
+                            </td>
+                            <td v-else></td>
+                            <td>
+                                {{item.productId}}
+                            </td>
+                            <td>
+                                {{item.productName}}
+                            </td>
+                            <td>
+                                {{item.unitPrice}}
+                            </td>
+                            <td>
+                                {{item.totalSales}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
 
-<div class="col-9">
 
-</div>
+
+
+
 @section endJS{
+    <!--axios-->
+    <script src="~/js/Axios.js"></script>
     <script>
-        var app = new Vue({
-            el: '#Category-1',
-            data: {
-                items: [],
-            },
-            created: function () {
-                axios.get('/api/Product/GetByCategory/1')
-                    .then((res) => {
-                        this.items = res.data.body.productList;
-                    })
-            },
-        })
-        var app = new Vue({
-            el: '#Category-2',
-            data: {
-                items: [],
-            },
-            created: function () {
-                axios.get('/api/Product/GetByCategory/2')
-                    .then((res) => {
-                        this.items = res.data.body.productList;
-                    })
-            },
-        })
-        var app = new Vue({
-            el: '#Category-3',
-            data: {
-                items: [],
-            },
-            created: function () {
-                axios.get('/api/Product/GetByCategory/3')
-                    .then((res) => {
-                        this.items = res.data.body.productList;
-                    })
-            },
-        })
-        var app = new Vue({
-            el: '#Category-4',
-            data: {
-                items: [],
-            },
-            created: function () {
-                axios.get('/api/Product/GetByCategory/4')
-                    .then((res) => {
-                        this.items = res.data.body.productList;
-                    })
-            },
-        })
-        var app = new Vue({
-            el: '#Category-5',
-            data: {
-                items: [],
-            },
-            created: function () {
-                axios.get('/api/Product/GetByCategory/5')
-                    .then((res) => {
-                        this.items = res.data.body.productList;
-                    })
-            },
-        })
-        var app = new Vue({
-            el: '#Category-6',
-            data: {
-                items: [],
-            },
-            created: function () {
-                axios.get('/api/Product/GetByCategory/6')
-                    .then((res) => {
-                        this.items = res.data.body.productList;
-                    })
-            },
-        })
-        var app = new Vue({
-            el: '#Category-7',
-            data: {
-                items: [],
-            },
-            created: function () {
-                axios.get('/api/Product/GetByCategory/7')
-                    .then((res) => {
-                        this.items = res.data.body.productList;
-                    })
-            },
-        })
+        var isSpecial = document.getElementById('isSpecial');
+        for (var i = 1; i <= 7; i++) {
+            var app = new Vue({
+                el: `#category-${i}`,
+                data: {
+                    items: [],
+                },
+                created: function () {
+                    axios.get(`/api/Product/GetByCategory/${i}`)
+                        .then((res) => {
+                            console.log(res);
+                            this.items = res.data.body.productList;
+                        })
+                },
+                methods: {
+                    ChangeSpecial: function (event) {
+                        this.$data.items.isSpecial = !this.$data.items.isSpecial;
+                    }
+                },
+
+            })
+        }
+
+
+
+
+    </script>
+    <script>
+        const $ = document.querySelector.bind(document);
+        const $$ = document.querySelectorAll.bind(document);
+
+        const tabs = $$(".tab-item");
+        const panes = $$(".tab-pane");
+
+        const tabActive = $(".tab-item.active");
+        const line = $(".tabs .line");
+
+        line.style.left = tabActive.offsetLeft + "px";
+        line.style.width = tabActive.offsetWidth + "px";
+
+        tabs.forEach((tab, index) => {
+            const pane = panes[index];
+
+            tab.onclick = function () {
+                $(".tab-item.active").classList.remove("active");
+                $(".tab-pane.active").classList.remove("active");
+
+                line.style.left = this.offsetLeft + "px";
+                line.style.width = this.offsetWidth + "px";
+
+                this.classList.add("active");
+                pane.classList.add("active");
+            };
+        });
+
     </script>
 
 
-    <script>
-        const list = document.querySelectorAll('.list');
-
-        function accordion(e) {
-            e.stopPropagation();
-            if (this.classList.contains('active')) {
-                this.classList.remove('active');
-            }
-            else if (this.parentElement.parentElement.classList.contains('active')) {
-                this.classList.add('active');
-            }
-            else {
-                for (i = 0; i < list.length; i++) {
-                    list[i].classList.remove('active');
-                }
-                this.classList.add('active');
-            }
-        }
-        for (i = 0; i < list.length; i++) {
-            list[i].addEventListener('click', accordion);
-        }
-
-    </script>
 
 
 
