@@ -405,13 +405,20 @@
                     item.paymentTypeDisplay = this.infoModal.paymentTypeDisplay;
                     item.paymentState = this.infoModal.paymentState;
                     item.orderDetailList = JSON.parse(JSON.stringify(this.infoModal.orderDetailList));
+                    item.orderPrice = this.UpdateOrderPrice();
 
                     axios.post('/api/Order/Edit', item)
                         .then((res) => {
                             console.log(res);
-                            //console.log(res.data.body);
                         })
                 },
+                UpdateOrderPrice() {
+                    sum = 0;
+                    this.infoModal.orderDetailList.forEach((orderDetail, index, orderDetailList) => {
+                        sum += orderDetail.unitPrice * orderDetail.quantity;
+                    })
+                    return sum;
+                }
             },
         })
     </script>
