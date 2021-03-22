@@ -65,20 +65,23 @@
                 </b-button>
             </template>
 
-            <template #cell(exPhoto)="pic">
+            @*<template #cell(exPhoto)="pic">
                 <b-button size="sm" v-on:click="info(pic.item, pic.index, $event.target)" class="mr-1">
                     開啟
                 </b-button>
-            </template>
+            </template>*@
 
-            <template #cell(email)="email">
-                <b-button size="sm" v-on:click="email(email.item, email.index, $event.target)" class="mr-1">
-                    <a href="~/Exhibiton/SendMail">前往</a>
+            <template #cell(email)="data">
+                <b-button size="sm" v-on:click="email(data.item, data.index, $event.target)" class="mr-1">
+                    前往
                 </b-button>
             </template>
 
             <template #row-details="row">
                 <b-card>
+                    <h5>圖片:</h5>
+                    <div> <img v-bind:src="row.item.exPhoto" /> </div>
+                    <h5>簡介:</h5>
                     <p>{{row.item.exhibitionIntro}}</p>
                 </b-card>
             </template>
@@ -86,9 +89,9 @@
 
 
         <!-- Info modal -->
-        <b-modal :id="infoModal.id" :title="infoModal.title" ok-only ok-title="關閉" v-on:hide="resetInfoModal" size="xl">
+        @*<b-modal :id="infoModal.id" :title="infoModal.title" ok-only ok-title="關閉" v-on:hide="resetInfoModal" size="xl">
             <img v-bind:src="infoModal.content" />
-        </b-modal>
+        </b-modal>*@
 
         <b-col sm="7" md="12" class="my-1 page">
             <b-pagination v-model="currentPage"

@@ -72,6 +72,7 @@ namespace LibreriaAdmin.Services
                                       Introduction = p.Introduction,
                                       Inventory = p.Inventory,
                                       TotalSales = p.TotalSales,
+                                      IsSpecial = p.IsSpecial
 
                                   }).ToList();
 

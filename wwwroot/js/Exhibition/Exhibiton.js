@@ -14,7 +14,7 @@
             { key: 'exhibitionEndTime', label: '展覽結束日期', sortable: true, class: 'text-center' },
             { key: 'exhibitionPrice', label: '門票', sortable: true, class: 'text-center' },
             { key: 'exhibitionIntro', label: '展演簡介', class: 'text-center' },
-            { key: 'exPhoto', label: '展演圖片', class: 'text-center' },
+            //{ key: 'exPhoto', label: '展演圖片', class: 'text-center' },
             { key: 'email', label: '寄信', class: 'text-center' },
             {
                 key: 'reviewState',
@@ -56,7 +56,7 @@
         axios.get("/api/Exhibiton/GetExhibitonData")
             .then((res) => {
                 console.log(res);
-                this.items = res.data.body;
+                this.items = res.data.body.exhibitonList;
                 this.isBusy = false;
             })
             //.catch((err) => {
@@ -79,10 +79,13 @@
         this.totalRows = this.items.length
     },
     methods: {
-        info(item, button) {
-            this.infoModal.title = '展演圖片'
-            this.infoModal.content = item.exPhoto
-            this.$root.$emit('bv::show::modal', this.infoModal.id, button)
+        //info(item, button) {
+        //    this.infoModal.title = '展演圖片'
+        //    this.infoModal.content = item.exPhoto
+        //    this.$root.$emit('bv::show::modal', this.infoModal.id, button)
+        //},
+        email(item, button) {
+            location.href = '/Exhibiton/SendMail?exhibitionId=' + item.exhibitionId;
         },
         resetInfoModal() {
             this.infoModal.title = ''
