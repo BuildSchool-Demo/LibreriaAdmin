@@ -1,6 +1,6 @@
-﻿using LibreriaAdmin.ViewModels;
+﻿using LibreriaAdmin.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -9,25 +9,24 @@ using System.Threading.Tasks;
 
 namespace LibreriaAdmin.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class ManagerController : ControllerBase
+    public class ManagerController : Controller
     {
-        private readonly IConfiguration _config;
         private readonly ILogger _logger;
+        //private readonly IManagerService _manageService;
 
-        public ManagerController(IConfiguration config, ILogger<ManagerController> logger)
+        public ManagerController( ILogger<ManagerController> logger, IManagerService managerService)
         {
-            _config = config;
             _logger = logger;
+            //_manageService = managerService;
         }
-        public IActionResult Login([FromForm] LoginViewModel loginVM)
+        [AllowAnonymous]
+        public IActionResult Login()
         {
-            _logger.LogWarning(2001, DateTime.Now.ToLongTimeString() + " Token POST方法被呼叫");
-            IActionResult response = Unauthorized();
-
-            return null;
+            return View();
+        }
+        public IActionResult ManagerIndex()
+        {
+            return View();
         }
     }
 }
-    

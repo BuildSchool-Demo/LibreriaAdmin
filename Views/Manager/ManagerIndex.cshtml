@@ -1,0 +1,229 @@
+﻿<div class="col-sm-6">
+    <h1 class="m-0">使用者介面</h1>
+</div>
+<div class="col-sm-6">
+    <ol class="breadcrumb float-sm-right">
+        <li class="breadcrumb-item"><a href="~/Home/Index">Home</a></li>
+        <li class="breadcrumb-item active">Starter Page</li>
+    </ol>
+</div>
+
+<div id="manager-index" class="col-12">
+    <template>
+        <b-container fluid>
+            <!-- User Interface controls -->
+            <b-row>
+                <b-col lg="6" class="my-1">
+                    <b-form-group label="Sort"
+                                  label-for="sort-by-select"
+                                  label-cols-sm="3"
+                                  label-align-sm="right"
+                                  label-size="sm"
+                                  class="mb-0"
+                                  v-slot="{ ariaDescribedby }">
+                        <b-input-group size="sm">
+                            <b-form-select id="sort-by-select"
+                                           v-model="sortBy"
+                                           :options="sortOptions"
+                                           :aria-describedby="ariaDescribedby"
+                                           class="w-75">
+                                <template #first>
+                                    <option value="">-- none --</option>
+                                </template>
+                            </b-form-select>
+
+                            <b-form-select v-model="sortDesc"
+                                           :disabled="!sortBy"
+                                           :aria-describedby="ariaDescribedby"
+                                           size="sm"
+                                           class="w-25">
+                                <option :value="false">Asc</option>
+                                <option :value="true">Desc</option>
+                            </b-form-select>
+                        </b-input-group>
+                    </b-form-group>
+                </b-col>
+
+                <b-col lg="6" class="my-1">
+                    <b-form-group label="Initial sort"
+                                  label-for="initial-sort-select"
+                                  label-cols-sm="3"
+                                  label-align-sm="right"
+                                  label-size="sm"
+                                  class="mb-0">
+                        <b-form-select id="initial-sort-select"
+                                       v-model="sortDirection"
+                                       :options="['asc', 'desc', 'last']"
+                                       size="sm"></b-form-select>
+                    </b-form-group>
+                </b-col>
+
+                <b-col lg="6" class="my-1">
+                    <b-form-group label="Filter"
+                                  label-for="filter-input"
+                                  label-cols-sm="3"
+                                  label-align-sm="right"
+                                  label-size="sm"
+                                  class="mb-0">
+                        <b-input-group size="sm">
+                            <b-form-input id="filter-input"
+                                          v-model="filter"
+                                          type="search"
+                                          placeholder="Type to Search"></b-form-input>
+
+                            <b-input-group-append>
+                                <b-button :disabled="!filter" v-on:click="filter = ''">Clear</b-button>
+                            </b-input-group-append>
+                        </b-input-group>
+                    </b-form-group>
+                </b-col>
+
+                <b-col lg="6" class="my-1">
+                    <b-form-group v-model="sortDirection"
+                                  label="Filter On"
+                                  description="Leave all unchecked to filter on all data"
+                                  label-cols-sm="3"
+                                  label-align-sm="right"
+                                  label-size="sm"
+                                  class="mb-0"
+                                  v-slot="{ ariaDescribedby }">
+                        <b-form-checkbox-group v-model="filterOn"
+                                               :aria-describedby="ariaDescribedby"
+                                               class="mt-1">
+                            <b-form-checkbox value="name">Name</b-form-checkbox>
+                            <b-form-checkbox value="age">Age</b-form-checkbox>
+                            <b-form-checkbox value="isActive">Active</b-form-checkbox>
+                        </b-form-checkbox-group>
+                    </b-form-group>
+                </b-col>
+
+                <b-col sm="5" md="6" class="my-1">
+                    <b-form-group label="Per page"
+                                  label-for="per-page-select"
+                                  label-cols-sm="6"
+                                  label-cols-md="4"
+                                  label-cols-lg="3"
+                                  label-align-sm="right"
+                                  label-size="sm"
+                                  class="mb-0">
+                        <b-form-select id="per-page-select"
+                                       v-model="perPage"
+                                       :options="pageOptions"
+                                       size="sm"></b-form-select>
+                    </b-form-group>
+                </b-col>
+
+
+
+                <b-col sm="7" md="6" class="my-1">
+                    <b-pagination v-model="currentPage"
+                                  :total-rows="totalRows"
+                                  :per-page="perPage"
+                                  align="fill"
+                                  size="sm"
+                                  class="my-0"></b-pagination>
+                </b-col>
+            </b-row>
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                新增管理員資料
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <!-- <form action="https://localhost:5001/api/products" method="post" class="col-6 offset-3" name="productform">-->
+                                <form class="col-6 offset-3" id="productform">
+                                    <h1>新增管理者</h1>
+                                    <h4 id="apiUrl" class="text-primary"></h4>
+                                    <h4 id="result" class="text-danger"></h4>
+                                    <div class="form-group">
+                                        <label for="managerUserName"> 姓名 </label>
+                                        <input type="text" class="form-control" id=" managerUserName " name="managerUserName"  >
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="managerName">Managername帳號</label>
+                                        <input type="text" class="form-control" id="managerName" name="managerName">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="managerPassword">ManagerPassword 密碼</label>
+                                        <input type="text" class="form-control" id="managerPassword" name="managerPassword">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="managerRoleID">ManagerRoleID</label>
+                                        <input type="text" class="form-control" id="managerRoleID" name="managerRoleID">
+                                    </div>
+                                    <button id="btnCreate" class="btn btn-warning">Create</button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal end -->
+            <!-- Main table element -->
+            <b-table :items="items"
+                     :fields="fields"
+                     :current-page="currentPage"
+                     :per-page="perPage"
+                     :filter="filter"
+                     :filter-included-fields="filterOn"
+                     :sort-by.sync="sortBy"
+                     :sort-desc.sync="sortDesc"
+                     :sort-direction="sortDirection"
+                     stacked="md"
+                     show-empty
+                     small
+                     v-on:filtered="onFiltered">
+                <template #cell(name)="row">
+                    {{ row.value }}
+                </template>
+                <template v-slot:cell(productName)="row">
+                    <div style="max-width:250px; overflow-y:auto;">
+                        {{ row.value }}
+                    </div>
+                </template>
+
+                <template #cell(actions)="row">
+
+                    <b-button size="sm" v-on:click="row.toggleDetails" variant="success">
+                        {{ row.detailsShowing ? 'Hide' : 'Show' }} Details
+                    </b-button>
+                    <b-button size="sm" variant="primary">
+                        Edit
+                    </b-button>
+                    <b-button size="sm" variant="danger">
+                        Delete
+                    </b-button>
+                </template>
+
+                <template #row-details="row">
+                    <b-card>
+                        <ul>
+                            <li v-for="(value, key) in row.item" :key="key">{{ key }}: {{ value }}</li>
+                        </ul>
+                    </b-card>
+                </template>
+            </b-table>
+
+
+
+        </b-container>
+    </template>
+</div>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+<script src="~/js/Manager/Manager.js"></script>
+<script src="~/js/Manager/ManagerData.js"></script>
