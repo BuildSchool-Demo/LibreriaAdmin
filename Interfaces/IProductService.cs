@@ -32,8 +32,16 @@ namespace LibreriaAdmin.Interfaces
         /// </summary>
         /// <returns></returns>
         ProductViewModels.ProductListResult GetTotalSale();
-
+        /// <summary>
+        /// 依據Id刪除商品
+        /// </summary>
+        /// <returns></returns>
         public bool Remove(int ProductId);
+        /// <summary>
+        /// 新增商品
+        /// </summary>
+        /// <returns></returns>
+        //public bool Create(ProductViewModels.ProductBaseModel product);
 
     }
 }

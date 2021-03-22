@@ -55,5 +55,8 @@ namespace LibreriaAdmin.ViewModels
         {
             public int ProductId { get; set; }
         }
+
+        
+
     }
 }

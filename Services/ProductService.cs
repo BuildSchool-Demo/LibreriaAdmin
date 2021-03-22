@@ -106,6 +106,12 @@ namespace LibreriaAdmin.Services
 
             return result;
         }
+
+       
+
+
+
+
         public ProductViewModels.ProductListResult GetTotalSale()
         {
             var result = new ProductViewModels.ProductListResult();
@@ -166,6 +172,14 @@ namespace LibreriaAdmin.Services
             }
             return false;
         }
+
+
+        //public bool CreateNewItem(ProductViewModels.ProductBaseModel productItem)
+        //{
+        //    _dbRepository.Create(productItem);
+        //    return true;
+
+        //}
 
     }
 }

@@ -87,11 +87,17 @@ namespace LibreriaAdmin.WebApi
         [HttpPost]
         public bool DeleteItem(ProductViewModels.GetByIdRequest request)
         {
-        //var product = _productService.GetById(request);
+       
             bool isSuccess = _productService.Remove(request.ProductId);
             return isSuccess;
         }
 
+        //[HttpPost]
+        //public bool CreateItem([FromBody]ProductViewModels.ProductBaseModel product)
+        //{
+        //    bool isSuccess = _productService.Create(product);
+        //    return isSuccess;
+        //}
     }
 
 }
