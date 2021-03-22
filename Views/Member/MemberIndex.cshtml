@@ -85,9 +85,9 @@
                 </template>
 
                 <template #cell(actions)="row">
-                    <b-button size="sm" v-on:click="info(row.item, row.index, $event.target)" class="mr-1">
-                        Info modal
-                    </b-button>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        Launch demo modal
+                    </button>
                     <b-button size="sm" v-on:click="row.toggleDetails">
                         {{ row.detailsShowing ? 'Hide' : 'Show' }} Details
                     </b-button>
@@ -103,9 +103,23 @@
             </b-table>
 
             <!-- Info modal -->
-            <b-modal :id="infoModal.id" :title="infoModal.title" ok-only v-on:hide="resetInfoModal">
-                <pre>{{ infoModal.content }}</pre>
-            </b-modal>
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            ...
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </b-container>
     </template>
 
@@ -165,11 +179,6 @@
             this.totalRows = this.items.length
         },
         methods: {
-            info(item, index, button) {
-                this.infoModal.title = `Row index: ${index}`
-                this.infoModal.content = JSON.stringify(item, null, 2)
-                this.$root.$emit('bv::show::modal', this.infoModal.id, button)
-            },
             resetInfoModal() {
                 this.infoModal.title = ''
                 this.infoModal.content = ''
