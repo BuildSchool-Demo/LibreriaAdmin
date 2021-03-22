@@ -15,6 +15,6 @@ namespace LibreriaAdmin.Interfaces
         OrderViewModel.OrderListResult GetAll();
         OrderViewModel.OrderListResult GetTodayOrderPrice();
 
-
+        bool Edit(OrderViewModel.OrderSingleResult orderVM);
     }
 }
