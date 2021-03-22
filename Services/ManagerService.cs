@@ -23,7 +23,6 @@ namespace LibreriaAdmin.Services
             result.ManagerList = _repository.GetAll<Manager>()
                 .Select(x => new ManagerViewModel.ManagerSingleResult()
                 {
-                    ManagerID=x.ManagerId,
                     ManagerName = x.ManagerName,
                     ManagerPassword = x.ManagerPassword,
                     ManagerUserName = x.ManagerUsername,
@@ -60,7 +59,6 @@ namespace LibreriaAdmin.Services
 
             newManager = new Manager
             {
-                ManagerId = manager.ManagerID,
                 ManagerName = manager.ManagerName,
                 ManagerPassword = manager.ManagerPassword,
                 ManagerUsername = manager.ManagerUserName,

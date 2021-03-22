@@ -30,7 +30,6 @@ window.onload = function () {
 
                 result.innerText = `Status : ${textStatus}資料新增成功, location : ${jqXHR.getResponseHeader('location')}`;
 
-
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 result.innerText = textStatus + "," + jqXHR.state;

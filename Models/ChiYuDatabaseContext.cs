@@ -102,11 +102,6 @@ namespace LibreriaAdmin.Models
                     .HasConstraintName("FK_Favorite_Product");
             });
 
-            modelBuilder.Entity<Manager>(entity =>
-            {
-                entity.Property(e => e.ManagerId).ValueGeneratedNever();
-            });
-
             modelBuilder.Entity<Member>(entity =>
             {
                 entity.Property(e => e.MemberPassword).HasComment("會員密碼");

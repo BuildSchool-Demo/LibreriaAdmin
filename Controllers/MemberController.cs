@@ -1,4 +1,5 @@
 ﻿using LibreriaAdmin.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace LibreriaAdmin.Controllers
 {
+
     public class MemberController : Controller
     {
         private readonly IMemberService _memberService;
@@ -15,7 +17,6 @@ namespace LibreriaAdmin.Controllers
         {
             _memberService = memberService;
         }
-
         public IActionResult Index()
         {
             return View();

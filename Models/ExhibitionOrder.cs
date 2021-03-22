@@ -23,6 +23,8 @@ namespace LibreriaAdmin.Models
         public string PaymentState { get; set; }
         [Column("customerVerify")]
         public bool CustomerVerify { get; set; }
+        [Column("isCanceled")]
+        public bool IsCanceled { get; set; }
 
         [ForeignKey(nameof(ExCustomerId))]
         [InverseProperty(nameof(ExhibitionCustomer.ExhibitionOrders))]
