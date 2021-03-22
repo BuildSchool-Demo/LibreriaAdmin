@@ -24,23 +24,58 @@ namespace LibreriaAdmin.Services
             {
                 var result = new MemberViewModel.MemberListResult();
 
-                var source = _dbRepository.GetAll<Member>();
+                var source = _dbRepository.GetAll<Member>().AsEnumerable();
+                var orders = _dbRepository.GetAll<Order>().AsEnumerable();
+                var products = _dbRepository.GetAll<Product>().AsEnumerable();
+                var orderDetails = _dbRepository.GetAll<OrderDetail>().AsEnumerable().Select(x => new
+                {
+                    OrderDetailId = x.OrderDetailId,
+                    OrderId = x.OrderId,
+                    ProductId = x.ProductId,
+                    Price = products.FirstOrDefault(y => y.ProductId == x.ProductId)?.UnitPrice ?? 0,
+                    Quantity = x.Quantity
+                }).ToList();
 
-                result.MemberList = source.Select(x => new MemberViewModel.MemberSingleResult()
-                     {
-                         memberId = x.MemberId,
-                         memberUserName = x.MemberUserName,
-                         mobileNumber = x.MobileNumber,
-                         homeNumber = x.HomeNumber,
-                         address = x.Address,
-                         email = x.Email,
-                         memberName = x.MemberName,
-                         memberPassword = x.MemberPassword,
-                         birthday = x.Birthday,
-                         gender = x.Gender,
-                         idnumber = x.Idnumber,
-                         ordersum = 0
-                     }).ToList();
+                result.MemberList = (from member in source
+
+                                     let orderList = orders.Where(x => x.MemberId == member.MemberId).ToList()
+                                     let orderDetailList = orderDetails.Where(x => orderList.Select(y => y.OrderId).Contains(x.OrderId)).ToList()
+                                     select new MemberViewModel.MemberSingleResult()
+                                     {
+                                         memberId = member.MemberId,
+                                         memberUserName = member.MemberUserName,
+                                         mobileNumber = member.MobileNumber,
+                                         homeNumber = member.HomeNumber,
+                                         address = member.Address,
+                                         email = member.Email,
+                                         memberName = member.MemberName,
+                                         memberPassword = member.MemberPassword,
+                                         birthday = member.Birthday,
+                                         gender = member.Gender,
+                                         idnumber = member.Idnumber,
+                                         ordersum = orderDetailList.Sum(y => y.Price * y.Quantity)
+                                     }
+                                     ).ToList();
+
+
+
+
+
+                    //source.Select(x => new MemberViewModel.MemberSingleResult()
+                    // {
+                    //     memberId = x.MemberId,
+                    //     memberUserName = x.MemberUserName,
+                    //     mobileNumber = x.MobileNumber,
+                    //     homeNumber = x.HomeNumber,
+                    //     address = x.Address,
+                    //     email = x.Email,
+                    //     memberName = x.MemberName,
+                    //     memberPassword = x.MemberPassword,
+                    //     birthday = x.Birthday,
+                    //     gender = x.Gender,
+                    //     idnumber = x.Idnumber,
+                    //     ordersum = 0
+                    // }).ToList();
 
 
                 return result;

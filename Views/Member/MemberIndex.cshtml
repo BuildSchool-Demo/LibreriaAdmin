@@ -121,11 +121,11 @@
             items: [],
             fields: [
                 { key: 'memberId', label: '編號', sortable: true, sortDirection: 'desc' },
-                { key: 'memberName', label: '會員名稱', class: 'text-center' },
+                { key: 'memberUserName', label: '會員名稱', class: 'text-center' },
                 { key: 'mobileNumber', label: '電話', class: 'text-center' },
-                { key: 'email', label: '信箱', class: 'text-center' },
-                { key: 'ordersum', label: '消費金額', sortable: true},
-                { key: 'actions', label: 'Actions' }
+                { key: 'email', label: '信箱', class: 'text-center mg-right:50px' },
+                { key: 'ordersum', label: '消費金額', sortable: true, class: 'text-right'},
+                { key: 'actions', label: 'Actions', class: 'text-center' }
             ],
             totalRows: 1,
             currentPage: 1,
@@ -147,20 +147,6 @@
                 .then((res) => {
                     this.items = res.data.body.memberList;
                     this.mounted();
-                    axios.get(`/Api/Member/GetByMemberId/${res.data.body.memberList.memberId}`)
-                        .then((res2) => {
-                            if (res2.data.body.memberList.length == 0) {
-                                this.items.ordersum = 0;
-                            }
-                            else
-                            {
-                                var sum = 0;
-                                for (var i = 0; i <= res2.data.body.memberList.length - 1; i++) {
-                                    sum = sum + res2.data.body.memberList[`${i}`].orderPrice;
-                                }
-                                this.items.ordersum = sum;
-                            }
-                        });
                 });
 
         },
