@@ -179,10 +179,30 @@
 
                         <!-- Info modal -->
                         <b-modal :id="infoModal.id" :title="infoModal.title" ok-only v-on:hide="resetInfoModal">
-                            <pre>{{ infoModal.content }}</pre>
+                            <label>商品類別：</label>
+                            <input v-model="infoModal.categoryId" disabled="disabled" />
+                            <br />
+                            <label>供應商編號：</label>
+                            <input v-model="infoModal.supplierId" disabled="disabled" />
+                            <br />
+                            <label>商品編號：</label>
+                            <input v-model="infoModal.productId" disabled="disabled" />
+                            <br />
+                            <label>商品名稱：</label>
+                            <input v-model="infoModal.productName" disabled="disabled" />
+                            <br />
+                            <label>商品單價：</label>
+                            <input v-model="infoModal.unitPrice" disabled="disabled" />
+                            <br />
+                            <label>商品庫存：</label>
+                            <input v-model="infoModal.Inventory" disabled="disabled" />
+                            <br />
+                            <label>商品銷量：</label>
+                            <input v-model="infoModal.totalSales" disabled="disabled" />
+                            <br /> <label>商品庫存：</label>
+                            <input v-model="infoModal.Inventory" disabled="disabled" />
+                            <br />
                         </b-modal>
-
-
                     </b-container>
                 </template>
             </b-tab>
