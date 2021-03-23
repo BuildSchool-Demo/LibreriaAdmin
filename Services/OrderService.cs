@@ -188,5 +188,54 @@ namespace LibreriaAdmin.Services
 
 
 
+        public OrderViewModel.OrderListResult GetMonthOrderPrice(int month)
+        {
+
+            //放入OrderVMList
+            List<OrderViewModel.OrderSingleResult> OrderVMList;
+            OrderVMList = (from Order in _dbRepository.GetAll<Order>().Where(x => x.CreateTime.Month == month)
+                           join Member in _dbRepository.GetAll<Member>()
+                           on Order.MemberId equals Member.MemberId
+                           orderby Order.OrderDate descending
+                           select new OrderViewModel.OrderSingleResult()
+                           {
+                               OrderId = Order.OrderId,
+                               ShippingDate = Order.ShippingDate,
+                               OrderDate = Order.OrderDate,
+                               MemberId = Order.MemberId,
+                               MemberUserName = Member.MemberUserName,
+                               ShipName = Order.ShipName,
+                               ShipCity = Order.ShipCity,
+                               ShipRegion = Order.ShipRegion,
+                               ShipAddress = Order.ShipAddress,
+                               ShipPostalCode = Order.ShipPostalCode,
+                               InvoiceType = Order.InvoiceType,
+                               InvoiceInfo = Order.InvoiceInfo,
+                               CreateTime = Order.CreateTime,
+                               UpdateTime = Order.UpdateTime,
+                               PaymentType = Order.PaymentType,
+                               PaymentState = Order.PaymentState,
+                           }).ToList();
+
+            OrderDetailViewModel.OrderListResult OrderDetailVMList = GetAllOrderDetail();
+
+            foreach (var OrderVM in OrderVMList)
+            {
+                OrderVM.OrderDetailList =
+                    OrderDetailVMList.OrderDetailList
+                    .Where(OrderDetail => OrderDetail.OrderId == OrderVM.OrderId)
+                    .ToList();
+            }
+
+            var result = new OrderViewModel.OrderListResult();
+            result.OrderList = OrderVMList;
+
+
+
+            return result;
+        }
+
+
+
     }
 }

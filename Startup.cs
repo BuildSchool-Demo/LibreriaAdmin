@@ -3,6 +3,7 @@ using LibreriaAdmin.Models;
 using LibreriaAdmin.Repository;
 using LibreriaAdmin.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -16,6 +17,7 @@ using NSwag.Generation.Processors.Security;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -39,7 +41,19 @@ namespace LibreriaAdmin
             services.AddDbContext<LibreriaDatabaseContext>(options => options.UseSqlServer(Configuration.GetConnectionString("LibreriaDataBaseContext")));
 
             //加入MemberService
+            services.AddTransient<IManagerService, ManagerService>();
+            //办喷靡
+            //services.AddAuthorization(options =>
+            //{
+            //    options.FallbackPolicy = new AuthorizationPolicyBuilder()
+            //        .RequireAuthenticatedUser()
+            //        .Build();
+            //});
+            //加入MemberService
             services.AddTransient<IMemberService, MemberService>();
+            //
+            services.AddTransient<ICategoryService, CategoryService>();
+
 
             //加入ProductService
             services.AddTransient<IProductService, ProductService>();
@@ -95,6 +109,20 @@ namespace LibreriaAdmin
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseCookiePolicy();
+
+            //app.UseStatusCodePages(async context => {
+            //    var request = context.HttpContext.Request;
+            //    var response = context.HttpContext.Response;
+
+            //    if (response.StatusCode == (int)HttpStatusCode.Unauthorized)
+
+            //    {
+            //        response.Redirect("/Manager/Login");
+            //    }
+            //});
+
+            app.UseAuthentication();
             app.UseSwaggerUi3();
 
             app.UseRouting();

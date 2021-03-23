@@ -1,7 +1,5 @@
-﻿
-
-<div class="col-sm-6">
-    <h1 class="m-0">商品查詢</h1>
+﻿<div class="col-sm-6">
+    <h1 class="m-0">使用者介面</h1>
 </div>
 <div class="col-sm-6">
     <ol class="breadcrumb float-sm-right">
@@ -10,12 +8,10 @@
     </ol>
 </div>
 
-<div id="product-index" class="col-12">
+<div id="manager-index" class="col-12">
     <template>
         <b-container fluid>
             <!-- User Interface controls -->
-            <div id="result"></div>
-            <div id="apiUrl"></div>
             <b-row>
                 <b-col lg="6" class="my-1">
                     <b-form-group label="Sort"
@@ -117,6 +113,8 @@
                     </b-form-group>
                 </b-col>
 
+
+
                 <b-col sm="7" md="6" class="my-1">
                     <b-pagination v-model="currentPage"
                                   :total-rows="totalRows"
@@ -126,7 +124,55 @@
                                   class="my-0"></b-pagination>
                 </b-col>
             </b-row>
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                新增管理員資料
+            </button>
 
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <!-- <form action="https://localhost:5001/api/products" method="post" class="col-6 offset-3" name="productform">-->
+                                <form class="col-6 offset-3" id="productform">
+                                    <h1>新增管理者</h1>
+                                    <h4 id="apiUrl" class="text-primary"></h4>
+                                    <h4 id="result" class="text-danger"></h4>
+                                    <div class="form-group">
+                                        <label for="managerUserName"> 姓名 </label>
+                                        <input type="text" class="form-control" id=" managerUserName " name="managerUserName"  >
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="managerName">Managername帳號</label>
+                                        <input type="text" class="form-control" id="managerName" name="managerName">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="managerPassword">ManagerPassword 密碼</label>
+                                        <input type="text" class="form-control" id="managerPassword" name="managerPassword">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="managerRoleID">ManagerRoleID</label>
+                                        <input type="text" class="form-control" id="managerRoleID" name="managerRoleID">
+                                    </div>
+                                    <button id="btnCreate" class="btn btn-warning">Create</button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal end -->
             <!-- Main table element -->
             <b-table :items="items"
                      :fields="fields"
@@ -158,7 +204,7 @@
                     <b-button size="sm" variant="primary">
                         Edit
                     </b-button>
-                    <b-button size="sm" variant="danger" v-on:click="removeItem(row.item.productId)">
+                    <b-button size="sm" variant="danger">
                         Delete
                     </b-button>
                 </template>
@@ -179,6 +225,5 @@
 </div>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
-<script src="~/js/product/product.js"></script>
-
-
+<script src="~/js/Manager/Manager.js"></script>
+<script src="~/js/Manager/ManagerData.js"></script>
