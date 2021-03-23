@@ -91,6 +91,7 @@ namespace LibreriaAdmin.Services
                     ProductId = OrderDetail.ProductId, //join Product
                     ProductName = Product.ProductName,
                     UnitPrice = Product.UnitPrice,
+                    SpecialPrice = OrderDetail.SpecialPrice,
                 }).ToList();
 
             var result = new OrderDetailViewModel.OrderListResult();
@@ -166,6 +167,7 @@ namespace LibreriaAdmin.Services
                 OrderDetail orderDetail = _dbRepository.GetAll<OrderDetail>().FirstOrDefault(orderDetail => 
                     orderDetail.OrderDetailId == orderDetailVM.OrderDetailId);
                 orderDetail.Quantity = orderDetailVM.Quantity;
+                orderDetail.SpecialPrice = orderDetailVM.SpecialPrice;
                 _dbRepository.Update(orderDetail);
             }
 
