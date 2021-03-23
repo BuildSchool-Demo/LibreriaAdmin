@@ -16,6 +16,8 @@ namespace LibreriaAdmin.Models
         public int OrderId { get; set; }
         public int ProductId { get; set; }
         public int Quantity { get; set; }
+        [Column(TypeName = "money")]
+        public decimal SpecialPrice { get; set; }
 
         [ForeignKey(nameof(OrderId))]
         [InverseProperty("OrderDetails")]

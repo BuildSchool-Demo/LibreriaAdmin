@@ -79,6 +79,16 @@
                 font-size: 24px;
                 margin-bottom: 8px;
             }
+
+        .btnArea {
+            justify-content: flex-end;
+            display: flex;
+            align-items: center;
+        }
+
+        .check {
+            margin: auto 10px;
+        }
     </style>
     <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap/dist/css/bootstrap.min.css" />
     <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.css" />
@@ -91,9 +101,9 @@
 
 
 <div id="Category" class="col-12">
-    <div>
+    <div class="row">
         <!-- Tab items -->
-        <div class="tabs">
+        <div class="tabs col-8">
             <div class="tab-item active">
 
                 人文社科
@@ -122,12 +132,14 @@
 
                 商業
             </div>
-
             <div class="line"></div>
         </div>
-
+        <div class="col-4 btnArea">
+            <button class="btn btn-dark check" id="Post" @@click:"">確認送出</button>
+            <button class="btn btn-dark check">取消</button>
+        </div>
         <!-- Tab content -->
-        <div class="tab-content">
+        <div class="tab-content col-12">
             <div class="tab-pane active" id="category-1">
                 <table aria-busy="false" aria-colcount="5" aria-multiselectable="true"
                        class="table b-table b-table-selectable b-table-select-multi" id="__BVID__5">
@@ -141,11 +153,13 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="item in items" v-on:click="ChangeSpecial">
-                            <td id="isSpecial" v-if="item.isSpecial">
-                                <i class="fas fa-check"></i>
+                        <tr v-bind:id=`tr${item.productId}` v-for="item in items" v-on:click='ChangeSpecial(item.productId)'>
+                            <td v-if="item.isSpecial">
+                                <input v-bind:id=`td${item.productId}` type="checkbox" name="lang-1" value="javascript" checked>
                             </td>
-                            <td v-else></td>
+                            <td v-else>
+                                <input v-bind:id=`td${item.productId}` type="checkbox" name="lang-1" value="javascript">
+                            </td>
                             <td>
                                 {{item.productId}}
                             </td>
@@ -175,11 +189,13 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="item in items">
-                            <td id="isSpecial" v-if="item.isSpecial">
-                                <i class="fas fa-check"></i>
+                        <tr v-bind:id=`tr${item.productId}` v-for="item in items" v-on:click='ChangeSpecial(item.productId)'>
+                            <td v-if="item.isSpecial">
+                                <input v-bind:id=`td${item.productId}` type="checkbox" name="lang-1" value="javascript" checked>
                             </td>
-                            <td v-else></td>
+                            <td v-else>
+                                <input v-bind:id=`td${item.productId}` type="checkbox" name="lang-1" value="javascript">
+                            </td>
                             <td>
                                 {{item.productId}}
                             </td>
@@ -209,11 +225,13 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="item in items">
-                            <td id="isSpecial" v-if="item.isSpecial">
-                                <i class="fas fa-check"></i>
+                        <tr v-bind:id=`tr${item.productId}` v-for="item in items" v-on:click='ChangeSpecial(item.productId)'>
+                            <td v-if="item.isSpecial">
+                                <input v-bind:id=`td${item.productId}` type="checkbox" name="lang-1" value="javascript" checked>
                             </td>
-                            <td v-else></td>
+                            <td v-else>
+                                <input v-bind:id=`td${item.productId}` type="checkbox" name="lang-1" value="javascript">
+                            </td>
                             <td>
                                 {{item.productId}}
                             </td>
@@ -243,11 +261,13 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="item in items">
-                            <td id="isSpecial" v-if="item.isSpecial">
-                                <i class="fas fa-check"></i>
+                        <tr v-bind:id=`tr${item.productId}` v-for="item in items" v-on:click='ChangeSpecial(item.productId)'>
+                            <td v-if="item.isSpecial">
+                                <input v-bind:id=`td${item.productId}` type="checkbox" name="lang-1" value="javascript" checked>
                             </td>
-                            <td v-else></td>
+                            <td v-else>
+                                <input v-bind:id=`td${item.productId}` type="checkbox" name="lang-1" value="javascript">
+                            </td>
                             <td>
                                 {{item.productId}}
                             </td>
@@ -277,11 +297,13 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="item in items">
-                            <td id="isSpecial" v-if="item.isSpecial">
-                                <i class="fas fa-check"></i>
+                        <tr v-bind:id=`tr${item.productId}` v-for="item in items" v-on:click='ChangeSpecial(item.productId)'>
+                            <td v-if="item.isSpecial">
+                                <input v-bind:id=`td${item.productId}` type="checkbox" name="lang-1" value="javascript" checked>
                             </td>
-                            <td v-else></td>
+                            <td v-else>
+                                <input v-bind:id=`td${item.productId}` type="checkbox" name="lang-1" value="javascript">
+                            </td>
                             <td>
                                 {{item.productId}}
                             </td>
@@ -311,11 +333,13 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="item in items">
-                            <td id="isSpecial" v-if="item.isSpecial">
-                                <i class="fas fa-check"></i>
+                        <tr v-bind:id=`tr${item.productId}` v-for="item in items" v-on:click='ChangeSpecial(item.productId)'>
+                            <td v-if="item.isSpecial">
+                                <input v-bind:id=`td${item.productId}` type="checkbox" name="lang-1" value="javascript" checked>
                             </td>
-                            <td v-else></td>
+                            <td v-else>
+                                <input v-bind:id=`td${item.productId}` type="checkbox" name="lang-1" value="javascript">
+                            </td>
                             <td>
                                 {{item.productId}}
                             </td>
@@ -345,11 +369,15 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="item in items">
-                            <td id="isSpecial" v-if="item.isSpecial">
-                                <i class="fas fa-check"></i>
+                        <tr v-bind:id=`tr${item.productId}` v-for="item in items" v-on:click='ChangeSpecial(item.productId)'>
+                            <td v-if="item.isSpecial">
+                                <input v-bind:id=`td${item.productId}` type="checkbox" name="lang-1" value="javascript" checked>
+
                             </td>
-                            <td v-else></td>
+                            <td v-else>
+                                <input v-bind:id=`td${item.productId}` type="checkbox" name="lang-1" value="javascript" >
+
+                            </td>
                             <td>
                                 {{item.productId}}
                             </td>
@@ -379,27 +407,43 @@
     <script src="~/js/Axios.js"></script>
     <script>
         var isSpecial = document.getElementById('isSpecial');
+
         for (var i = 1; i <= 7; i++) {
             var app = new Vue({
                 el: `#category-${i}`,
                 data: {
                     items: [],
+                    orData: [],
                 },
                 created: function () {
                     axios.get(`/api/Product/GetByCategory/${i}`)
                         .then((res) => {
-                            console.log(res);
                             this.items = res.data.body.productList;
+                            console.log(this.items);
+                        })
+                    axios.get('/api/Product/GetAll')
+                        .then((res) => {
+                            this.orData = res.data.body.productList;
+                            console.log(this.orData)
                         })
                 },
                 methods: {
                     ChangeSpecial: function (event) {
-                        this.$data.items.isSpecial = !this.$data.items.isSpecial;
+                        console.log(event);
+                        this.orData.forEach(x => {
+                            if (x.productId == event) {
+                                document.getElementById(`td${event}`).checked = !document.getElementById(`td${event}`).checked;
+                                console.log(x.isSpecial);
+                                x.isSpecial = !x.isSpecial;
+
+                            }
+                        })
                     }
                 },
 
             })
         }
+
 
 
 
