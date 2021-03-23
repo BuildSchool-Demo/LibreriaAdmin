@@ -33,7 +33,7 @@
     //    axios.get("/api/Exhibiton/GetEmailData")
     //        .then((res) => {
     //            console.log(res);
-    //            this.inputData = res.data.body;
+    //            this.inputData = res.data.body.emailList;
     //            this.isBusy = false;
     //        })
     //},

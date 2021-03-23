@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 namespace LibreriaAdmin.WebApi
 {
     [Route("api/[controller]/[action]")]
+    [ApiController]
+
     public class ExhibitonController : ControllerBase
     {
         public IExhibitonService _service;
@@ -19,9 +21,9 @@ namespace LibreriaAdmin.WebApi
         }
 
         [HttpGet]
-        public BaseModel.BaseResult<List<RentalViewModel>> GetRentalDate()
+        public BaseModel.BaseResult<RentalViewModel.RentalListResult> GetRentalDate()
         {
-            var result = new BaseModel.BaseResult<List<RentalViewModel>>();
+            var result = new BaseModel.BaseResult<RentalViewModel.RentalListResult>();
 
             try
             {
@@ -38,9 +40,9 @@ namespace LibreriaAdmin.WebApi
         }
 
         [HttpGet]
-        public BaseModel.BaseResult<List<ExhibitonViewModel>> GetExhibitonData()
+        public BaseModel.BaseResult<ExhibitonViewModel.ExhibitonListResult> GetExhibitonData()
         {
-            var result = new BaseModel.BaseResult<List<ExhibitonViewModel>>();
+            var result = new BaseModel.BaseResult<ExhibitonViewModel.ExhibitonListResult>();
             try
             {
                 result.Body = _service.ExhibitonGetAll();
@@ -55,16 +57,16 @@ namespace LibreriaAdmin.WebApi
         }
 
         [HttpPost]
-        public IActionResult SendMail([FromBody] ExhibitonSendMailViewModel mailVM)
+        public IActionResult SendMail([FromBody] ExhibitonSendMailViewModel.SendMailSingleResult mailVM)
         {
             string result = _service.Send(mailVM.sender, mailVM.recipient, mailVM.subject, mailVM.body);
             return Content(result);
         }
 
         [HttpGet]
-        public BaseModel.BaseResult<List<ExhibitonEmailViewModel>> GetEmailData()
+        public BaseModel.BaseResult<ExhibitonEmailViewModel.EmailListResult> GetEmailData()
         {
-            var result = new BaseModel.BaseResult<List<ExhibitonEmailViewModel>>();
+            var result = new BaseModel.BaseResult<ExhibitonEmailViewModel.EmailListResult>();
             try
             {
                 int i = 1;
@@ -79,13 +81,13 @@ namespace LibreriaAdmin.WebApi
             }
         }
         [HttpGet]
-        public BaseModel.BaseResult<List<ExhibitonViewModel>> GetTodayExhibiton()
+        public BaseModel.BaseResult<ExhibitonViewModel.ExhibitonListResult> GetTodayExhibiton()
         {
-            var result = new BaseModel.BaseResult<List<ExhibitonViewModel>>();
+            var result = new BaseModel.BaseResult<ExhibitonViewModel.ExhibitonListResult>();
 
             try
             {
-                result.Body = _service.ExhibitonGetToday();
+                result.Body = _service.GetTodayExhibiton();
                 return result;
             }
             catch (Exception ex)

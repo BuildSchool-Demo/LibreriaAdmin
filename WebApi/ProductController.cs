@@ -22,7 +22,7 @@ namespace LibreriaAdmin.WebApi
 
         [HttpGet]
         public BaseModel.BaseResult<ProductViewModels.ProductListResult> GetAll()
-        {                
+        {
             var result = new BaseModel.BaseResult<ProductViewModels.ProductListResult>();
 
             try
@@ -31,14 +31,14 @@ namespace LibreriaAdmin.WebApi
 
                 return result;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 result.Msg = ex.Message;
                 result.IsSuccess = false;
 
                 return result;
             }
-            
+
 
         }
         [HttpGet]
@@ -61,9 +61,37 @@ namespace LibreriaAdmin.WebApi
             }
 
 
+        }
+        [HttpGet("{CategoryId}")]
+        public BaseModel.BaseResult<ProductViewModels.ProductListResult> GetByCategory(int CategoryId)
+        {
+            var result = new BaseModel.BaseResult<ProductViewModels.ProductListResult>();
+
+            try
+            {
+                result.Body = _productService.GetByCategory(CategoryId);
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Msg = ex.Message;
+                result.IsSuccess = false;
+
+                return result;
+            }
 
 
         }
+
+        [HttpPost]
+        public bool DeleteItem(ProductViewModels.GetByIdRequest request)
+        {
+        //var product = _productService.GetById(request);
+            bool isSuccess = _productService.Remove(request.ProductId);
+            return isSuccess;
+        }
+
     }
 
 }

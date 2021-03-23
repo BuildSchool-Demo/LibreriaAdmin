@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using LibreriaAdmin.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +11,20 @@ namespace LibreriaAdmin.Controllers
 {
     public class ManagerController : Controller
     {
-        public IActionResult LoginIndex()
+        private readonly ILogger _logger;
+        //private readonly IManagerService _manageService;
+
+        public ManagerController( ILogger<ManagerController> logger, IManagerService managerService)
+        {
+            _logger = logger;
+            //_manageService = managerService;
+        }
+        [AllowAnonymous]
+        public IActionResult Login()
+        {
+            return View();
+        }
+        public IActionResult ManagerIndex()
         {
             return View();
         }

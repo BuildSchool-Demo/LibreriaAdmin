@@ -17,7 +17,9 @@
 </div>
 <div class="col-sm-6">
     <ol class="breadcrumb float-sm-right">
-        <li class="breadcrumb-item"><a href="~/Home/Index">Home</a></li>
+        <li class="breadcrumb-item">
+            <a href="~/Home/Index">Home</a>
+        </li>
     </ol>
 </div>
 
@@ -60,10 +62,10 @@
         <a href="#" class="small-box-footer">前往更多 <i class="fas fa-arrow-circle-right"></i></a>
     </div>
 </div>
-<div class="col-lg-3 col-6">
+<div class="col-lg-3 col-6" id="memberNum">
     <div class="small-box bg-warning">
         <div class="inner">
-            <h3>44</h3>
+            <h3>{{memberNum}}</h3>
 
             <p>會員數量</p>
         </div>
@@ -79,7 +81,7 @@
     <!-- AREA CHART -->
     <div class="card card-primary">
         <div class="card-header">
-            <h3 class="card-title">Area Chart</h3>
+            <h3 class="card-title">本季銷售</h3>
 
             <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -118,7 +120,9 @@
                         <td>
                             {{item.productName}}
                         </td>
-                        <td>{{item.unitPrice}}元</td>
+                        <td>
+                            {{item.unitPrice}}元
+                        </td>
                         <td>
                             {{item.totalSales}}本
                         </td>
@@ -134,7 +138,13 @@
 
 <section class="col-lg-5 connectedSortable">
 
+    <div class="card">
+        <div class="card-header border-0">
+            <h3 class="card-title" id="time" style="font-size:24px;">
+            </h3>
+        </div>
 
+    </div>
     <!-- Calendar -->
     <div class="card bg-gradient-success">
         <div class="card-header border-0">
@@ -167,17 +177,7 @@
             <div id="calendar" style="width: 100%"></div>
         </div>
     </div>
-    <div class="card">
-        <div class="card-header border-0">
-            <h3 class="card-title">
-                <i class="fas fa-user"></i>
-                管理員登入紀錄
-            </h3>
-        </div>
-        <div class="card-body pt-0">
 
-        </div>
-    </div>
 
 
 
@@ -214,7 +214,7 @@
                     })
             },
         })
-        var app = new Vue({
+        var app2 = new Vue({
             el: '#todayOrderPrice',
             data: {
                 todayOrderPrice: 999,
@@ -235,20 +235,24 @@
                     })
             },
         })
-        var app2 = new Vue({
+        var app3 = new Vue({
             el: '#todayRent',
             data: {
                 todayRent: 999,
             },
             created: function () {
-                axios.get('/api/Exhibition/GetTodayExhibiton')
+                axios.get('/api/Exhibiton/GetTodayExhibiton')
                     .then((res) => {
-                        console.log(res);
-                        this.todayRent = res.data.body.length;
+                        if (res.data.body.exhibitonList.length == 0) {
+                            this.todayRent = 0;
+                        }
+                        else {
+                            this.todayRent = res.data.body.exhibitonList.length;
+                        }
                     })
             },
         })
-        var app3 = new Vue({
+        var app4 = new Vue({
             el: '#totalsale',
             data: {
                 items: [],
@@ -260,47 +264,115 @@
                     })
             },
         })
+        var app5 = new Vue({
+            el: '#memberNum',
+            data: {
+                memberNum: 999,
+            },
+            created: function () {
+                axios.get('/api/Member/GetAll')
+                    .then((res) => {
+                        this.memberNum = res.data.body.memberList.length;
+                    })
+            },
+        })
     </script>
 
 
     <script>
-        $('#calendar').datetimepicker({
-            format: 'L',
-            inline: true
-        })
 
 
-        $(function () {
+        $(function GetAreaChart() {
             var areaChartCanvas = $('#areaChart').get(0).getContext('2d')
+            var month = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'Septemper', 'October', 'November', 'December']
+            var nowMonth = new Date().getMonth();
+            var labelData = [];
+            var DataList = [];
 
-            var areaChartData = {
-                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-                datasets: [
-                    {
-                        label: 'Digital Goods',
-                        backgroundColor: 'rgba(60,141,188,0.9)',
-                        borderColor: 'rgba(60,141,188,0.8)',
-                        pointRadius: false,
-                        pointColor: '#3b8bba',
-                        pointStrokeColor: 'rgba(60,141,188,1)',
-                        pointHighlightFill: '#fff',
-                        pointHighlightStroke: 'rgba(60,141,188,1)',
-                        data: [28, 48, 40, 19, 86, 27, 90]
-                    },
-                    {
-                        label: 'Electronics',
-                        backgroundColor: 'rgba(210, 214, 222, 1)',
-                        borderColor: 'rgba(210, 214, 222, 1)',
-                        pointRadius: false,
-                        pointColor: 'rgba(210, 214, 222, 1)',
-                        pointStrokeColor: '#c1c7d1',
-                        pointHighlightFill: '#fff',
-                        pointHighlightStroke: 'rgba(220,220,220,1)',
-                        data: [65, 59, 80, 81, 56, 55, 40]
-                    },
-                ]
+            if (nowMonth == 0) {
+                labelData.push(month[10]);
+                labelData.push(month[11]);
+                labelData.push(month[0]);
+                axios.get(`/api/Order/GetMonthOrderPrice/11`).then((res) => {
+                    if (res.data.body.orderList.length == 0) {
+                        var sum = 0;
+                        FstMonth = sum;
+                    }
+                    else {
+                        var sum = 0;
+                        for (var i = 0; i <= res.data.body.orderList.length - 1; i++) {
+                            sum = sum + res.data.body.orderList[`${i}`].orderPrice;
+                        }
+                        FstMonth = sum;
+                    }
+                })
+                axios.get(`/api/Order/GetMonthOrderPrice/12`).then((res) => {
+                    if (res.data.body.orderList.length == 0) {
+                        var sum = 0;
+                        SecMonth = sum;
+                    }
+                    else {
+                        var sum = 0;
+                        for (var i = 0; i <= res.data.body.orderList.length - 1; i++) {
+                            sum = sum + res.data.body.orderList[`${i}`].orderPrice;
+                        }
+                        SecMonth = sum;
+                    }
+                })
+                axios.get(`/api/Order/GetMonthOrderPrice/1`).then((res) => {
+                    if (res.data.body.orderList.length == 0) {
+                        var sum = 0;
+                        TrdMonth = sum;
+                    }
+                    else {
+                        var sum = 0;
+                        for (var i = 0; i <= res.data.body.orderList.length - 1; i++) {
+                            sum = sum + res.data.body.orderList[`${i}`].orderPrice;
+                        }
+                        TrdMonth = sum;
+                    }
+                })
             }
-
+            else {
+                labelData.push(month[nowMonth - 2]);
+                labelData.push(month[nowMonth - 1]);
+                labelData.push(month[nowMonth]);
+                var delay = function (r, s) {
+                    return new Promise(function (resolve, reject) {
+                        setTimeout(function () {
+                            resolve([r, s]);
+                        }, s);
+                    });
+                };
+                delay('a', 0).then(function (v) {
+                    axios.get(`/api/Order/GetMonthOrderPrice/${nowMonth - 1}`).then((res) => {
+                        var sum = 0;
+                        for (var i = 0; i <= res.data.body.orderList.length - 1; i++) {
+                            sum = sum + res.data.body.orderList[`${i}`].orderPrice;
+                        }
+                        DataList.push(sum);
+                    })
+                    return delay('b', 2000);   // 延遲一秒之後，告訴後面的函示顯示 b 1000
+                }).then(function (v) {
+                    axios.get(`/api/Order/GetMonthOrderPrice/${nowMonth}`).then((res) => {
+                        var sum = 0;
+                        for (var i = 0; i <= res.data.body.orderList.length - 1; i++) {
+                            sum = sum + res.data.body.orderList[`${i}`].orderPrice;
+                        }
+                        DataList.push(sum);
+                    })
+                    return delay('c', 3000);   // 延遲兩秒之後，告訴後面的函示顯示 c 2000
+                }).then(function (v) {
+                    axios.get(`/api/Order/GetMonthOrderPrice/${nowMonth + 1}`).then((res) => {
+                        var sum = 0;
+                        for (var i = 0; i <= res.data.body.orderList.length - 1; i++) {
+                            sum = sum + res.data.body.orderList[`${i}`].orderPrice;
+                        }
+                        DataList.push(sum);
+                    })
+                });
+            }
+            console.log(DataList);
             var areaChartOptions = {
                 maintainAspectRatio: false,
                 responsive: true,
@@ -320,13 +392,68 @@
                     }]
                 }
             }
-
             // This will get the first returned node in the jQuery collection.
+            var areaChartData;
+            function setdata() {
+                areaChartData = {
+                    labels: labelData,
+                    datasets: [
+                        {
+                            label: 'Digital Goods',
+                            backgroundColor: 'rgba(60,141,188,0.9)',
+                            borderColor: 'rgba(60,141,188,0.8)',
+                            pointRadius: true,
+                            pointColor: '#000000',
+                            pointStrokeColor: 'rgba(60,141,188,1)',
+                            pointHighlightFill: '#fff',
+                            pointHighlightStroke: 'rgba(60,141,188,1)',
+                            data: DataList
+                        },
+
+                    ]
+                }
+                return areaChartData;
+            }
+
             new Chart(areaChartCanvas, {
                 type: 'line',
                 data: areaChartData,
                 options: areaChartOptions
             })
+            setdata()
+            setTimeout('setdata()', 1000);
+
+
+
+
+            $('#calendar').datetimepicker({
+                format: 'L',
+                inline: true
+            })
         })
+    </script>
+    <script>
+        function setTime() {
+            var myDate = new Date();
+            var year = myDate.getFullYear();
+            var month = myDate.getMonth();
+            var date = myDate.getDate();
+            var hours = myDate.getHours();
+            var minutes = myDate.getMinutes();
+            var seconds = myDate.getSeconds();
+            if (month < 10) {
+                month = '0' + month;
+            }
+            if (date < 10) {
+                date = '0' + date;
+            }
+            var dateTime = year + '年' + month + '月' + +date + '日' + hours + '時' + minutes + '分' + seconds + '秒';
+            document.getElementById("time").innerHTML = dateTime;
+            setTimeout('setTime()', 1000);
+        }
+        window.onload = function () {
+            setTime();
+            setTimeout('setTime()', 1000);
+        }
     </script>
 }

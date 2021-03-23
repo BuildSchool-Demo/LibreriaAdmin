@@ -18,7 +18,7 @@
         <b-container fluid>
             <!-- User Interface controls -->
             <b-row>
-               
+
 
                 <b-col lg="6" class="my-1">
                     <b-form-group label="Filter"
@@ -109,7 +109,7 @@
         </b-container>
     </template>
 
-    
+
 </div>
 <script src="~/js/Axios.js"></script>
 <script>
@@ -124,6 +124,7 @@
                 { key: 'memberName', label: '會員名稱', class: 'text-center' },
                 { key: 'mobileNumber', label: '電話', class: 'text-center' },
                 { key: 'email', label: '信箱', class: 'text-center' },
+                { key: 'ordersum', label: '消費金額', sortable: true},
                 { key: 'actions', label: 'Actions' }
             ],
             totalRows: 1,
@@ -146,9 +147,23 @@
                 .then((res) => {
                     this.items = res.data.body.memberList;
                     this.mounted();
-                    //this.isBusy = false;
+                    axios.get(`/Api/Member/GetByMemberId/${res.data.body.memberList.memberId}`)
+                        .then((res2) => {
+                            if (res2.data.body.memberList.length == 0) {
+                                this.items.ordersum = 0;
+                            }
+                            else
+                            {
+                                var sum = 0;
+                                for (var i = 0; i <= res2.data.body.memberList.length - 1; i++) {
+                                    sum = sum + res2.data.body.memberList[`${i}`].orderPrice;
+                                }
+                                this.items.ordersum = sum;
+                            }
+                        });
                 });
-        },  
+
+        },
         computed: {
             sortOptions() {
                 // Create an options list from our fields
@@ -184,4 +199,5 @@
             }
         },
     })
+
 </script>

@@ -1,14 +1,453 @@
 ﻿@section topCSS{
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Poppins", sans-serif;
+        }
+
+
+        .tabs {
+            display: flex;
+            position: relative;
+        }
+
+            .tabs .line {
+                position: absolute;
+                left: 0;
+                bottom: 0;
+                width: 0;
+                height: 6px;
+                border-radius: 15px;
+                background-color: #c23564;
+                transition: all 0.2s ease;
+            }
+
+        .tab-item {
+            min-width: 80px;
+            padding: 16px 20px 11px 20px;
+            font-size: 20px;
+            text-align: center;
+            color: #c23564;
+            background-color: #fff;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+            border-bottom: 5px solid transparent;
+            opacity: 0.6;
+            cursor: pointer;
+            transition: all 0.5s ease;
+        }
+
+        .tab-icon {
+            font-size: 24px;
+            width: 32px;
+            position: relative;
+            top: 2px;
+        }
+
+        .tab-item:hover {
+            opacity: 1;
+            background-color: rgba(194, 53, 100, 0.05);
+            border-color: rgba(194, 53, 100, 0.1);
+        }
+
+        .tab-item.active {
+            opacity: 1;
+        }
+
+        .tab-content {
+            padding: 28px 0;
+        }
+
+        .tab-pane {
+            color: #333;
+            display: none;
+        }
+
+            .tab-pane.active {
+                display: block;
+            }
+
+            .tab-pane h2 {
+                font-size: 24px;
+                margin-bottom: 8px;
+            }
+        .btnArea {
+            justify-content:flex-end;
+         display:flex;
+            align-items:center;
+        }
+        .check{
+            margin:auto 10px;
+        }
+    </style>
+    <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap/dist/css/bootstrap.min.css" />
+    <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.css" />
+    <script src="//polyfill.io/v3/polyfill.min.js?features=es2015%2CIntersectionObserver"
+            crossorigin="anonymous"></script>
+    <script src="//unpkg.com/vue@latest/dist/vue.min.js"></script>
+    <script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js"></script>
+    <script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue-icons.min.js"></script>
 }
 
 
-<section class="col-2">
-</section>
+<div id="Category" class="col-12">
+    <div class="row">
+        <!-- Tab items -->
+        <div class="tabs col-8">
+            <div class="tab-item active">
 
-<section class="col-10">
-    
-</section>
+                人文社科
+            </div>
+            <div class="tab-item">
+
+                旅遊
+            </div>
+            <div class="tab-item">
+
+                童書
+            </div>
+            <div class="tab-item">
+
+                電腦
+            </div>
+            <div class="tab-item">
+
+                自然科普
+            </div>
+            <div class="tab-item">
+
+                文學小說
+            </div>
+            <div class="tab-item">
+
+                商業
+            </div>
+            <div class="line"></div>
+        </div>
+        <div class="col-4 btnArea">
+            <button class="btn btn-dark check">確認送出</button>
+            <button class="btn btn-dark check">取消</button>
+        </div>
+        <!-- Tab content -->
+        <div class="tab-content col-12">
+            <div class="tab-pane active" id="category-1">
+                <table aria-busy="false" aria-colcount="5" aria-multiselectable="true"
+                       class="table b-table b-table-selectable b-table-select-multi" id="__BVID__5">
+                    <thead>
+                        <tr>
+                            <th>特價狀況</th>
+                            <th>ID</th>
+                            <th>書名</th>
+                            <th>價錢</th>
+                            <th>銷量</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="item in items" v-on:click="ChangeSpecial">
+                            <td id="isSpecial" v-if="item.isSpecial">
+                                <i class="fas fa-check"></i>
+                            </td>
+                            <td v-else></td>
+                            <td>
+                                {{item.productId}}
+                            </td>
+                            <td>
+                                {{item.productName}}
+                            </td>
+                            <td>
+                                {{item.unitPrice}}
+                            </td>
+                            <td>
+                                {{item.totalSales}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-pane" id="category-2">
+                <table aria-busy="false" aria-colcount="5" aria-multiselectable="true"
+                       class="table b-table b-table-selectable b-table-select-multi" id="__BVID__5">
+                    <thead>
+                        <tr>
+                            <th>特價狀況</th>
+                            <th>ID</th>
+                            <th>書名</th>
+                            <th>價錢</th>
+                            <th>銷量</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="item in items">
+                            <td id="isSpecial" v-if="item.isSpecial">
+                                <i class="fas fa-check"></i>
+                            </td>
+                            <td v-else></td>
+                            <td>
+                                {{item.productId}}
+                            </td>
+                            <td>
+                                {{item.productName}}
+                            </td>
+                            <td>
+                                {{item.unitPrice}}
+                            </td>
+                            <td>
+                                {{item.totalSales}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-pane" id="category-3">
+                <table aria-busy="false" aria-colcount="5" aria-multiselectable="true"
+                       class="table b-table b-table-selectable b-table-select-multi" id="__BVID__5">
+                    <thead>
+                        <tr>
+                            <th>特價狀況</th>
+                            <th>ID</th>
+                            <th>書名</th>
+                            <th>價錢</th>
+                            <th>銷量</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="item in items">
+                            <td id="isSpecial" v-if="item.isSpecial">
+                                <i class="fas fa-check"></i>
+                            </td>
+                            <td v-else></td>
+                            <td>
+                                {{item.productId}}
+                            </td>
+                            <td>
+                                {{item.productName}}
+                            </td>
+                            <td>
+                                {{item.unitPrice}}
+                            </td>
+                            <td>
+                                {{item.totalSales}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-pane" id="category-4">
+                <table aria-busy="false" aria-colcount="5" aria-multiselectable="true"
+                       class="table b-table b-table-selectable b-table-select-multi" id="__BVID__5">
+                    <thead>
+                        <tr>
+                            <th>特價狀況</th>
+                            <th>ID</th>
+                            <th>書名</th>
+                            <th>價錢</th>
+                            <th>銷量</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="item in items">
+                            <td id="isSpecial" v-if="item.isSpecial">
+                                <i class="fas fa-check"></i>
+                            </td>
+                            <td v-else></td>
+                            <td>
+                                {{item.productId}}
+                            </td>
+                            <td>
+                                {{item.productName}}
+                            </td>
+                            <td>
+                                {{item.unitPrice}}
+                            </td>
+                            <td>
+                                {{item.totalSales}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-pane" id="category-5">
+                <table aria-busy="false" aria-colcount="5" aria-multiselectable="true"
+                       class="table b-table b-table-selectable b-table-select-multi" id="__BVID__5">
+                    <thead>
+                        <tr>
+                            <th>特價狀況</th>
+                            <th>ID</th>
+                            <th>書名</th>
+                            <th>價錢</th>
+                            <th>銷量</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="item in items">
+                            <td id="isSpecial" v-if="item.isSpecial">
+                                <i class="fas fa-check"></i>
+                            </td>
+                            <td v-else></td>
+                            <td>
+                                {{item.productId}}
+                            </td>
+                            <td>
+                                {{item.productName}}
+                            </td>
+                            <td>
+                                {{item.unitPrice}}
+                            </td>
+                            <td>
+                                {{item.totalSales}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-pane" id="category-6">
+                <table aria-busy="false" aria-colcount="5" aria-multiselectable="true"
+                       class="table b-table b-table-selectable b-table-select-multi" id="__BVID__5">
+                    <thead>
+                        <tr>
+                            <th>特價狀況</th>
+                            <th>ID</th>
+                            <th>書名</th>
+                            <th>價錢</th>
+                            <th>銷量</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="item in items">
+                            <td id="isSpecial" v-if="item.isSpecial">
+                                <i class="fas fa-check"></i>
+                            </td>
+                            <td v-else></td>
+                            <td>
+                                {{item.productId}}
+                            </td>
+                            <td>
+                                {{item.productName}}
+                            </td>
+                            <td>
+                                {{item.unitPrice}}
+                            </td>
+                            <td>
+                                {{item.totalSales}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-pane" id="category-7">
+                <table aria-busy="false" aria-colcount="5" aria-multiselectable="true"
+                       class="table b-table b-table-selectable b-table-select-multi" id="__BVID__5">
+                    <thead>
+                        <tr>
+                            <th>特價狀況</th>
+                            <th>ID</th>
+                            <th>書名</th>
+                            <th>價錢</th>
+                            <th>銷量</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="item in items">
+                            <td id="isSpecial" v-if="item.isSpecial">
+                                <i class="fas fa-check"></i>
+                            </td>
+                            <td v-else></td>
+                            <td>
+                                {{item.productId}}
+                            </td>
+                            <td>
+                                {{item.productName}}
+                            </td>
+                            <td>
+                                {{item.unitPrice}}
+                            </td>
+                            <td>
+                                {{item.totalSales}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
 @section endJS{
+    <!--axios-->
+    <script src="~/js/Axios.js"></script>
+    <script>
+        var isSpecial = document.getElementById('isSpecial');
+
+
+
+        for (var i = 1; i <= 7; i++) {
+            var app = new Vue({
+                el: `#category-${i}`,
+                data: {
+                    items: [],
+                },
+                created: function () {
+                    axios.get(`/api/Product/GetByCategory/${i}`)
+                        .then((res) => {
+                            this.items = res.data.body.productList;
+                    console.log(this.items);
+                        })
+                },
+                methods: {
+                    ChangeSpecial: function (event) {
+                        this.$data.items.isSpecial = !this.$data.items.isSpecial;
+                    }
+                },
+
+            })
+        }
+
+
+
+    </script>
+    <script>
+        const $ = document.querySelector.bind(document);
+        const $$ = document.querySelectorAll.bind(document);
+
+        const tabs = $$(".tab-item");
+        const panes = $$(".tab-pane");
+
+        const tabActive = $(".tab-item.active");
+        const line = $(".tabs .line");
+
+        line.style.left = tabActive.offsetLeft + "px";
+        line.style.width = tabActive.offsetWidth + "px";
+
+        tabs.forEach((tab, index) => {
+            const pane = panes[index];
+
+            tab.onclick = function () {
+                $(".tab-item.active").classList.remove("active");
+                $(".tab-pane.active").classList.remove("active");
+
+                line.style.left = this.offsetLeft + "px";
+                line.style.width = this.offsetWidth + "px";
+
+                this.classList.add("active");
+                pane.classList.add("active");
+            };
+        });
+
+    </script>
+
+
 
 
 

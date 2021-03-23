@@ -7,7 +7,6 @@
                 recipient: '',
                 subject: '',
                 body: '',
-
             },
             show: true,
         }

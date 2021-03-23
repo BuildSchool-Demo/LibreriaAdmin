@@ -9,5 +9,6 @@ namespace LibreriaAdmin.Interfaces
     public interface IMemberService
     {
         MemberViewModel.MemberListResult GetAll();
+        OrderViewModel.OrderListResult GetByMemberId(int id);
     }
 }

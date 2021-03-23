@@ -10,9 +10,9 @@
         <div class="card-body">
             <p class="login-box-msg">Sign in to start your session</p>
 
-            <form action="../../index3.html" method="post">
+            <form>
                 <div class="input-group mb-3">
-                    <input type="email" class="form-control" placeholder="Email">
+                    <input type="text" class="form-control" placeholder="帳號" id="username">
                     <div class="input-group-append">
                         <div class="input-group-text">
                             <span class="fas fa-envelope"></span>
@@ -20,9 +20,9 @@
                     </div>
                 </div>
                 <div class="input-group mb-3">
-                    <input type="password" class="form-control" placeholder="Password">
+                    <input type="password" class="form-control" placeholder="密碼" id="password">
                     <div class="input-group-append">
-                        <div class="input-group-text">
+                        <div class="input-group-text"> 
                             <span class="fas fa-lock"></span>
                         </div>
                     </div>
@@ -38,7 +38,7 @@
                     </div>
                     <!-- /.col -->
                     <div class="col-4">
-                        <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+                        <button type="submit" class="btn btn-primary btn-block" on-click="ajax()">Sign In</button>
                     </div>
                     <!-- /.col -->
                 </div>
@@ -58,3 +58,5 @@
     </div>
     <!-- /.card -->
 </div>
+
+<script src="~/js/Manager/Login.js"></script>
