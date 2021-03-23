@@ -85,9 +85,9 @@
                 </template>
 
                 <template #cell(actions)="row">
-                    <button v-on:click="row.item.memberUserName" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                        Edit
-                    </button>
+                    <b-button size="sm" v-on:click="info(row.item, row.index, $event.target)" class="mr-1">
+                        編輯
+                    </b-button>
                     <b-button size="sm" v-on:click="row.toggleDetails">
                         {{ row.detailsShowing ? 'Hide' : 'Show' }} Details
                     </b-button>
@@ -100,37 +100,58 @@
                         </ul>
                     </b-card>
                 </template>
+                <template #table-busy>
+                    <div class="text-center text-danger my-2">
+                        <b-spinner class="align-middle"></b-spinner>
+                        <strong>Loading...</strong>
+                    </div>
+                </template>
             </b-table>
 
             <!-- Info modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">會員資料修改</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <label>會員名稱</label>
-                                    <input type="text" id="field_name" class="form-control"  />
-                                    <label>行動電話</label>
-                                    <input type="text" id="field_mobile" class="form-control"  />
-                                    <label>信箱</label>
-                                    <input type="text" id="field_address" class="form-control"  />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-                            <button type="button" class="btn btn-primary">確定</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <b-modal :id="infoModal.id" :title="infoModal.title" @@ok="()=>{submitEdit()}" v-on:hide="resetInfoModal">
+                <form>
+                    <label>會員編號：</label>
+                    <input v-model="infoModal.orderId" disabled="disabled" />
+                    <br />
+
+                    <label>會員名稱：</label>
+                    <input v-model="infoModal.memberUserName" />
+                    <br />
+
+                    <label>身分證字號：</label>
+                    <input v-model="infoModal.IDnumber" />
+                    <br />
+
+                    <label>帳號：</label>
+                    <input v-model="infoModal.memberName" />
+                    <br />
+
+                    <label>電話：</label>
+                    <input v-model="infoModal.homeNumber" />
+                    <br />
+
+                    <label>手機號碼：</label>
+                    <input v-model="infoModal.mobileNumber" />
+                    <br />
+
+                    <label>縣市：</label>
+                    <input v-model="infoModal.city" />
+                    <br />
+
+                    <label>地區：</label>
+                    <input v-model="infoModal.region" />
+                    <br />
+
+                    <label>住址：</label>
+                    <input v-model="infoModal.address" />
+                    <br />
+
+                    <label>email：</label>
+                    <input v-model="infoModal.email" />
+                    <br />
+                </form>
+            </b-modal>
         </b-container>
     </template>
 
@@ -147,10 +168,14 @@
             fields: [
                 { key: 'memberId', label: '編號', sortable: true, sortDirection: 'desc' },
                 { key: 'memberUserName', label: '會員名稱', class: 'text-center' },
+                { key: 'idnumber', label: '身分證字號', class: 'text-center' },
+                { key: 'memberName', label: '帳號', class: 'text-center' },
                 { key: 'mobileNumber', label: '電話', class: 'text-center' },
+                { key: 'mobileNumber', label: '手機號碼', class: 'text-center' },
+                { key: 'completeAddress', label: '住址', class: 'text-center' },
                 { key: 'email', label: '信箱', class: 'text-center mg-right:50px' },
                 { key: 'ordersum', label: '消費金額', sortable: true, class: 'text-right'},
-                { key: 'actions', label: 'Actions', class: 'text-center' }
+                { key: 'actions', label: '功能', class: 'text-center' }
             ],
             totalRows: 1,
             currentPage: 1,
@@ -164,12 +189,23 @@
             infoModal: {
                 id: 'info-modal',
                 title: '',
-                content: ''
+                memberUserName: '會員名稱',
+                IDnumber: '身分證字號',
+                memberName: '帳號',
+                homeNumber: '電話',
+                mobileNumber: '手機號碼',
+                city: '縣市',
+                region: '地區',
+                address: '住址',
+                email: 'email',
+
+
             }
         },
         created: function () {
             axios.get("/Api/Member/GetAll")
                 .then((res) => {
+                    console.log(res);
                     this.items = res.data.body.memberList;
                     this.mounted();
                 });
@@ -190,9 +226,25 @@
             this.totalRows = this.items.length
         },
         methods: {
+            info(item, index, button) {
+                this.infoModal.title = `編輯資料：${item.memberId}`;
+                this.infoModal.index = index;
+                this.infoModal.content = JSON.stringify(item, null, 2);
+                this.infoModal.orderId = item.memberId;
+                this.infoModal.memberUserName = item.memberUserName;
+                this.infoModal.IDnumber = item.idnumber;
+                this.infoModal.memberName = item.memberName;
+                this.infoModal.homeNumber = item.homeNumber;
+                this.infoModal.mobileNumber = item.mobileNumber;
+                this.infoModal.city = item.city;
+                this.infoModal.region = item.region;
+                this.infoModal.address = item.address;
+                this.infoModal.email = item.email;
+                this.$root.$emit('bv::show::modal', this.infoModal.id, button);
+            },
             resetInfoModal() {
-                this.infoModal.title = ''
-                this.infoModal.content = ''
+                //this.infoModal.title = ''
+                //this.infoModal.content = ''
             },
             onFiltered(filteredItems) {
                 // Trigger pagination to update the number of buttons/pages due to filtering
@@ -202,7 +254,29 @@
             mounted() {
                 // Set the initial number of items
                 this.totalRows = this.items.length
-            }
+            },
+            submitEdit() {
+                item = this.items[this.infoModal.index];
+                item.memberId = this.infoModal.orderId;
+                item.orderDateDisplay = this.infoModal.orderDateDisplay;
+                item.memberUserName = this.infoModal.memberUserName;
+                item.shipName = this.infoModal.shipName;
+                item.shipCity = this.infoModal.shipCity;
+                item.shipRegion = this.infoModal.shipRegion;
+                item.shipAddress = this.infoModal.shipAddress;
+                item.shipPostalCode = this.infoModal.shipPostalCode;
+                item.invoiceTypeDisplay = this.infoModal.invoiceTypeDisplay;
+                item.updateTime = this.infoModal.updateTime;
+                item.paymentTypeDisplay = this.infoModal.paymentTypeDisplay;
+                item.paymentState = this.infoModal.paymentState;
+                item.orderDetailList = JSON.parse(JSON.stringify(this.infoModal.orderDetailList));
+                item.orderPrice = this.UpdateOrderPrice();
+
+                axios.post('/api/Order/Edit', item)
+                    .then((res) => {
+                        console.log(res);
+                    })
+            },
         },
     })
 

@@ -48,6 +48,8 @@ namespace LibreriaAdmin.Services
                                          homeNumber = member.HomeNumber,
                                          address = member.Address,
                                          email = member.Email,
+                                         city = member.City,
+                                         region = member.Region,
                                          memberName = member.MemberName,
                                          memberPassword = member.MemberPassword,
                                          birthday = member.Birthday,
