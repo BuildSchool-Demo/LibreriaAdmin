@@ -22,7 +22,7 @@ $("#submitLogin").click(function () {
 
             $("#token").html("JWT Token: " + response.token);
 
-        //    window.location = '/Home/Index';
+            window.location = '/Home/Index';
         }
     });
 });
