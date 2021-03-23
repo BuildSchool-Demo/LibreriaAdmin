@@ -135,7 +135,7 @@
             <div class="line"></div>
         </div>
         <div class="col-4 btnArea">
-            <button class="btn btn-dark check">確認送出</button>
+            <button class="btn btn-dark check" id="Post" @@click:"">確認送出</button>
             <button class="btn btn-dark check">取消</button>
         </div>
         <!-- Tab content -->
@@ -371,10 +371,12 @@
                     <tbody>
                         <tr v-bind:id=`tr${item.productId}` v-for="item in items" v-on:click='ChangeSpecial(item.productId)'>
                             <td v-if="item.isSpecial">
-                                1
+                                <input v-bind:id=`td${item.productId}` type="checkbox" name="lang-1" value="javascript" checked>
+
                             </td>
                             <td v-else>
-                                2
+                                <input v-bind:id=`td${item.productId}` type="checkbox" name="lang-1" value="javascript" >
+
                             </td>
                             <td>
                                 {{item.productId}}
@@ -430,8 +432,10 @@
                         console.log(event);
                         this.orData.forEach(x => {
                             if (x.productId == event) {
+                                document.getElementById(`td${event}`).checked = !document.getElementById(`td${event}`).checked;
                                 console.log(x.isSpecial);
-                                x.isSpecial = true;
+                                x.isSpecial = !x.isSpecial;
+
                             }
                         })
                     }
@@ -439,6 +443,8 @@
 
             })
         }
+
+
 
 
 

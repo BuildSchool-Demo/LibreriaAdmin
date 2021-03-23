@@ -47,6 +47,8 @@ namespace LibreriaAdmin.Models
         public int? TotalSales { get; set; }
         [Column("isSpecial")]
         public bool IsSpecial { get; set; }
+        [Column(TypeName = "money")]
+        public decimal SpecialPrice { get; set; }
 
         [ForeignKey(nameof(CategoryId))]
         [InverseProperty("Products")]
