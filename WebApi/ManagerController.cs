@@ -68,7 +68,7 @@ namespace LibreriaAdmin.WebApi
 
         //Login
         [HttpPost]
-        public IActionResult Login([FromForm] LoginViewModel loginVM)
+        public IActionResult Login([FromBody] LoginViewModel loginVM)
         {
             _logger.LogWarning(2001, DateTime.Now.ToLongTimeString() + " Token控制器POST方法被呼叫");
 
@@ -76,10 +76,11 @@ namespace LibreriaAdmin.WebApi
 
             var user = GetManagerAuthentication(loginVM);
 
-            if (user != null)
+            if (user.IsSuccess == true)
             {
                 var tokenString = GenerateJsonWebToken(loginVM);
                 response = Ok(new { token = tokenString });
+                Response.Cookies.Append("R", user.Msg);
             }
             return response;
 

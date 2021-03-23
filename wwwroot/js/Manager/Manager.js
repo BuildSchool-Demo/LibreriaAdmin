@@ -1,13 +1,13 @@
 ﻿var managerAPP = new Vue({
     el: '#manager-index',
-    data(){
+    data() {
         return {
             items: [],
             fields: [
                 { key: 'managerID', label: 'ID', sortable: true, sortDirection: 'desc' },
-                { key: 'managerName', label: '姓名', sortable: true, sortDirection: 'desc' },
+                { key: 'managerUserName', label: '姓名', sortable: true, sortDirection: 'desc' },
                 { key: 'managerRoleID', label: '管理者層級', sortable: true, sortDirection: 'desc' },
-                { key: 'actions', label: '執行' },             
+                { key: 'actions', label: '執行' },
 
             ],
             totalRows: 1,
@@ -20,7 +20,7 @@
             filter: null,
             filterOn: []
         }
-        
+
     },
     created: function () {
         axios.get("/api/Manager/GetAllManagers")
@@ -53,10 +53,44 @@
             this.totalRows = filteredItems.length
             this.currentPage = 1
         },
+        createItem: function (item) {
+            let backendApi = "https://localhost:5001/api/Manager/CreateManager";
+            //axios.get("/api/Manager/CreateManager")
+            //    .then((res) => {
+            //        this.ManagerUserName = res.data.body.managerList.ManagerUserName;
+            //        this.ManagerPassword = res.data.body.managerList.ManagerPassword;
+            //        this.ManagerName = res.data.body.managerList.ManagerName;
+            //        this.managerRoleID = res.data.body.managerList.managerRoleID;
+            //    });
+
+            $.ajax({
+                url: backendApi,
+                method: "POST",
+                dataType: "json",
+                contentType: "application/json;charset=UTF-8",
+                data: JSON.stringify(product),
+                success: function (data, textStatus, jqXHR) {
+                    item.ManagerUserName = data.ManagerUserName;
+                    item.ManagerName = data.ManagerName;
+                    item.ManagerPassword = data.ManagerPassword;
+                    item.managerRoleID = data.managerRoleID;
+
+                    result.innerText = `Status : ${textStatus}資料新增成功, location : ${jqXHR.getResponseHeader('location')}`;
+
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    result.innerText = textStatus + "," + jqXHR.state;
+
+                }
+
+            });
+
+
+        },
         removeItem: function (item) {
-            let backendApi = "https://localhost:5001/api/Product/DeleteItem";
+            let backendApi = "https://localhost:5001/api/Manager/DeleteMember";
             let result = document.getElementById("result");
-            
+
             console.log(item);
             //axios.delete("/api/Product/DeleteItem")
             //    .then((res) => {
@@ -64,13 +98,13 @@
             //  })
             if ((item != null || item != '') && item > 0) {
                 document.getElementById("apiUrl").innerText = "BackendAPI URL : " + backendApi;
-                let request = {ProductId: item}
+                let request = { ProductId: item }
                 $.ajax({
                     url: backendApi,
                     method: "POST",
                     dataType: "json",   //如果有JSON回傳資料, 則加上此行, 若無請勿加, 會引起parse error
                     data: JSON.stringify(request),
-                    contentType: "application/json;charset=UTF-8",   
+                    contentType: "application/json;charset=UTF-8",
                     success: function (data, textStatus, jqXHR) {
                         console.log(data);
                         console.log(textStatus);
@@ -86,7 +120,6 @@
                 })
 
             }
-
-        }        
+        }
     }
-});
+    });

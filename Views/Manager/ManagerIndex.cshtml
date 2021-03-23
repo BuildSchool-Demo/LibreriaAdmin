@@ -162,7 +162,7 @@
                                         <label for="managerRoleID">ManagerRoleID</label>
                                         <input type="text" class="form-control" id="managerRoleID" name="managerRoleID">
                                     </div>
-                                    <button id="btnCreate" class="btn btn-warning">Create</button>
+                                    <button id="btnCreate" class="btn btn-warning" v:on-clock="createItem(row.item)">Create</button>
                                 </form>
                             </div>
                         </div>
@@ -226,4 +226,4 @@
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
 <script src="~/js/Manager/Manager.js"></script>
-<script src="~/js/Manager/ManagerData.js"></script>
+@*<script src="~/js/Manager/ManagerData.js"></script>*@

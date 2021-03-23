@@ -2,6 +2,8 @@ using LibreriaAdmin.Interfaces;
 using LibreriaAdmin.Models;
 using LibreriaAdmin.Repository;
 using LibreriaAdmin.Services;
+using LibreriaAdmin.ViewModels;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -18,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -63,6 +66,10 @@ namespace LibreriaAdmin
 
             //repository signup
             services.AddTransient<IRepository, LibreriaRepository>();
+
+            //注入權限處理器
+            //services.AddTransient<IAuthorizationHandler, PermissionHandler>();
+
             services.AddSwaggerDocument(config =>
             {
                 var apiSchema = new OpenApiSecurityScheme()
@@ -75,6 +82,17 @@ namespace LibreriaAdmin
                 config.AddSecurity("JWT Token", Enumerable.Empty<string>(), apiSchema);
                 config.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("JWT Token"));
             });
+
+            ////權限要求參數
+            //var permissionRequirement = new PermissionRequirement(
+            //    "/Manager/Login",// 拒絕授權的跳轉地址
+            //    ClaimTypes.Name,//基於用戶名的授權
+            //    expiration: TimeSpan.FromSeconds(60 * 5)//接口的過期時間
+            //    );
+            //services.AddAuthorization(options =>
+            //{
+            //    options.AddPolicy("AllManagers", policy => policy.AddRequirements(permissionRequirement));
+            //})
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         .AddJwtBearer(options =>
             options.TokenValidationParameters = new TokenValidationParameters
@@ -87,6 +105,8 @@ namespace LibreriaAdmin
                 ValidAudience = Configuration["Jwt:Issuer"],
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
             });
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie();
             services.AddTransient<IExhibitonService, ExhibitonService>();
         }
 
@@ -120,7 +140,7 @@ namespace LibreriaAdmin
             //    }
             //});
 
-            app.UseAuthentication();
+
             app.UseSwaggerUi3();
 
             app.UseRouting();

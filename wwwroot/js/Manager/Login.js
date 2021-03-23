@@ -1,11 +1,12 @@
 ﻿let jwtAuthUrl = "https://localhost:5001/api/Manager/Login";
 
-function ajax() {
-    $.ajax({
+function axios() {
+    $.axios({
         url: jwtAuthUrl,
         method: "POST",
         dataType: "json",
-        data: loginVM,
+        data: JSON.stringify(request),
+        contentType: "application/json;charset=UTF-8",  
         success: function (response) {
             localStorage.setItem("jwtToken", response.token);
 

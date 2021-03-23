@@ -1,6 +1,6 @@
 ﻿
 //用Form之外的Button Click事件觸發執行Create和Delete
-let backendApi = "https://localhost:5001/api/Manager";
+
 
 window.onload = function () {
 

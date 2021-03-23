@@ -12,13 +12,12 @@ namespace LibreriaAdmin.Controllers
     public class ManagerController : Controller
     {
         private readonly ILogger _logger;
-        //private readonly IManagerService _manageService;
 
-        public ManagerController( ILogger<ManagerController> logger, IManagerService managerService)
+        public ManagerController( ILogger<ManagerController> logger)
         {
             _logger = logger;
-            //_manageService = managerService;
         }
+
         [AllowAnonymous]
         public IActionResult Login()
         {
