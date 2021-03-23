@@ -83,7 +83,6 @@ namespace LibreriaAdmin.WebApi
                 Response.Cookies.Append("R", user.Msg);
             }
             return response;
-
         }
 
         private BaseModel.BaseResult<ManagerViewModel.ManagerSingleResult> GetManagerAuthentication(LoginViewModel loginVM)

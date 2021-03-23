@@ -75,7 +75,7 @@ namespace LibreriaAdmin
             });
 
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            services.AddAuthentication()
         .AddJwtBearer(options =>
             options.TokenValidationParameters = new TokenValidationParameters
             {
@@ -86,9 +86,29 @@ namespace LibreriaAdmin
                 ValidIssuer = Configuration["Jwt:Issuer"],
                 ValidAudience = Configuration["Jwt:Issuer"],
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
-            });
-    //        services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    //.AddCookie();
+            })
+             .AddCookie(options =>
+             {
+                 options.LoginPath = "/Account/Unauthorized/";
+                 options.AccessDeniedPath = "/Account/Forbidden/";
+             });
+
+
+
+        //    services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        //.AddJwtBearer(options =>
+        //    options.TokenValidationParameters = new TokenValidationParameters
+        //    {
+        //        ValidateIssuer = true,
+        //        ValidateAudience = true,
+        //        ValidateLifetime = true,
+        //        ValidateIssuerSigningKey = true,
+        //        ValidIssuer = Configuration["Jwt:Issuer"],
+        //        ValidAudience = Configuration["Jwt:Issuer"],
+        //        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
+        //    });
+        //        services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+        //.AddCookie();
             services.AddTransient<IExhibitonService, ExhibitonService>();
 
             services.AddRazorPages().AddRazorRuntimeCompilation();
@@ -113,23 +133,24 @@ namespace LibreriaAdmin
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
-            app.UseStatusCodePages(async context =>
-            {
-                var request = context.HttpContext.Request;
-                var response = context.HttpContext.Response;
-
-                if (response.StatusCode == (int)HttpStatusCode.Unauthorized)
-                {
-                    response.Redirect("/Manager/login");
-                }
-            });
-
-
             app.UseSwaggerUi3();
 
             app.UseRouting();
 
             app.UseAuthentication();
+
+
+            //app.UseStatusCodePages(async context =>
+            //{
+            //    var request = context.HttpContext.Request;
+            //    var response = context.HttpContext.Response;
+
+            //    if (response.StatusCode == (int)HttpStatusCode.Unauthorized)
+            //    {
+            //        response.Redirect("/Manager/login");
+            //    }
+            //});
+
 
             app.UseAuthorization();
 

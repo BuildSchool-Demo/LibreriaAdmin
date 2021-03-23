@@ -19,10 +19,15 @@ $("#submitLogin").click(function () {
         success: function (response) {
 
             localStorage.setItem("jwtToken", response.token);
+            Cookies.set("jwtToken", response.token);
 
             $("#token").html("JWT Token: " + response.token);
-
-            window.location = '/Home/Index';
+            AfterLogin();
+            
         }
     });
+
+    function AfterLogin() {
+        window.location.href = '/Home/Index';
+    }
 });

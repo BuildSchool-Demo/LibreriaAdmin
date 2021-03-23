@@ -8,10 +8,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using LibreriaAdmin.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace LibreriaAdmin.Controllers
 {
-    [Authorize]
+    [Authorize(AuthenticationSchemes =
+        JwtBearerDefaults.AuthenticationScheme)]
     public class HomeController :Controller
     {
         private readonly ILogger<HomeController> _logger;
