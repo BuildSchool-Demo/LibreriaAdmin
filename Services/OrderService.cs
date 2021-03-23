@@ -167,7 +167,7 @@ namespace LibreriaAdmin.Services
                 OrderDetail orderDetail = _dbRepository.GetAll<OrderDetail>().FirstOrDefault(orderDetail => 
                     orderDetail.OrderDetailId == orderDetailVM.OrderDetailId);
                 orderDetail.Quantity = orderDetailVM.Quantity;
-                orderDetail.Special = orderDetailVM.SpecialPrice;
+                orderDetail.SpecialPrice = orderDetailVM.SpecialPrice;
                 _dbRepository.Update(orderDetail);
             }
 
