@@ -6,10 +6,10 @@
             items: [],
             fields: [
                 { key: 'productId', label: '編號', sortable: true, sortDirection: 'desc' },
-                { key: 'productName', label: '書名', sortable: true, sortDirection: 'desc' },
+                { key: 'productName', label: '書名',  sortDirection: 'desc' },
                 { key: 'inventory', label: '庫存', sortable: true, sortDirection: 'desc' },
                 { key: 'totalSales', label: '銷量', sortable: true, sortDirection: 'desc' },
-                { key: 'isSpecial', label: '折扣', sortable: true, sortDirection: 'desc' },
+                { key: 'isSpecial', label: '折扣',  sortDirection: 'desc' },
                 { key: 'unitPrice', label: '價格', sortable: true, sortDirection: 'desc' },
                 { key: 'actions', label: '執行' },
             ],
@@ -54,6 +54,8 @@
             .then((res) => {
                 
                 this.items = res.data.body.productList;
+                //mounted();
+                //onFiltered(filteredItems)
                 console.log(res);
             });
     },
@@ -84,8 +86,8 @@
         info(item, index, button) {
             this.infoModal.index = index;
             this.infoModal.title = `編輯資料: ${item.productName}`
-        /*this.infoModal.categoryId = item.categoryId*/
-            this.infoModal.supplier = item.supplierId
+            this.infoModal.categoryId = item.categoryId
+            this.infoModal.supplier = item.supplier
             this.infoModal.productId = item.productId
             this.infoModal.productName = item.productName
             this.infoModal.unitPrice = item.unitPrice
@@ -129,7 +131,7 @@
             item.inventory = this.infoModal.inventory;
             item.totalSales = this.infoModal.totalSales;
             item.isSpecial = this.infoModal.isSpecial;
-            axios.post('api/Product/Edit', item).
+            axios.post('https://localhost:5001/api/Product/Edit', item).
                 then((res) => {
                     console.log(res);
                 })

@@ -30,10 +30,12 @@ namespace LibreriaAdmin.Services
                                   on p.CategoryId equals c.CategoryId
                                   join s in _dbRepository.GetAll<Supplier>()
                                   on p.SupplierId equals s.SupplierId
+                                  
                                   select new ProductViewModels.ProductSingleResult()
                                   {
                                       ProductId = p.ProductId,
                                       ProductName = p.ProductName,
+                                      CategoryId=p.CategoryId,
                                       UnitPrice = p.UnitPrice,
                                       Author = p.Author,
                                       Supplier = s.Name,
@@ -169,13 +171,19 @@ namespace LibreriaAdmin.Services
             return false;
         }
 
+        public bool Edit(ProductViewModels.ProductSingleResult productVM)
+        {
+            Product product = _dbRepository.GetAll<Product>().FirstOrDefault(product => product.ProductId == productVM.ProductId);
+            product.ProductName = productVM.ProductName;
+            product.UnitPrice = productVM.UnitPrice;
+            product.Inventory = productVM.Inventory;
+            product.TotalSales = productVM.TotalSales;
+            product.IsSpecial = productVM.IsSpecial;
+            _dbRepository.Update(product);
+            return true;
+        }
 
-        //public bool CreateNewItem(ProductViewModels.ProductBaseModel productItem)
-        //{
-        //    _dbRepository.Create(productItem);
-        //    return true;
-
-        //}
+      
 
     }
 }

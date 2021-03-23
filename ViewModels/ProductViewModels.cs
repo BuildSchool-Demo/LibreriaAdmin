@@ -29,6 +29,8 @@ namespace LibreriaAdmin.ViewModels
             public bool IsFav { get; set; }
             public bool IsSpecial { get; set; }
             public string Supplier { get; set; }
+
+
         }
 
         /// <summary>
