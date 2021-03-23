@@ -100,12 +100,6 @@
                         </ul>
                     </b-card>
                 </template>
-                <template #table-busy>
-                    <div class="text-center text-danger my-2">
-                        <b-spinner class="align-middle"></b-spinner>
-                        <strong>Loading...</strong>
-                    </div>
-                </template>
             </b-table>
 
             <!-- Info modal -->
@@ -229,7 +223,7 @@
         methods: {
             info(item, index, button) {
                 this.infoModal.title = `編輯資料：${item.memberId}`;
-                this.infoModal.index = index;
+                this.infoModal.index = (this.currentPage - 1) * this.perPage + index;
                 this.infoModal.content = JSON.stringify(item, null, 2);
                 this.infoModal.memberId = item.memberId;
                 this.infoModal.memberUserName = item.memberUserName;
@@ -257,7 +251,8 @@
                 this.totalRows = this.items.length
             },
             submitEdit() {
-                item = this.items[this.infoModal.index];
+                perPage: 20,
+                    item = this.items[this.infoModal.index];
                 item.memberId = this.infoModal.memberId;
                 item.memberUserName = this.infoModal.memberUserName;
                 item.IDnumber = this.infoModal.IDnumber;
