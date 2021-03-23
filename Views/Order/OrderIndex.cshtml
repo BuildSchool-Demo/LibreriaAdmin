@@ -360,7 +360,7 @@
             methods: {
                 info(item, index, button) {
                     this.infoModal.title = `編輯資料：${item.orderId}`;
-                    this.infoModal.index = index;
+                    this.infoModal.index = (this.currentPage - 1) * this.perPage + index;
                     this.infoModal.content = JSON.stringify(item, null, 2);
                     this.infoModal.orderId = item.orderId;
                     this.infoModal.orderDateDisplay = item.orderDateDisplay;
@@ -391,7 +391,8 @@
                     this.totalRows = this.items.length
                 },
                 submitEdit() {
-                    item = this.items[this.infoModal.index];
+                    perPage: 20,
+                        item = this.items[this.infoModal.index];
                     item.orderId=this.infoModal.orderId ;
                     item.orderDateDisplay = this.infoModal.orderDateDisplay;
                     item.memberUserName = this.infoModal.memberUserName;

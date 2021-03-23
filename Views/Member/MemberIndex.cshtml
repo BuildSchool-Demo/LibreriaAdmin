@@ -86,7 +86,7 @@
 
                 <template #cell(actions)="row">
                     <b-button size="sm" v-on:click="info(row.item, row.index, $event.target)" class="mr-1">
-                        Info modal
+                        編輯
                     </b-button>
                     <b-button size="sm" v-on:click="row.toggleDetails">
                         {{ row.detailsShowing ? 'Hide' : 'Show' }} Details
@@ -103,8 +103,48 @@
             </b-table>
 
             <!-- Info modal -->
-            <b-modal :id="infoModal.id" :title="infoModal.title" ok-only v-on:hide="resetInfoModal">
-                <pre>{{ infoModal.content }}</pre>
+            <b-modal :id="infoModal.id" :title="infoModal.title" @@ok="()=>{submitEdit()}" v-on:hide="resetInfoModal">
+                <form>
+                    <label>會員編號：</label>
+                    <input v-model="infoModal.memberId" disabled="disabled" />
+                    <br />
+
+                    <label>會員名稱：</label>
+                    <input v-model="infoModal.memberUserName" />
+                    <br />
+
+                    <label>身分證字號：</label>
+                    <input v-model="infoModal.IDnumber" />
+                    <br />
+
+                    <label>帳號：</label>
+                    <input v-model="infoModal.memberName" />
+                    <br />
+
+                    <label>電話：</label>
+                    <input v-model="infoModal.homeNumber" />
+                    <br />
+
+                    <label>手機號碼：</label>
+                    <input v-model="infoModal.mobileNumber" />
+                    <br />
+
+                    <label>縣市：</label>
+                    <input v-model="infoModal.city" />
+                    <br />
+
+                    <label>地區：</label>
+                    <input v-model="infoModal.region" />
+                    <br />
+
+                    <label>住址：</label>
+                    <input v-model="infoModal.address" />
+                    <br />
+
+                    <label>email：</label>
+                    <input v-model="infoModal.email" />
+                    <br />
+                </form>
             </b-modal>
         </b-container>
     </template>
@@ -121,11 +161,15 @@
             items: [],
             fields: [
                 { key: 'memberId', label: '編號', sortable: true, sortDirection: 'desc' },
-                { key: 'memberName', label: '會員名稱', class: 'text-center' },
-                { key: 'mobileNumber', label: '電話', class: 'text-center' },
-                { key: 'email', label: '信箱', class: 'text-center' },
-                { key: 'ordersum', label: '消費金額', sortable: true},
-                { key: 'actions', label: 'Actions' }
+                { key: 'memberUserName', label: '會員名稱', class: 'text-center' },
+                { key: 'idnumber', label: '身分證字號', class: 'text-center' },
+                { key: 'memberName', label: '帳號', class: 'text-center' },
+                { key: 'homeNumber', label: '電話', class: 'text-center' },
+                { key: 'mobileNumber', label: '手機號碼', class: 'text-center' },
+                { key: 'completeAddress', label: '住址', class: 'text-center' },
+                { key: 'email', label: '信箱', class: 'text-center mg-right:50px' },
+                { key: 'ordersum', label: '消費金額', sortable: true, class: 'text-right'},
+                { key: 'actions', label: '功能', class: 'text-center' }
             ],
             totalRows: 1,
             currentPage: 1,
@@ -139,28 +183,26 @@
             infoModal: {
                 id: 'info-modal',
                 title: '',
-                content: ''
+                memberId: 0,
+                memberUserName: '會員名稱',
+                IDnumber: '身分證字號',
+                memberName: '帳號',
+                homeNumber: '電話',
+                mobileNumber: '手機號碼',
+                city: '縣市',
+                region: '地區',
+                address: '住址',
+                email: 'email',
+
+
             }
         },
         created: function () {
             axios.get("/Api/Member/GetAll")
                 .then((res) => {
+                    console.log(res);
                     this.items = res.data.body.memberList;
                     this.mounted();
-                    axios.get(`/Api/Member/GetByMemberId/${res.data.body.memberList.memberId}`)
-                        .then((res2) => {
-                            if (res2.data.body.memberList.length == 0) {
-                                this.items.ordersum = 0;
-                            }
-                            else
-                            {
-                                var sum = 0;
-                                for (var i = 0; i <= res2.data.body.memberList.length - 1; i++) {
-                                    sum = sum + res2.data.body.memberList[`${i}`].orderPrice;
-                                }
-                                this.items.ordersum = sum;
-                            }
-                        });
                 });
 
         },
@@ -180,13 +222,24 @@
         },
         methods: {
             info(item, index, button) {
-                this.infoModal.title = `Row index: ${index}`
-                this.infoModal.content = JSON.stringify(item, null, 2)
-                this.$root.$emit('bv::show::modal', this.infoModal.id, button)
+                this.infoModal.title = `編輯資料：${item.memberId}`;
+                this.infoModal.index = (this.currentPage - 1) * this.perPage + index;
+                this.infoModal.content = JSON.stringify(item, null, 2);
+                this.infoModal.memberId = item.memberId;
+                this.infoModal.memberUserName = item.memberUserName;
+                this.infoModal.IDnumber = item.idnumber;
+                this.infoModal.memberName = item.memberName;
+                this.infoModal.homeNumber = item.homeNumber;
+                this.infoModal.mobileNumber = item.mobileNumber;
+                this.infoModal.city = item.city;
+                this.infoModal.region = item.region;
+                this.infoModal.address = item.address;
+                this.infoModal.email = item.email;
+                this.$root.$emit('bv::show::modal', this.infoModal.id, button);
             },
             resetInfoModal() {
-                this.infoModal.title = ''
-                this.infoModal.content = ''
+                //this.infoModal.title = ''
+                //this.infoModal.content = ''
             },
             onFiltered(filteredItems) {
                 // Trigger pagination to update the number of buttons/pages due to filtering
@@ -196,7 +249,27 @@
             mounted() {
                 // Set the initial number of items
                 this.totalRows = this.items.length
-            }
+            },
+            submitEdit() {
+                perPage: 20,
+                    item = this.items[this.infoModal.index];
+                item.memberId = this.infoModal.memberId;
+                item.memberUserName = this.infoModal.memberUserName;
+                item.IDnumber = this.infoModal.IDnumber;
+                item.memberName = this.infoModal.memberName;
+                item.homeNumber = this.infoModal.homeNumber;
+                item.mobileNumber = this.infoModal.mobileNumber;
+                item.city = this.infoModal.city;
+                item.region = this.infoModal.region;
+                item.address = this.infoModal.address;
+                item.email = this.infoModal.email;
+
+                item.completeAddress = item.city + item.region + item.address;
+                axios.post('/api/Member/Edit', item)
+                    .then((res) => {
+                        console.log(res);
+                    })
+            },
         },
     })
 
