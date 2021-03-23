@@ -140,43 +140,9 @@ namespace LibreriaAdmin.Services
 
             return result;
         }
-        public ExhibitonViewModel.ExhibitonListResult GetTodayExhibiton()
-        //public List<ExhibitonViewModel> ExhibitonGetToday()
-        //{
-        //    var nowday = DateTime.Now.Day;
-        //    var result = new List<ExhibitonViewModel>();
 
-        //    result = _dbRepository.GetAll<Exhibition>().Where(x=>x.EditModifyDate.Day==nowday)
-        //                          .Select(x => new ExhibitonViewModel()
-        //                          {
-        //                              ExhibitionId = x.ExhibitionId,
-        //                              ExhibitionStartTime = x.ExhibitionStartTime.ToString("yyyy/MM/dd"),
-        //                              ExhibitionEndTime = x.ExhibitionEndTime.ToString("yyyy/MM/dd"),
-        //                              ExhibitionIntro = x.ExhibitionIntro,
-        //                              MasterUnit = x.MasterUnit,
-        //                              ExhibitionPrice = x.ExhibitionPrice,
-        //                              ExCustomerId = x.ExCustomerId,
-        //                              ExPhoto = x.ExPhoto,
-        //                              ExName = x.ExName,
-        //                              ReviewState = x.ReviewState,
-        //                              EditModifyDate = x.EditModifyDate
-        //                          }).ToList();
-        //    return result;
-        //}
-        public RentalViewModel.RentalListResult GetRentalDate(int exhibitionId)
+        public ExhibitonViewModel.ExhibitonListResult GetTodayExhibiton()
         {
-            var result = new RentalViewModel.RentalListResult();
-            result.GetRentalDate = (from o in _dbRepository.GetAll<ExhibitionOrder>()
-                                    join c in _dbRepository.GetAll<ExhibitionCustomer>()
-                                    on o.ExCustomerId equals c.ExCustomerId
-                                    join e in _dbRepository.GetAll<Exhibition>()
-                                    on o.ExCustomerId equals e.ExCustomerId
-                                    where e.ExhibitionId == exhibitionId
-                                    select new RentalViewModel.GetRentalDate
-                                    {
-                                        StartDate = o.StartDate.ToString("yyyy/MM/dd"),
-                                        EndDate = o.EndDate.ToString("yyyy/MM/dd")
-                                    }).ToList();
             var result = new ExhibitonViewModel.ExhibitonListResult();
             var today = DateTime.Now.Day;
             result.ExhibitonList = _dbRepository.GetAll<Exhibition>().Where(x => x.EditModifyDate.Day == today)
@@ -192,10 +158,28 @@ namespace LibreriaAdmin.Services
                                       ExPhoto = x.ExPhoto,
                                       ExName = x.ExName,
                                       ReviewState = x.ReviewState,
-                                      EditModifyDate =x.EditModifyDate
+                                      EditModifyDate = x.EditModifyDate
 
 
                                   }).ToList();
+            return result;
+        }
+     
+        public RentalViewModel.RentalListResult GetRentalDate(int exhibitionId)
+        {
+            var result = new RentalViewModel.RentalListResult();
+            result.GetRentalDate = (from o in _dbRepository.GetAll<ExhibitionOrder>()
+                                    join c in _dbRepository.GetAll<ExhibitionCustomer>()
+                                    on o.ExCustomerId equals c.ExCustomerId
+                                    join e in _dbRepository.GetAll<Exhibition>()
+                                    on o.ExCustomerId equals e.ExCustomerId
+                                    where e.ExhibitionId == exhibitionId
+                                    select new RentalViewModel.GetRentalDate
+                                    {
+                                        StartDate = o.StartDate.ToString("yyyy/MM/dd"),
+                                        EndDate = o.EndDate.ToString("yyyy/MM/dd")
+                                    }).ToList();
+            
             return result;
         }
     }
