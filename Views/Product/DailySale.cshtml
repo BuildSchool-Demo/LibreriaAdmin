@@ -79,13 +79,15 @@
                 font-size: 24px;
                 margin-bottom: 8px;
             }
+
         .btnArea {
-            justify-content:flex-end;
-         display:flex;
-            align-items:center;
+            justify-content: flex-end;
+            display: flex;
+            align-items: center;
         }
-        .check{
-            margin:auto 10px;
+
+        .check {
+            margin: auto 10px;
         }
     </style>
     <link type="text/css" rel="stylesheet" href="//unpkg.com/bootstrap/dist/css/bootstrap.min.css" />
@@ -151,11 +153,13 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="item in items" v-on:click="ChangeSpecial">
-                            <td id="isSpecial" v-if="item.isSpecial">
-                                <i class="fas fa-check"></i>
+                        <tr v-bind:id=`tr${item.productId}` v-for="item in items" v-on:click='ChangeSpecial(item.productId)'>
+                            <td v-if="item.isSpecial">
+                                <input v-bind:id=`td${item.productId}` type="checkbox" name="lang-1" value="javascript" checked>
                             </td>
-                            <td v-else></td>
+                            <td v-else>
+                                <input v-bind:id=`td${item.productId}` type="checkbox" name="lang-1" value="javascript">
+                            </td>
                             <td>
                                 {{item.productId}}
                             </td>
@@ -185,11 +189,13 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="item in items">
-                            <td id="isSpecial" v-if="item.isSpecial">
-                                <i class="fas fa-check"></i>
+                        <tr v-bind:id=`tr${item.productId}` v-for="item in items" v-on:click='ChangeSpecial(item.productId)'>
+                            <td v-if="item.isSpecial">
+                                <input v-bind:id=`td${item.productId}` type="checkbox" name="lang-1" value="javascript" checked>
                             </td>
-                            <td v-else></td>
+                            <td v-else>
+                                <input v-bind:id=`td${item.productId}` type="checkbox" name="lang-1" value="javascript">
+                            </td>
                             <td>
                                 {{item.productId}}
                             </td>
@@ -219,11 +225,13 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="item in items">
-                            <td id="isSpecial" v-if="item.isSpecial">
-                                <i class="fas fa-check"></i>
+                        <tr v-bind:id=`tr${item.productId}` v-for="item in items" v-on:click='ChangeSpecial(item.productId)'>
+                            <td v-if="item.isSpecial">
+                                <input v-bind:id=`td${item.productId}` type="checkbox" name="lang-1" value="javascript" checked>
                             </td>
-                            <td v-else></td>
+                            <td v-else>
+                                <input v-bind:id=`td${item.productId}` type="checkbox" name="lang-1" value="javascript">
+                            </td>
                             <td>
                                 {{item.productId}}
                             </td>
@@ -253,11 +261,13 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="item in items">
-                            <td id="isSpecial" v-if="item.isSpecial">
-                                <i class="fas fa-check"></i>
+                        <tr v-bind:id=`tr${item.productId}` v-for="item in items" v-on:click='ChangeSpecial(item.productId)'>
+                            <td v-if="item.isSpecial">
+                                <input v-bind:id=`td${item.productId}` type="checkbox" name="lang-1" value="javascript" checked>
                             </td>
-                            <td v-else></td>
+                            <td v-else>
+                                <input v-bind:id=`td${item.productId}` type="checkbox" name="lang-1" value="javascript">
+                            </td>
                             <td>
                                 {{item.productId}}
                             </td>
@@ -287,11 +297,13 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="item in items">
-                            <td id="isSpecial" v-if="item.isSpecial">
-                                <i class="fas fa-check"></i>
+                        <tr v-bind:id=`tr${item.productId}` v-for="item in items" v-on:click='ChangeSpecial(item.productId)'>
+                            <td v-if="item.isSpecial">
+                                <input v-bind:id=`td${item.productId}` type="checkbox" name="lang-1" value="javascript" checked>
                             </td>
-                            <td v-else></td>
+                            <td v-else>
+                                <input v-bind:id=`td${item.productId}` type="checkbox" name="lang-1" value="javascript">
+                            </td>
                             <td>
                                 {{item.productId}}
                             </td>
@@ -321,11 +333,13 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="item in items">
-                            <td id="isSpecial" v-if="item.isSpecial">
-                                <i class="fas fa-check"></i>
+                        <tr v-bind:id=`tr${item.productId}` v-for="item in items" v-on:click='ChangeSpecial(item.productId)'>
+                            <td v-if="item.isSpecial">
+                                <input v-bind:id=`td${item.productId}` type="checkbox" name="lang-1" value="javascript" checked>
                             </td>
-                            <td v-else></td>
+                            <td v-else>
+                                <input v-bind:id=`td${item.productId}` type="checkbox" name="lang-1" value="javascript">
+                            </td>
                             <td>
                                 {{item.productId}}
                             </td>
@@ -355,11 +369,13 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="item in items">
-                            <td id="isSpecial" v-if="item.isSpecial">
-                                <i class="fas fa-check"></i>
+                        <tr v-bind:id=`tr${item.productId}` v-for="item in items" v-on:click='ChangeSpecial(item.productId)'>
+                            <td v-if="item.isSpecial">
+                                1
                             </td>
-                            <td v-else></td>
+                            <td v-else>
+                                2
+                            </td>
                             <td>
                                 {{item.productId}}
                             </td>
@@ -390,24 +406,34 @@
     <script>
         var isSpecial = document.getElementById('isSpecial');
 
-
-
         for (var i = 1; i <= 7; i++) {
             var app = new Vue({
                 el: `#category-${i}`,
                 data: {
                     items: [],
+                    orData: [],
                 },
                 created: function () {
                     axios.get(`/api/Product/GetByCategory/${i}`)
                         .then((res) => {
                             this.items = res.data.body.productList;
-                    console.log(this.items);
+                            console.log(this.items);
+                        })
+                    axios.get('/api/Product/GetAll')
+                        .then((res) => {
+                            this.orData = res.data.body.productList;
+                            console.log(this.orData)
                         })
                 },
                 methods: {
                     ChangeSpecial: function (event) {
-                        this.$data.items.isSpecial = !this.$data.items.isSpecial;
+                        console.log(event);
+                        this.orData.forEach(x => {
+                            if (x.productId == event) {
+                                console.log(x.isSpecial);
+                                x.isSpecial = true;
+                            }
+                        })
                     }
                 },
 
