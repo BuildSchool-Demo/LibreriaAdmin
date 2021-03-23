@@ -85,8 +85,8 @@
                 </template>
 
                 <template #cell(actions)="row">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                        Launch demo modal
+                    <button v-on:click="row.item.memberUserName" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                        Edit
                     </button>
                     <b-button size="sm" v-on:click="row.toggleDetails">
                         {{ row.detailsShowing ? 'Hide' : 'Show' }} Details
@@ -107,15 +107,26 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <h5 class="modal-title" id="exampleModalLabel">會員資料修改</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
                         </div>
                         <div class="modal-body">
-                            ...
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label>會員名稱</label>
+                                    <input type="text" id="field_name" class="form-control"  />
+                                    <label>行動電話</label>
+                                    <input type="text" id="field_mobile" class="form-control"  />
+                                    <label>信箱</label>
+                                    <input type="text" id="field_address" class="form-control"  />
+                                </div>
+                            </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Save changes</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-primary">確定</button>
                         </div>
                     </div>
                 </div>
@@ -196,5 +207,3 @@
     })
 
 </script>
-<script src="~/js/Manager/Manager.js"></script>
-<script src="~/js/Manager/ManagerData.js"></script>
