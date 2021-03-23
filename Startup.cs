@@ -74,41 +74,68 @@ namespace LibreriaAdmin
                 config.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("JWT Token"));
             });
 
+            //services.AddAuthentication()
+            //.AddCookie(cfg => cfg.SlidingExpiration = true)
+            //.AddJwtBearer(cfg =>
+            // {
+            //     cfg.RequireHttpsMetadata = false;
+            //     cfg.SaveToken = true;
+
+            //     cfg.TokenValidationParameters = new TokenValidationParameters()
+            //     {
+            //         ValidateIssuer = true,
+            //         ValidateAudience = true,
+            //         ValidateLifetime = true,
+            //         ValidateIssuerSigningKey = true,
+            //         ValidIssuer = Configuration["Jwt:Issuer"],
+            //         ValidAudience = Configuration["Jwt:Issuer"],
+            //         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
+            //     };
+            // });
+
 
             services.AddAuthentication()
-        .AddJwtBearer(options =>
-            options.TokenValidationParameters = new TokenValidationParameters
-            {
-                ValidateIssuer = true,
-                ValidateAudience = true,
-                ValidateLifetime = true,
-                ValidateIssuerSigningKey = true,
-                ValidIssuer = Configuration["Jwt:Issuer"],
-                ValidAudience = Configuration["Jwt:Issuer"],
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
-            })
-             .AddCookie(options =>
-             {
-                 options.LoginPath = "/Account/Unauthorized/";
-                 options.AccessDeniedPath = "/Account/Forbidden/";
-             });
+                     .AddCookie(options =>
+                     {
+                         options.LoginPath = "/Manager/login";
+                         options.LogoutPath = "/Manager/login";
+                         options.AccessDeniedPath = "/Account/Forbidden/";
+                     })
+                    .AddJwtBearer(options =>
+                    {
+                        options.RequireHttpsMetadata = false;
+                        options.SaveToken = true;
+                        options.TokenValidationParameters = new TokenValidationParameters()
+                        {
+                            ValidateIssuer = true,
+                            ValidateAudience = true,
+                            ValidateLifetime = true,
+                            ValidateIssuerSigningKey = true,
+                            ValidIssuer = Configuration["Jwt:Issuer"],
+                            ValidAudience = Configuration["Jwt:Issuer"],
+                            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
+
+                        };
+                    });
+
+        
 
 
 
-        //    services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-        //.AddJwtBearer(options =>
-        //    options.TokenValidationParameters = new TokenValidationParameters
-        //    {
-        //        ValidateIssuer = true,
-        //        ValidateAudience = true,
-        //        ValidateLifetime = true,
-        //        ValidateIssuerSigningKey = true,
-        //        ValidIssuer = Configuration["Jwt:Issuer"],
-        //        ValidAudience = Configuration["Jwt:Issuer"],
-        //        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
-        //    });
-        //        services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-        //.AddCookie();
+            //    services.AddAuthentication()
+            //.AddJwtBearer(options =>
+            //    options.TokenValidationParameters = new TokenValidationParameters()
+            //    {
+            //        ValidateIssuer = true,
+            //        ValidateAudience = true,
+            //        ValidateLifetime = true,
+            //        ValidateIssuerSigningKey = true,
+            //        ValidIssuer = Configuration["Jwt:Issuer"],
+            //        ValidAudience = Configuration["Jwt:Issuer"],
+            //        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
+            //    });
+            //        services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            //.AddCookie();
             services.AddTransient<IExhibitonService, ExhibitonService>();
 
             services.AddRazorPages().AddRazorRuntimeCompilation();
@@ -131,7 +158,6 @@ namespace LibreriaAdmin
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseCookiePolicy();
 
             app.UseSwaggerUi3();
 
@@ -150,12 +176,15 @@ namespace LibreriaAdmin
             //        response.Redirect("/Manager/login");
             //    }
             //});
+            app.UseCookiePolicy();
 
 
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapRazorPages();
+
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
