@@ -140,6 +140,7 @@ namespace LibreriaAdmin.Services
 
             return result;
         }
+        public ExhibitonViewModel.ExhibitonListResult GetTodayExhibiton()
         //public List<ExhibitonViewModel> ExhibitonGetToday()
         //{
         //    var nowday = DateTime.Now.Day;
@@ -176,6 +177,25 @@ namespace LibreriaAdmin.Services
                                         StartDate = o.StartDate.ToString("yyyy/MM/dd"),
                                         EndDate = o.EndDate.ToString("yyyy/MM/dd")
                                     }).ToList();
+            var result = new ExhibitonViewModel.ExhibitonListResult();
+            var today = DateTime.Now.Day;
+            result.ExhibitonList = _dbRepository.GetAll<Exhibition>().Where(x => x.EditModifyDate.Day == today)
+                                  .Select(x => new ExhibitonViewModel.ExhibitonSingleResult()
+                                  {
+                                      ExhibitionId = x.ExhibitionId,
+                                      ExhibitionStartTime = x.ExhibitionStartTime.ToString("yyyy/MM/dd"),
+                                      ExhibitionEndTime = x.ExhibitionEndTime.ToString("yyyy/MM/dd"),
+                                      ExhibitionIntro = x.ExhibitionIntro,
+                                      MasterUnit = x.MasterUnit,
+                                      ExhibitionPrice = x.ExhibitionPrice,
+                                      ExCustomerId = x.ExCustomerId,
+                                      ExPhoto = x.ExPhoto,
+                                      ExName = x.ExName,
+                                      ReviewState = x.ReviewState,
+                                      EditModifyDate =x.EditModifyDate
+
+
+                                  }).ToList();
             return result;
         }
     }

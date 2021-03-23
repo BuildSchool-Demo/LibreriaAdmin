@@ -40,10 +40,16 @@ namespace LibreriaAdmin.ViewModels
             public decimal UnitPrice { get; set; }
 
             /// <summary>
+            /// 特價
+            /// </summary>
+            public decimal SpecialPrice { get; set; }
+
+            /// <summary>
             /// 本項金額
             /// 此屬性唯讀
             /// </summary>
             public decimal DetailPrice { get {
+                    if (SpecialPrice > 0) { return SpecialPrice * Quantity; }
                     return UnitPrice * Quantity;
             } }
         }

@@ -44,6 +44,11 @@ namespace LibreriaAdmin.Interfaces
         /// <returns></returns>
         ExhibitonSendMailViewModel.GetByCustomerEmailRequest GetCustomerData(int exhibitonId);
 
+
+
+        ExhibitonViewModel.ExhibitonListResult GetTodayExhibiton();
+
+
         /// <summary>
         /// 取得租借日期
         /// </summary>

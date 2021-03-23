@@ -19,12 +19,24 @@ namespace LibreriaAdmin.ViewModels
             public string city { get; set; }
             public string region { get; set; }
             public string address { get; set; }
+            /// <summary>
+            /// 地址
+            /// 此欄唯讀
+            /// </summary>
+            public string CompleteAddress
+            {
+                get
+                {
+                    return city + region + address;
+                }
+            }
             public string email { get; set; }
             public string memberUserName { get; set; }
             public string memberPassword { get; set; }
             public DateTime? birthday { get; set; }
             public int gender { get; set; }
             public string idnumber { get; set; }
+            public decimal ordersum { get; set; }
         }
 
         /// <summary>

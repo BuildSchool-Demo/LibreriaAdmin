@@ -1,17 +1,13 @@
-﻿var productAPP = new Vue({
-    el: '#product-index',
+﻿var managerAPP = new Vue({
+    el: '#manager-index',
     data(){
         return {
             items: [],
             fields: [
-                { key: 'productId', label: '編號', sortable: true, sortDirection: 'desc' },
-                { key: 'productName', label: '書名', sortable: true, sortDirection: 'desc' },
-                { key: 'inventory', label: '庫存', sortable: true, sortDirection: 'desc' },
-                { key: 'totalSales', label: '銷量', sortable: true, sortDirection: 'desc' },
-                { key: 'isSpecial', label: '折扣', sortable: true, sortDirection: 'desc' },
-                { key: 'unitPrice', label: '價格', sortable: true, sortDirection: 'desc' },
-                { key: 'actions', label: '執行' },
-              
+                { key: 'managerID', label: 'ID', sortable: true, sortDirection: 'desc' },
+                { key: 'managerName', label: '姓名', sortable: true, sortDirection: 'desc' },
+                { key: 'managerRoleID', label: '管理者層級', sortable: true, sortDirection: 'desc' },
+                { key: 'actions', label: '執行' },             
 
             ],
             totalRows: 1,
@@ -27,9 +23,9 @@
         
     },
     created: function () {
-        axios.get("/api/Product/GetAll")
+        axios.get("/api/Manager/GetAllManagers")
             .then((res) => {
-                this.items = res.data.body.productList;
+                this.items = res.data.body.managerList;
             });
     },
     computed: {
@@ -91,10 +87,6 @@
 
             }
 
-        }
-
-
-        
+        }        
     }
-
 });

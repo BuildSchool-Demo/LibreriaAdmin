@@ -17,7 +17,7 @@
 
 <div class="col-12">
 
-    <div id="Order-Index" >
+    <div id="Order-Index">
 
         <!-- User Interface controls -->
         <b-row>
@@ -53,18 +53,18 @@
             </b-col>
 
             @*<b-col lg="6" class="my-1">
-                <b-form-group label="Initial sort"
-                              label-for="initial-sort-select"
-                              label-cols-sm="3"
-                              label-align-sm="right"
-                              label-size="sm"
-                              class="mb-0">
-                    <b-form-select id="initial-sort-select"
-                                   v-model="sortDirection"
-                                   :options="['asc', 'desc', 'last']"
-                                   size="sm"></b-form-select>
-                </b-form-group>
-            </b-col>*@
+                    <b-form-group label="Initial sort"
+                                  label-for="initial-sort-select"
+                                  label-cols-sm="3"
+                                  label-align-sm="right"
+                                  label-size="sm"
+                                  class="mb-0">
+                        <b-form-select id="initial-sort-select"
+                                       v-model="sortDirection"
+                                       :options="['asc', 'desc', 'last']"
+                                       size="sm"></b-form-select>
+                    </b-form-group>
+                </b-col>*@
 
             <b-col lg="6" class="my-1">
                 <b-form-group label="搜尋條件"
@@ -99,9 +99,9 @@
                                            :aria-describedby="ariaDescribedby"
                                            class="mt-1">
                         <b-form-checkbox value="orderId">訂單編號</b-form-checkbox>
-                        <b-form-checkbox value="orderDate">訂單時間</b-form-checkbox>
+                        <b-form-checkbox value="orderDateDisplay">訂單時間</b-form-checkbox>
                         <b-form-checkbox value="shipName">收件人姓名</b-form-checkbox>
-                        <b-form-checkbox value="paymentType">付款方式</b-form-checkbox>
+                        <b-form-checkbox value="paymentTypeDisplay">付款方式</b-form-checkbox>
                         <b-form-checkbox value="paymentState">付款狀態</b-form-checkbox>
                     </b-form-checkbox-group>
                 </b-form-group>
@@ -163,9 +163,9 @@
                 <b-button size="sm" v-on:click="info(row.item, row.index, $event.target)" class="mr-1">
                     編輯
                 </b-button>
-                <b-button size="sm" v-on:click="row.toggleDetails">
-                    {{ row.detailsShowing ? '收起' : '展開' }} 明細
-                </b-button>
+                @*<b-button size="sm" v-on:click="row.toggleDetails">
+                        {{ row.detailsShowing ? '收起' : '展開' }} 明細
+                    </b-button>*@
             </template>
 
             <template #row-details="row">
@@ -179,8 +179,69 @@
         <div v-show="isError">發生不明錯誤</div>
 
         <!-- Info modal -->
-        <b-modal :id="infoModal.id" :title="infoModal.title" ok-only v-on:hide="resetInfoModal">
-            <pre>{{ infoModal.content }}</pre>
+        <b-modal :id="infoModal.id" :title="infoModal.title" @@ok="()=>{submitEdit()}" v-on:hide="resetInfoModal">
+            <form>
+                <label>訂單編號：</label>
+                <input v-model="infoModal.orderId" disabled="disabled" />
+                <br />
+
+                <label>訂單日期：</label>
+                <input type="date" v-model="infoModal.orderDateDisplay" disabled="disabled" />
+                <br />
+
+                <label>會員姓名：</label>
+                <input v-model="infoModal.memberUserName" disabled="disabled" />
+                <br />
+
+                <label>收件人姓名：</label>
+                <input v-model="infoModal.shipName" />
+                <br />
+
+                <label>收件人縣市：</label>
+                <input v-model="infoModal.shipCity" />
+                <br />
+
+                <label>收件人轄區：</label>
+                <input v-model="infoModal.shipRegion" />
+                <br />
+
+                <label>收件人地址：</label>
+                <input v-model="infoModal.shipAddress" />
+                <br />
+
+                <label>郵遞區號：</label>
+                <input v-model="infoModal.shipPostalCode" />
+                <br />
+
+                <label>發票類型：</label>
+                <input v-model="infoModal.invoiceTypeDisplay" />
+                <br />
+
+                <label>付款方式：</label>
+                <input v-model="infoModal.paymentTypeDisplay" />
+                <br />
+
+                <label>付款狀態：</label>
+                <input v-model="infoModal.paymentState" />
+                <br />
+
+                <label>上次更新時間：</label>
+                <input type="datetime-local" v-model="infoModal.updateTime" disabled="disabled" />
+                <br />
+
+                <label>訂單金額：</label>
+                <input v-model="infoModalOrderPrice" disabled="disabled" />
+                <br />
+
+                <label>訂單細項：</label> <br />
+                <details v-for="(orderDetail, index) in infoModal.orderDetailList">
+                    <summary>{{orderDetail.productName}} 數量：{{orderDetail.quantity}} </summary>
+                    <label>商品名稱：</label> <span>{{orderDetail.productName}}</span> <br />
+                    <label>商品數量：</label> <input v-model="orderDetail.quantity" :key="orderDetail.quantity"> <br />
+                    <label>商品單價：</label> <input v-model="orderDetail.unitPrice" :key="orderDetail.unitPrice" disabled="disabled" /> <br />
+                    <label>商品總和：</label> <input v-model="orderDetail.quantity*orderDetail.unitPrice" :key="orderDetail.detailPrice" disabled="disabled" /> <br />
+                </details>
+            </form>
         </b-modal>
     </div>
 </div>
@@ -203,9 +264,9 @@
                 items: [],
                 fields: [
                     { key: 'orderId', label: '訂單編號', sortable: true },
-                    { key: 'orderDate', label: '訂單時間', sortable: true },
+                    { key: 'orderDateDisplay', label: '訂單時間', sortable: true },
                     { key: 'memberUserName', label: '會員姓名', sortable: true },
-                    { key: 'paymentType', label: '付款方式', sortable: true },
+                    { key: 'paymentTypeDisplay', label: '付款方式', sortable: true },
                     { key: 'paymentState', label: '付款狀態', sortable: true },
                     { key: 'orderPrice', label: '訂單金額', sortable: true },
                     //{
@@ -232,7 +293,38 @@
                 infoModal: {
                     id: 'info-modal',
                     title: '',
-                    content: ''
+                    orderId: 0,
+                    orderDateDisplay: "0001-01-01",
+                    memberUserName: "會員姓名",
+                    shipName: "收件人姓名",
+                    shipCity: "收件人縣市",
+                    shipRegion: "收件人轄區",
+                    shipAddress: "收件人地址",
+                    shipPostalCode: 000,
+                    invoiceTypeDisplay: "發票開立方式",
+                    updateTime: "0001-01-01",
+                    paymentTypeDisplay: "貨到付款",
+                    paymentState: "未付款",
+                    orderDetailList: [
+                        {
+                            quantity: 0,
+                            productName: "商品名稱",
+                            pnitPrice: 0,
+                            detailPrice: 0,
+                        },
+                        {
+                            quantity: 0,
+                            productName: "商品名稱",
+                            pnitPrice: 0,
+                            detailPrice: 0,
+                        },
+                        {
+                            quantity: 0,
+                            productName: "商品名稱",
+                            pnitPrice: 0,
+                            detailPrice: 0,
+                        },
+                    ],
                 }
             },
             created: function () {
@@ -252,7 +344,14 @@
                         .map(f => {
                             return { text: f.label, value: f.key }
                         })
-                }
+                },
+                infoModalOrderPrice() {
+                    sum = 0;
+                    this.infoModal.orderDetailList.forEach((orderDetail, index, orderDetailList) => {
+                        sum += orderDetail.unitPrice * orderDetail.quantity;
+                    })
+                    return sum;
+                },
             },
             mounted() {
                 // Set the initial number of items
@@ -260,13 +359,27 @@
             },
             methods: {
                 info(item, index, button) {
-                    this.infoModal.title = `Row index: ${index}`
-                    this.infoModal.content = JSON.stringify(item, null, 2)
-                    this.$root.$emit('bv::show::modal', this.infoModal.id, button)
+                    this.infoModal.title = `編輯資料：${item.orderId}`;
+                    this.infoModal.index = (this.currentPage - 1) * this.perPage + index;
+                    this.infoModal.content = JSON.stringify(item, null, 2);
+                    this.infoModal.orderId = item.orderId;
+                    this.infoModal.orderDateDisplay = item.orderDateDisplay;
+                    this.infoModal.memberUserName = item.memberUserName;
+                    this.infoModal.shipName = item.shipName;
+                    this.infoModal.shipCity = item.shipCity;
+                    this.infoModal.shipRegion = item.shipRegion;
+                    this.infoModal.shipAddress = item.shipAddress;
+                    this.infoModal.shipPostalCode = item.shipPostalCode;
+                    this.infoModal.invoiceTypeDisplay = item.invoiceTypeDisplay;
+                    this.infoModal.updateTime= item.updateTime;
+                    this.infoModal.paymentTypeDisplay= item.paymentTypeDisplay;
+                    this.infoModal.paymentState = item.paymentState;
+                    this.infoModal.orderDetailList = JSON.parse(JSON.stringify(item.orderDetailList));
+                    this.$root.$emit('bv::show::modal', this.infoModal.id, button);
                 },
                 resetInfoModal() {
-                    this.infoModal.title = ''
-                    this.infoModal.content = ''
+                    //this.infoModal.title = ''
+                    //this.infoModal.content = ''
                 },
                 onFiltered(filteredItems) {
                     // Trigger pagination to update the number of buttons/pages due to filtering
@@ -276,6 +389,36 @@
                 mounted() {
                     // Set the initial number of items
                     this.totalRows = this.items.length
+                },
+                submitEdit() {
+                    perPage: 20,
+                        item = this.items[this.infoModal.index];
+                    item.orderId=this.infoModal.orderId ;
+                    item.orderDateDisplay = this.infoModal.orderDateDisplay;
+                    item.memberUserName = this.infoModal.memberUserName;
+                    item.shipName = this.infoModal.shipName;
+                    item.shipCity = this.infoModal.shipCity;
+                    item.shipRegion = this.infoModal.shipRegion;
+                    item.shipAddress = this.infoModal.shipAddress;
+                    item.shipPostalCode = this.infoModal.shipPostalCode;
+                    item.invoiceTypeDisplay = this.infoModal.invoiceTypeDisplay;
+                    item.updateTime = this.infoModal.updateTime;
+                    item.paymentTypeDisplay = this.infoModal.paymentTypeDisplay;
+                    item.paymentState = this.infoModal.paymentState;
+                    item.orderDetailList = JSON.parse(JSON.stringify(this.infoModal.orderDetailList));
+                    item.orderPrice = this.UpdateOrderPrice();
+
+                    axios.post('/api/Order/Edit', item)
+                        .then((res) => {
+                            console.log(res);
+                        })
+                },
+                UpdateOrderPrice() {
+                    sum = 0;
+                    this.infoModal.orderDetailList.forEach((orderDetail, index, orderDetailList) => {
+                        sum += orderDetail.unitPrice * orderDetail.quantity;
+                    })
+                    return sum;
                 }
             },
         })

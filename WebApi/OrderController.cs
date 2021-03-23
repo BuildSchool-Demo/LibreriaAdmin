@@ -22,10 +22,10 @@ namespace LibreriaAdmin.WebApi
         public BaseModel.BaseResult<OrderViewModel.OrderListResult> GetAll()
         {
             BaseModel.BaseResult<OrderViewModel.OrderListResult> result = new BaseModel.BaseResult<OrderViewModel.OrderListResult>();
-            result.Body = _orderService.GetAll();
-
             try
             {
+                result.Body = _orderService.GetAll();
+
                 return result;
             }
             catch (Exception ex)
@@ -54,5 +54,45 @@ namespace LibreriaAdmin.WebApi
             }
         }
 
+        [HttpPost]
+        public BaseModel.BaseResult<OrderViewModel.OrderSingleResult> Edit(OrderViewModel.OrderSingleResult orderVM)
+        {
+            BaseModel.BaseResult<OrderViewModel.OrderSingleResult> result = new BaseModel.BaseResult<OrderViewModel.OrderSingleResult>();
+            result.Body = orderVM;
+
+            try
+            {
+                result.IsSuccess = _orderService.Edit(orderVM);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Msg = ex.Message;
+                result.IsSuccess = false;
+
+                return result;
+            }
+
+
+        }
+        [HttpGet("{month}")]
+
+        public BaseModel.BaseResult<OrderViewModel.OrderListResult> GetMonthOrderPrice(int month)
+        {
+            BaseModel.BaseResult<OrderViewModel.OrderListResult> result = new BaseModel.BaseResult<OrderViewModel.OrderListResult>();
+            result.Body = _orderService.GetMonthOrderPrice(month);
+
+            try
+            {
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Msg = ex.Message;
+                result.IsSuccess = false;
+
+                return result;
+            }
+        }
     }
 }
