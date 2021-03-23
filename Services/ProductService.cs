@@ -108,11 +108,6 @@ namespace LibreriaAdmin.Services
             return result;
         }
 
-       
-
-
-
-
         public ProductViewModels.ProductListResult GetTotalSale()
         {
             var result = new ProductViewModels.ProductListResult();

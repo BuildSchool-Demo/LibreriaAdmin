@@ -82,14 +82,16 @@
             this.currentPage = 1
         },
         info(item, index, button) {
+            this.infoModal.index = index;
             this.infoModal.title = `編輯資料: ${item.productName}`
-            /*this.infoModal.categoryId = item.categoryId*/
-            this.infoModal.supplier = item.supplier
+        /*this.infoModal.categoryId = item.categoryId*/
+            this.infoModal.supplier = item.supplierId
             this.infoModal.productId = item.productId
             this.infoModal.productName = item.productName
             this.infoModal.unitPrice = item.unitPrice
             this.infoModal.inventory = item.inventory
             this.infoModal.totalSales = item.totalSales
+            this.infoModal.isSpecial = item.isSpecial
             this.infoModal.content = JSON.stringify(item, null, 2)
             this.$root.$emit('bv::show::modal', this.infoModal.id, button)
         },
@@ -119,60 +121,19 @@
                     }
                 })
             }
-
+        },
+        submitEdit() {
+            item = this.items[this.infoModal.index];
+            item.productName = this.infoModal.productName;
+            item.unitPrice = this.infoModal.unitPrice;
+            item.inventory = this.infoModal.inventory;
+            item.totalSales = this.infoModal.totalSales;
+            item.isSpecial = this.infoModal.isSpecial;
+            axios.post('api/Product/Edit', item).
+                then((res) => {
+                    console.log(res);
+                })
         }
-        ,
-        addItem: function () {
-            alert('Hi')
-            let backendApi = "https://localhost:5001/api/Product";
-            let result = document.querySelector(".result");
-            let categoryId = document.getElementById("type-categoryId").value;
-            let productId = document.getElementById("type-productId").value;
-            let supplierId = document.getElementById("type-supplierId").value;
-            let author = document.getElementById("type-author").value;
-            let publishDate = document.getElementById("type-publishDate").value;
-            let productName = document.getElementById("type-productName").value;
-            let inventory = document.getElementById("type-inventory").value;
-            let totalSales = document.getElementById("type-totalSales").value;
-            let isSpecial = document.getElementById("type-isSpecial").value;
-            let unitPrice = document.getElementById("type-unitPrice").value;
-            //let mainUrl = document.getElementById("type-mainUrl").value;
-            //let secondUrl = document.getElementById("type-secondUrl").value;
-            //let thirdUrl = document.getElementById("type-thirdUrl").value;
-            //let fourthUrl = document.getElementById("type-fourthUrl").value;
-            let preview = document.getElementById("type-introduction").value;
-            let isbn = document.getElementById("type-isbn").value;
-
-            let product = {
-                CategoryId: categoryId, ProductId: productId, Supplier: supplierId,
-                Author: author, PublishDate: publishDate, ProductName: productName, Inventory: inventory,
-                TotalSales: totalSales, isSpecial: isSpecial, UnitPrice: unitPrice,
-                Introduction: preview, isbn: isbn
-            };
-            console.log(product);
-            $.ajax({
-                url: backendApi,
-                method: "POST",
-                dataType: "json",  
-             
-               //如果有JSON回傳資料, 則加上此行, 若無請勿加, 會引起parse error
-                contentType: "application/json;charset=UTF-8",    //Web API需配合[FromBody]
-                data: JSON.stringify(product),
-                success: function (data, textStatus, jqXHR) {
-                    console.log(data);
-                    console.log(textStatus);
-                    console.log(jqXHR.getAllResponseHeaders());
-                    console.log(jqXHR.getResponseHeader('location'));
-                    result.innerText = `Status : ${textStatus}資料新增成功, location : ${jqXHR.getResponseHeader('location')}`;
-                    productsList.innerText = JSON.stringify(data);
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    result.innerText = textStatus + ", " + jqXHR.status;
-                }
-            })
-           
-             
-    }
         
 
 

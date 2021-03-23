@@ -91,13 +91,25 @@ namespace LibreriaAdmin.WebApi
             bool isSuccess = _productService.Remove(request.ProductId);
             return isSuccess;
         }
+        [HttpPost]
+        public BaseModel.BaseResult<ProductViewModels.ProductSingleResult> Edit(ProductViewModels.ProductSingleResult productVM)
+        {
+            BaseModel.BaseResult<ProductViewModels.ProductSingleResult> result = new BaseModel.BaseResult<ProductViewModels.ProductSingleResult> ();
+            result.Body = productVM;
+            try
+            {
+                result.IsSuccess = _productService.Edit(productVM);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Msg = ex.Message;
+                result.IsSuccess = false;
 
-        //[HttpPost]
-        //public bool CreateItem([FromBody]ProductViewModels.ProductBaseModel product)
-        //{
-        //    bool isSuccess = _productService.Create(product);
-        //    return isSuccess;
-        //}
+                return result;
+            }
+
+        }
     }
 
 }
