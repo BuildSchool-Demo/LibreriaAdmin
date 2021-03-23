@@ -21,7 +21,7 @@ namespace LibreriaAdmin.Controllers
         [AllowAnonymous]
         public IActionResult Login()
         {
-            return View();
+            return RedirectToAction();
         }
         public IActionResult ManagerIndex()
         {

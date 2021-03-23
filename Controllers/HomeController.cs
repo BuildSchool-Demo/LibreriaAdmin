@@ -11,7 +11,8 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace LibreriaAdmin.Controllers
 {
-    public class HomeController : BaseController
+    [Authorize]
+    public class HomeController :Controller
     {
         private readonly ILogger<HomeController> _logger;
 

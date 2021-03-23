@@ -16,9 +16,10 @@ namespace LibreriaAdmin.Controllers
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             var ManagerRole = filterContext.HttpContext.Request.Cookies.TryGetValue("R", out string Role);
-            if (Role == null)
+            if (Role == "0")
             {
-                filterContext.HttpContext.Response.Redirect("./Manager/Login");
+                //無最高許可權
+                filterContext.HttpContext.Response.Redirect("./Manager/ManagerIndex");
             }
         }
     }

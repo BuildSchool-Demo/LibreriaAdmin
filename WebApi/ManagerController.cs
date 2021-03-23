@@ -68,7 +68,7 @@ namespace LibreriaAdmin.WebApi
 
         //Login
         [HttpPost]
-        public IActionResult Login([FromBody] LoginViewModel loginVM)
+        public IActionResult Login(LoginViewModel loginVM)
         {
             _logger.LogWarning(2001, DateTime.Now.ToLongTimeString() + " Token控制器POST方法被呼叫");
 
@@ -92,7 +92,7 @@ namespace LibreriaAdmin.WebApi
             return Manager;
         }
 
-        private string GenerateJsonWebToken(LoginViewModel userInfo)
+        private string GenerateJsonWebToken([FromBody] LoginViewModel userInfo)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);

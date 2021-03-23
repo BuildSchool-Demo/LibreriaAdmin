@@ -45,14 +45,7 @@ namespace LibreriaAdmin
 
             //樓�蕮emberService
             services.AddTransient<IManagerService, ManagerService>();
-            //全域驗證
-            //services.AddAuthorization(options =>
-            //{
-            //    options.FallbackPolicy = new AuthorizationPolicyBuilder()
-            //        .RequireAuthenticatedUser()
-            //        .Build();
-            //});
-            //樓�蕮emberService
+
             services.AddTransient<IMemberService, MemberService>();
             //
             services.AddTransient<ICategoryService, CategoryService>();
@@ -67,8 +60,6 @@ namespace LibreriaAdmin
             //repository signup
             services.AddTransient<IRepository, LibreriaRepository>();
 
-            //注入權限處理器
-            //services.AddTransient<IAuthorizationHandler, PermissionHandler>();
 
             services.AddSwaggerDocument(config =>
             {
@@ -83,16 +74,7 @@ namespace LibreriaAdmin
                 config.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("JWT Token"));
             });
 
-            ////權限要求參數
-            //var permissionRequirement = new PermissionRequirement(
-            //    "/Manager/Login",// 拒絕授權的跳轉地址
-            //    ClaimTypes.Name,//基於用戶名的授權
-            //    expiration: TimeSpan.FromSeconds(60 * 5)//接口的過期時間
-            //    );
-            //services.AddAuthorization(options =>
-            //{
-            //    options.AddPolicy("AllManagers", policy => policy.AddRequirements(permissionRequirement));
-            //})
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         .AddJwtBearer(options =>
             options.TokenValidationParameters = new TokenValidationParameters
@@ -105,8 +87,8 @@ namespace LibreriaAdmin
                 ValidAudience = Configuration["Jwt:Issuer"],
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
             });
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie();
+    //        services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    //.AddCookie();
             services.AddTransient<IExhibitonService, ExhibitonService>();
 
             services.AddRazorPages().AddRazorRuntimeCompilation();
@@ -131,16 +113,16 @@ namespace LibreriaAdmin
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
-            //app.UseStatusCodePages(async context => {
-            //    var request = context.HttpContext.Request;
-            //    var response = context.HttpContext.Response;
+            app.UseStatusCodePages(async context =>
+            {
+                var request = context.HttpContext.Request;
+                var response = context.HttpContext.Response;
 
-            //    if (response.StatusCode == (int)HttpStatusCode.Unauthorized)
-
-            //    {
-            //        response.Redirect("/Manager/Login");
-            //    }
-            //});
+                if (response.StatusCode == (int)HttpStatusCode.Unauthorized)
+                {
+                    response.Redirect("/Manager/login");
+                }
+            });
 
 
             app.UseSwaggerUi3();
