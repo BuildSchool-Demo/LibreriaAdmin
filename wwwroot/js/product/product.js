@@ -52,7 +52,9 @@
     created: function () {
         axios.get("/api/Product/GetAll")
             .then((res) => {
+                
                 this.items = res.data.body.productList;
+                console.log(res);
             });
     },
     computed: {
@@ -80,7 +82,14 @@
             this.currentPage = 1
         },
         info(item, index, button) {
-            this.infoModal.title = `Row index: ${index}`
+            this.infoModal.title = `編輯資料: ${item.productName}`
+            /*this.infoModal.categoryId = item.categoryId*/
+            this.infoModal.supplier = item.supplier
+            this.infoModal.productId = item.productId
+            this.infoModal.productName = item.productName
+            this.infoModal.unitPrice = item.unitPrice
+            this.infoModal.inventory = item.inventory
+            this.infoModal.totalSales = item.totalSales
             this.infoModal.content = JSON.stringify(item, null, 2)
             this.$root.$emit('bv::show::modal', this.infoModal.id, button)
         },
