@@ -40,7 +40,12 @@
             sortDesc: false,
             sortDirection: 'asc',
             filter: null,
-            filterOn: []
+            filterOn: [],
+            infoModal: {
+                id: 'info-modal',
+                title: '',
+                content: ''
+            }
         }
         
     },
@@ -73,6 +78,11 @@
             // Trigger pagination to update the number of buttons/pages due to filtering
             this.totalRows = filteredItems.length
             this.currentPage = 1
+        },
+        info(item, index, button) {
+            this.infoModal.title = `Row index: ${index}`
+            this.infoModal.content = JSON.stringify(item, null, 2)
+            this.$root.$emit('bv::show::modal', this.infoModal.id, button)
         },
         removeItem: function (item) {
             let backendApi = "https://localhost:5001/api/Product/DeleteItem";

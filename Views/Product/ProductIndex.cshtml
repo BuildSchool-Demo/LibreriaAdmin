@@ -154,16 +154,17 @@
                             </template>
 
                             <template #cell(actions)="row">
-
                                 <b-button size="sm" v-on:click="row.toggleDetails" variant="success">
                                     {{ row.detailsShowing ? 'Hide' : 'Show' }} Details
-                                </b-button>
-                                <b-button size="sm" variant="primary">
-                                    Edit
                                 </b-button>
                                 <b-button size="sm" variant="danger" v-on:click="removeItem(row.item.productId)">
                                     Delete
                                 </b-button>
+
+                                <b-button size="sm" v-on:click="info(row.item, row.index, $event.target)" class="mr-1">
+                                    Info modal
+                                </b-button>
+
                             </template>
 
                             <template #row-details="row">
@@ -172,9 +173,14 @@
                                         <li v-for="(value, key) in row.item" :key="key">{{ key }}: {{ value }}</li>
                                     </ul>
                                 </b-card>
+
                             </template>
                         </b-table>
 
+                        <!-- Info modal -->
+                        <b-modal :id="infoModal.id" :title="infoModal.title" ok-only v-on:hide="resetInfoModal">
+                            <pre>{{ infoModal.content }}</pre>
+                        </b-modal>
 
 
                     </b-container>
