@@ -88,6 +88,8 @@ namespace LibreriaAdmin
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
             });
             services.AddTransient<IExhibitonService, ExhibitonService>();
+
+            services.AddRazorPages().AddRazorRuntimeCompilation();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
