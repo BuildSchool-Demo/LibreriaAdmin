@@ -39,6 +39,28 @@ namespace LibreriaAdmin.WebApi
             }
         }
 
+        [HttpPost]
+        public BaseModel.BaseResult<MemberViewModel.MemberSingleResult> Edit(MemberViewModel.MemberSingleResult memberVM)
+        {
+            BaseModel.BaseResult<MemberViewModel.MemberSingleResult> result = new BaseModel.BaseResult<MemberViewModel.MemberSingleResult>();
+            result.Body = memberVM;
+
+            try
+            {
+                result.IsSuccess = _memberService.Edit(memberVM);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Msg = ex.Message;
+                result.IsSuccess = false;
+
+                return result;
+            }
+
+
+        }
+
         [HttpGet("{id}")]
         public BaseModel.BaseResult<OrderViewModel.OrderListResult> GetByMemberId(int id)
         {

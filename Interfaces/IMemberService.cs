@@ -10,5 +10,7 @@ namespace LibreriaAdmin.Interfaces
     {
         MemberViewModel.MemberListResult GetAll();
         OrderViewModel.OrderListResult GetByMemberId(int id);
+
+        bool Edit(MemberViewModel.MemberSingleResult memberVM);
     }
 }

@@ -61,25 +61,6 @@ namespace LibreriaAdmin.Services
 
 
 
-
-
-                    //source.Select(x => new MemberViewModel.MemberSingleResult()
-                    // {
-                    //     memberId = x.MemberId,
-                    //     memberUserName = x.MemberUserName,
-                    //     mobileNumber = x.MobileNumber,
-                    //     homeNumber = x.HomeNumber,
-                    //     address = x.Address,
-                    //     email = x.Email,
-                    //     memberName = x.MemberName,
-                    //     memberPassword = x.MemberPassword,
-                    //     birthday = x.Birthday,
-                    //     gender = x.Gender,
-                    //     idnumber = x.Idnumber,
-                    //     ordersum = 0
-                    // }).ToList();
-
-
                 return result;
             }
             catch(Exception e)
@@ -90,6 +71,25 @@ namespace LibreriaAdmin.Services
             }
             
         }
+
+
+        public bool Edit(MemberViewModel.MemberSingleResult memberVM)
+        {
+            var member = _dbRepository.GetAll<Member>().FirstOrDefault(x => x.MemberId == memberVM.memberId);
+            member.MemberUserName = memberVM.memberUserName;
+            member.Idnumber = memberVM.idnumber;
+            member.MemberName = memberVM.memberName;
+            member.HomeNumber = memberVM.homeNumber;
+            member.MobileNumber = memberVM.mobileNumber;
+            member.City = memberVM.city;
+            member.Region = memberVM.region;
+            member.Address = memberVM.address;
+            member.Email = memberVM.email;
+
+            _dbRepository.Update(member);
+            return true;
+        }
+
 
         public OrderViewModel.OrderListResult GetByMemberId(int id)
         {
