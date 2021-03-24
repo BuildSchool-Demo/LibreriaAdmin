@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace LibreriaAdmin.Controllers
 {
-    [Authorize()]
+    [Authorize]
 
     public class MemberController : Controller
     {
