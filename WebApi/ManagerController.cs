@@ -38,7 +38,7 @@ namespace LibreriaAdmin.WebApi
         }
 
         [HttpGet]
-        public BaseModel.BaseResult<ManagerViewModel.ManagerListResult> GetAllManagers()
+        public async Task<BaseModel.BaseResult<ManagerViewModel.ManagerListResult>> GetAllManagers()
         {
             var result = new BaseModel.BaseResult<ManagerViewModel.ManagerListResult>();
             try
@@ -56,13 +56,28 @@ namespace LibreriaAdmin.WebApi
             }
         }
 
-        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpPost]
         //public async Task<ActionResult<ManagerViewModel.ManagerSingleResult>> CreateManager([FromBody] ManagerViewModel.ManagerSingleResult manager)
         public ActionResult<ManagerViewModel.ManagerSingleResult> CreateManager([FromBody] ManagerViewModel.ManagerSingleResult manager)
         {
             _logger.LogWarning(2001, DateTime.Now.ToLongTimeString() + $" Manager控制器Post方法被呼叫 - 傳入的資料為:" + JsonSerializer.Serialize(manager));
             var result = _manageService.CreateManager(manager);
+
+            if (result.IsSuccess == false)
+            {
+                return NotFound();
+            }
+
+            return Ok();
+        }
+
+        [HttpPost("{id}")]
+        //public async Task<ActionResult<ManagerViewModel.ManagerSingleResult>> CreateManager([FromBody] ManagerViewModel.ManagerSingleResult manager)
+        public ActionResult<ManagerViewModel.ManagerSingleResult> DeleteManager(int id)
+        {
+            _logger.LogWarning(2001, DateTime.Now.ToLongTimeString() + $" Manager控制器Post方法被呼叫 - 傳入的資料為{nameof(id)}資料為:" + id);
+            var result = _manageService.DeleteManager(id);
 
             if (result.IsSuccess == false)
             {
@@ -82,8 +97,8 @@ namespace LibreriaAdmin.WebApi
 
             var user = GetManagerAuthentication(loginVM);
 
-            //if (user.IsSuccess == true && user.Msg == "0")
-            if (user.IsSuccess == true)
+            if (user.IsSuccess == true && user.Msg == "0")
+            //if (user.IsSuccess == true)
             {
                 var tokenString = GenerateJsonWebToken(loginVM);
                 response = Ok(new { token = tokenString });

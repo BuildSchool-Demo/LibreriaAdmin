@@ -98,7 +98,6 @@ namespace LibreriaAdmin
                         };
                     });
 
-
             services.AddTransient<IExhibitonService, ExhibitonService>();
 
             services.AddRazorPages().AddRazorRuntimeCompilation();

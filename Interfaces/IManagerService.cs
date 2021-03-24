@@ -22,6 +22,8 @@ namespace LibreriaAdmin.Interfaces
         BaseModel.BaseResult<ManagerViewModel.ManagerSingleResult> GetManagerAuthentication(LoginViewModel loginVM);
 
         BaseModel.BaseResult<ManagerViewModel.ManagerSingleResult> CreateManager([FromBody] ManagerViewModel.ManagerSingleResult manager);
+        BaseModel.BaseResult<ManagerViewModel.ManagerSingleResult> DeleteManager(int id);
+        BaseModel.BaseResult<ManagerViewModel.ManagerSingleResult> EditManager(int id);
 
     }
 }

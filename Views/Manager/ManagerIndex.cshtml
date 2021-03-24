@@ -125,9 +125,8 @@
                 </b-col>
             </b-row>
             <!-- Button trigger modal -->
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                新增管理員資料
-            </button>
+
+            <b-button v-b-modal.modal-1>新增管理員資料</b-button>
 
             <!-- Modal -->
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -142,28 +141,32 @@
                         <div class="modal-body">
                             <div class="row">
                                 <!-- <form action="https://localhost:5001/api/products" method="post" class="col-6 offset-3" name="productform">-->
-                                <form class="col-6 offset-3" id="productform">
-                                    <h1>新增管理者</h1>
-                                    <h4 id="apiUrl" class="text-primary"></h4>
-                                    <h4 id="result" class="text-danger"></h4>
-                                    <div class="form-group">
-                                        <label for="managerUserName"> 姓名 </label>
-                                        <input type="text" class="form-control" id=" managerUserName " name="managerUserName"  >
+                                <div class="col-6 offset-3" id="managerform">
+                                    <div>
+                                        <b-modal id="modal-1" title="BootstrapVue">
+                                            <h1>新增管理者</h1>
+                                            <h4 id="apiUrl" class="text-primary"></h4>
+                                            <h4 id="result" class="text-danger"></h4>
+                                            <div class="form-group">
+                                                <label for="managerUserName"> 姓名 </label>
+                                                <input type="text" class="form-control" id=" managerUserName " name="managerUserName">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="managerName">Managername帳號</label>
+                                                <input type="text" class="form-control" id="managerName" name="managerName">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="managerPassword">ManagerPassword 密碼</label>
+                                                <input type="text" class="form-control" id="managerPassword" name="managerPassword">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="managerRoleID">ManagerRoleID</label>
+                                                <input type="text" class="form-control" id="managerRoleID" name="managerRoleID">
+                                            </div>
+                                            <button id="btnCreate" class="btn btn-warning" v:on-clock="()=>{createItem(row.item)}">Create</button>
+                                        </b-modal>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="managerName">Managername帳號</label>
-                                        <input type="text" class="form-control" id="managerName" name="managerName">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="managerPassword">ManagerPassword 密碼</label>
-                                        <input type="text" class="form-control" id="managerPassword" name="managerPassword">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="managerRoleID">ManagerRoleID</label>
-                                        <input type="text" class="form-control" id="managerRoleID" name="managerRoleID">
-                                    </div>
-                                    <button id="btnCreate" class="btn btn-warning" v:on-clock="createItem(row.item)">Create</button>
-                                </form>
+                                </div>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -204,7 +207,7 @@
                     <b-button size="sm" variant="primary">
                         Edit
                     </b-button>
-                    <b-button size="sm" variant="danger">
+                    <b-button size="sm" variant="danger" v-on:click="removeItem(row.item)">
                         Delete
                     </b-button>
                 </template>

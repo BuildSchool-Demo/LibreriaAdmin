@@ -15,6 +15,7 @@ namespace LibreriaAdmin.Controllers
 {
     [ResponseCache(NoStore = true)]
     [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
+    //[Authorize(Policy = "AllManagers")]
 
     public class HomeController :Controller
     {
