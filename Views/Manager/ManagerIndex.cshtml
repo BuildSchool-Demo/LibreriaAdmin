@@ -143,7 +143,7 @@
                                 <!-- <form action="https://localhost:5001/api/products" method="post" class="col-6 offset-3" name="productform">-->
                                 <div class="col-6 offset-3" id="managerform">
                                     <div>
-                                        <b-modal id="infoModal.id" title="BootstrapVue" >
+                                        <b-modal id="infoModal.id" title="BootstrapVue">
                                             <h1>新增管理者</h1>
                                             <h4 id="apiUrl" class="text-primary"></h4>
                                             <h4 id="result" class="text-danger"></h4>
@@ -204,7 +204,7 @@
                     <b-button size="sm" v-on:click="row.toggleDetails" variant="success">
                         {{ row.detailsShowing ? 'Hide' : 'Show' }} Details
                     </b-button>
-                    <b-button size="sm" variant="primary">
+                    <b-button size="sm" v-on:click="info(row.item, row.index, $event.target)" class="mr-1">
                         Edit
                     </b-button>
                     <b-button size="sm" variant="danger" v-on:click="removeItem(row.item)">
@@ -220,6 +220,32 @@
                     </b-card>
                 </template>
             </b-table>
+            @*修改管理者*@
+        <b-modal :id="infoModal.id" :title="infoModal.title" @@ok="()=>{submitEdit()}" v-on:hide="resetInfoModal">
+            <h1>修改管理者</h1>
+            <h4 id="apiUrl" class="text-primary"></h4>
+            <h4 id="result" class="text-danger"></h4>
+            <div class="form-group">
+                <label for="managerUserName"> 會員編號 </label>
+                <input v-model="infoModal.managerID" disabled="disabled" class="form-control" id=" managerUserName " name="managerUserName">
+            </div>
+            <div class="form-group">
+                <label for="managerUserName"> 姓名 </label>
+                <input v-model="infoModal.managerUserName" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="managerName">Managername帳號</label>
+                <input v-model="infoModal.managerName" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="managerPassword">ManagerPassword 密碼</label>
+                <input v-model="infoModal.managerPassword" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="managerRoleID">ManagerRoleID</label>
+                <input v-model="infoModal.managerRoleID" class="form-control">
+            </div>
+        </b-modal>
 
 
 

@@ -48,14 +48,26 @@
         this.totalRows = this.items.length
     },
     methods: {
+
         resetInfoModal() {
-            //this.infoModal.title = ''
-            //this.infoModal.content = ''
+            this.infoModal.title = ''
+            this.infoModal.content = ''
         },
         onFiltered(filteredItems) {
             // Trigger pagination to update the number of buttons/pages due to filtering
             this.totalRows = filteredItems.length
             this.currentPage = 1
+        },
+        info(item, index, button) {
+            this.infoModal.index = (this.currentPage - 1) * this.perPage + index
+            this.infoModal.title = `編輯資料: 管理者${item.managerUserName}`
+            this.infoModal.managerID = item.managerID
+            this.infoModal.managerName = item.managerName
+            this.infoModal.managerPassword = item.managerPassword
+            this.infoModal.managerUserName = item.managerUserName
+            this.infoModal.managerRoleID = item.managerRoleID
+            this.infoModal.content = JSON.stringify(item, null, 2)
+            this.$root.$emit('bv::show::modal', this.infoModal.id, button)
         },
         createItem(item) {
             let backendApi = "/api/Manager/CreateManager";
@@ -66,9 +78,9 @@
                 contentType: "application/json;charset=UTF-8",
                 data: JSON.stringify(product),
                 success: function (data, textStatus, jqXHR) {
-                    item.ManagerUserName = data.ManagerUserName;
-                    item.ManagerName = data.ManagerName;
-                    item.ManagerPassword = data.ManagerPassword;
+                    item.managerUserName = data.managerUserName;
+                    item.managerName = data.managerName;
+                    item.managerPassword = data.managerPassword;
                     item.managerRoleID = data.managerRoleID;
                 }
             });
@@ -88,8 +100,16 @@
                     }
                 })            
         },
-        editItem(item) {
-            let backendApi = "/api/Manager/";
+        submitEdit(item) {
+            perPage: 20, item = this.items[this.infoModal.index];
+            item.managerID = this.infoModal.managerID;
+            item.ManagerName = this.infoModal.ManagerName;
+            item.ManagerPassword = this.infoModal.ManagerPassword;
+            item.ManagerUserName = this.infoModal.ManagerUserName;
+            item.managerRoleID = this.infoModal.managerRoleID;
+
+
+            let backendApi = "/api/Manager/EditManager";
             $.ajax({
                 url: backendApi + "/" + item.managerID,
                 method: "POST",
@@ -104,7 +124,7 @@
                 error: function (jqXHR, textStatus, errorThrown) {
                 }
             })
-        }
+        },
        
     }
     });
