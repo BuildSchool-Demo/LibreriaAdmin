@@ -8,10 +8,15 @@ using System.Linq;
 using System.Threading.Tasks;
 using LibreriaAdmin.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace LibreriaAdmin.Controllers
 {
-    public class HomeController : Controller
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [ResponseCache(NoStore = true)]
+
+    public class HomeController :Controller
     {
         private readonly ILogger<HomeController> _logger;
 
@@ -19,6 +24,8 @@ namespace LibreriaAdmin.Controllers
         {
             _logger = logger;
         }
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
+
         public IActionResult Index()
         {
             return View();

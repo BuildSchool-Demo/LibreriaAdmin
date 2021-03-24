@@ -2,6 +2,8 @@ using LibreriaAdmin.Interfaces;
 using LibreriaAdmin.Models;
 using LibreriaAdmin.Repository;
 using LibreriaAdmin.Services;
+using LibreriaAdmin.ViewModels;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -18,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -42,14 +45,7 @@ namespace LibreriaAdmin
 
             //加入MemberService
             services.AddTransient<IManagerService, ManagerService>();
-            //办喷靡
-            //services.AddAuthorization(options =>
-            //{
-            //    options.FallbackPolicy = new AuthorizationPolicyBuilder()
-            //        .RequireAuthenticatedUser()
-            //        .Build();
-            //});
-            //加入MemberService
+
             services.AddTransient<IMemberService, MemberService>();
             //
             services.AddTransient<ICategoryService, CategoryService>();
@@ -63,6 +59,8 @@ namespace LibreriaAdmin
 
             //repository signup
             services.AddTransient<IRepository, LibreriaRepository>();
+
+
             services.AddSwaggerDocument(config =>
             {
                 var apiSchema = new OpenApiSecurityScheme()
@@ -75,18 +73,69 @@ namespace LibreriaAdmin
                 config.AddSecurity("JWT Token", Enumerable.Empty<string>(), apiSchema);
                 config.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("JWT Token"));
             });
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-        .AddJwtBearer(options =>
-            options.TokenValidationParameters = new TokenValidationParameters
-            {
-                ValidateIssuer = true,
-                ValidateAudience = true,
-                ValidateLifetime = true,
-                ValidateIssuerSigningKey = true,
-                ValidIssuer = Configuration["Jwt:Issuer"],
-                ValidAudience = Configuration["Jwt:Issuer"],
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
-            });
+
+            //services.AddAuthentication()
+            //.AddCookie(cfg => cfg.SlidingExpiration = true)
+            //.AddJwtBearer(cfg =>
+            // {
+            //     cfg.RequireHttpsMetadata = false;
+            //     cfg.SaveToken = true;
+
+            //     cfg.TokenValidationParameters = new TokenValidationParameters()
+            //     {
+            //         ValidateIssuer = true,
+            //         ValidateAudience = true,
+            //         ValidateLifetime = true,
+            //         ValidateIssuerSigningKey = true,
+            //         ValidIssuer = Configuration["Jwt:Issuer"],
+            //         ValidAudience = Configuration["Jwt:Issuer"],
+            //         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
+            //     };
+            // });
+
+
+            services.AddAuthentication()
+                     .AddCookie(options =>
+                     {
+                         options.LoginPath = "/Manager/login";
+                         options.LogoutPath = "/Manager/login";
+                         options.AccessDeniedPath = "/Account/Forbidden/";
+                     })
+                    .AddJwtBearer(options =>
+                    {
+                        options.RequireHttpsMetadata = false;
+                        options.SaveToken = true;
+                        options.TokenValidationParameters = new TokenValidationParameters()
+                        {
+                            ValidateIssuer = true,
+                            ValidateAudience = true,
+                            ValidateLifetime = true,
+                            ValidateIssuerSigningKey = true,
+                            ValidIssuer = Configuration["Jwt:Issuer"],
+                            ValidAudience = Configuration["Jwt:Issuer"],
+                            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
+
+                        };
+                    });
+
+        
+
+
+
+            //    services.AddAuthentication()
+            //.AddJwtBearer(options =>
+            //    options.TokenValidationParameters = new TokenValidationParameters()
+            //    {
+            //        ValidateIssuer = true,
+            //        ValidateAudience = true,
+            //        ValidateLifetime = true,
+            //        ValidateIssuerSigningKey = true,
+            //        ValidIssuer = Configuration["Jwt:Issuer"],
+            //        ValidAudience = Configuration["Jwt:Issuer"],
+            //        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
+            //    });
+            //        services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            //.AddCookie();
             services.AddTransient<IExhibitonService, ExhibitonService>();
 
             services.AddRazorPages().AddRazorRuntimeCompilation();
@@ -109,30 +158,33 @@ namespace LibreriaAdmin
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseCookiePolicy();
 
-            //app.UseStatusCodePages(async context => {
-            //    var request = context.HttpContext.Request;
-            //    var response = context.HttpContext.Response;
-
-            //    if (response.StatusCode == (int)HttpStatusCode.Unauthorized)
-
-            //    {
-            //        response.Redirect("/Manager/Login");
-            //    }
-            //});
-
-            app.UseAuthentication();
             app.UseSwaggerUi3();
 
             app.UseRouting();
 
             app.UseAuthentication();
 
+
+            //app.UseStatusCodePages(async context =>
+            //{
+            //    var request = context.HttpContext.Request;
+            //    var response = context.HttpContext.Response;
+
+            //    if (response.StatusCode == (int)HttpStatusCode.Unauthorized)
+            //    {
+            //        response.Redirect("/Manager/login");
+            //    }
+            //});
+            app.UseCookiePolicy();
+
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapRazorPages();
+
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
