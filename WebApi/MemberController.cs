@@ -79,5 +79,13 @@ namespace LibreriaAdmin.WebApi
                 return result;
             }
         }
+
+
+        [HttpPost]
+        public bool DeleteItem(MemberViewModel.GetByIdRequest request)
+        {
+            bool isSuccess = _memberService.Remove(request.MemberId);
+            return isSuccess;
+        }
     }
 }
