@@ -13,8 +13,8 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace LibreriaAdmin.Controllers
 {
-    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [ResponseCache(NoStore = true)]
+    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
 
     public class HomeController :Controller
     {

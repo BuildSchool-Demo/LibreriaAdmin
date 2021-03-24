@@ -2,6 +2,8 @@
 using LibreriaAdmin.ViewModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -54,7 +56,7 @@ namespace LibreriaAdmin.WebApi
             }
         }
 
-
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpPost]
         //public async Task<ActionResult<ManagerViewModel.ManagerSingleResult>> CreateManager([FromBody] ManagerViewModel.ManagerSingleResult manager)
         public ActionResult<ManagerViewModel.ManagerSingleResult> CreateManager([FromBody] ManagerViewModel.ManagerSingleResult manager)
@@ -80,11 +82,12 @@ namespace LibreriaAdmin.WebApi
 
             var user = GetManagerAuthentication(loginVM);
 
+            //if (user.IsSuccess == true && user.Msg == "0")
             if (user.IsSuccess == true)
             {
                 var tokenString = GenerateJsonWebToken(loginVM);
                 response = Ok(new { token = tokenString });
-                Response.Cookies.Append("R", user.Msg);
+                //Response.Cookies.Append("R", user.Msg);
             }
 
             var claims = new List<Claim>
@@ -130,10 +133,7 @@ namespace LibreriaAdmin.WebApi
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-            //var claims = new[]
-            //{
-            //  new Claim("RoleID", userInfo.RoleID)
-            //};
+
             var token = new JwtSecurityToken(
                 _config["Jwt:Issuer"],
                 _config["Jwt:Issuer"],
