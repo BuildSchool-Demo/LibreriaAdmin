@@ -231,58 +231,118 @@
             </b-tab>
             <b-tab title="新增商品">
 
-                @*CategoryId: categoryId, SupplierId: supplierId, Author: author, PublishDate: publishDate,
-        ProductName: productName, Inventory: inventory, TotalSales: totalSales, UnitPrice: unitPrice,
-        Isbn: isbn, MainUrl: mainUrl, Introduction: introduction*@
-                <div class="result"></div>
-                <template>
-                    <label>商品類別：</label>
-                    <input id="type-categoryId" />
-                    <br />
-                    <label>供應商：</label>
-                    <input id="type-supplierId" />
-                    <br />
-                    <label>作者</label>
-                    <input id="type-author" />
-                    <br />
-                    <label>出版日期：</label>
-                    <input type="date" id="type-publishDate" />
-                    <br />
-                    <label>產品名稱</label>
-                    <input id="type-productName" />
-                    <br />
-                    <label>產品庫存</label>
-                    <input id="type-inventory" />
-                    <br />
-                    <label>產品銷量</label>
-                    <input id="type-totalSales" />
-                    <br />
-                    <label>產品單價</label>
-                    <input id="type-unitPrice" />
-                    <br />
-                    <label>ISBN</label>
-                    <input id="type-isbn" />
-                    <br />
-                    <label>mainUrl</label>
-                    <input id="type-mainUrl" />
-                    <br />
-                    <label>secondUrl</label>
-                    <input id="type-secondUrl" />
-                    <br />
-                    <label>thirdUrl</label>
-                    <input id="type-thirdUrl" />
-                    <br />
-                    <label>fourthUrl</label>
-                    <input id="type-fourthUrl" />
-                    <br />
-                    <label>introduction</label>
-                    <input id="type-introduction" />
-                    <br />
-                </template>
-
                 <b-button size="sm" v-on:click="addItem()" class="mr-1">
-                   新增
+                    新增
                 </b-button>
+                <div class="result"></div>
+                <b-input-group prepend="產品類別 categoryId">
+                    <b-form-input id="type-categoryId"></b-form-input>
+
+                </b-input-group>
+                <br />
+                <b-input-group prepend="供應商 supplierId">
+                    <b-form-input id="type-supplierId"></b-form-input>
+                </b-input-group>
+                <br />
+                <b-input-group prepend="作者 author">
+                    <b-form-input id="type-author"></b-form-input>
+                </b-input-group>
+                <br />
+                <b-input-group prepend="出版日期 publishDate">
+                    <b-form-input type="date" id="type-publishDate"></b-form-input>
+                </b-input-group>
+                <br />
+                <b-input-group prepend="產品名稱 productName">
+                    <b-form-input id="type-productName"></b-form-input>
+                </b-input-group>
+                <br />
+                <b-input-group prepend="產品庫存 inventory">
+                    <b-form-input id="type-inventory"></b-form-input>
+                </b-input-group>
+                <br />
+                <b-input-group prepend="產品銷量 totalSales">
+                    <b-form-input id="type-totalSales"></b-form-input>
+                </b-input-group>
+                <br />
+                <b-input-group prepend="產品單價 unitPrice">
+                    <b-form-input id="type-unitPrice"></b-form-input>
+                </b-input-group>
+                <br />
+                <b-input-group prepend="註冊代碼 isbn">
+                    <b-form-input id="type-isbn"></b-form-input>
+                </b-input-group>
+                <br />
+                <b-input-group prepend="主圖 mainUrl">
+                    <b-form-input id="type-mainUrl"></b-form-input>
+                </b-input-group>
+                <br />
+                <b-input-group prepend="預覽圖二 secondUrl">
+                    <b-form-input id="type-secondUrl"></b-form-input>
+                </b-input-group>
+                <br />
+                <b-input-group prepend="預覽圖三 thirdUrl">
+                    <b-form-input id="type-thirdUrl"></b-form-input>
+                </b-input-group>
+                <br />
+                <b-input-group prepend="預覽圖四 fourthUrl">
+                    <b-form-input id="type-fourthUrl"></b-form-input>
+                </b-input-group>
+                <br />
+                <b-row>
+
+                    <b-col>
+                        <b-form-textarea id="type-introduction"
+                                         placeholder="簡介"
+                                         rows="3"
+                                         max-rows="8"></b-form-textarea>
+                    </b-col>
+                </b-row>
+                @*<template>
+            <label>商品類別：</label>
+            <input id="type-categoryId" />
+            <br />
+            <label>供應商：</label>
+            <input id="type-supplierId" />
+            <br />
+            <label>作者</label>
+            <input id="type-author" />
+            <br />
+            <label>出版日期：</label>
+            <input type="date" id="type-publishDate" />
+            <br />
+            <label>產品名稱</label>
+            <input id="type-productName" />
+            <br />
+            <label>產品庫存</label>
+            <input id="type-inventory" />
+            <br />
+            <label>產品銷量</label>
+            <input id="type-totalSales" />
+            <br />
+            <label>產品單價</label>
+            <input id="type-unitPrice" />
+            <br />
+            <label>ISBN</label>
+            <input id="type-isbn" />
+            <br />
+            <label>mainUrl</label>
+            <input id="type-mainUrl" />
+            <br />
+            <label>secondUrl</label>
+            <input id="type-secondUrl" />
+            <br />
+            <label>thirdUrl</label>
+            <input id="type-thirdUrl" />
+            <br />
+            <label>fourthUrl</label>
+            <input id="type-fourthUrl" />
+            <br />
+            <label>introduction</label>
+            <input id="type-introduction" />
+            <br />
+        </template>*@
+
+
 
             </b-tab>
         </b-tabs>

@@ -163,10 +163,14 @@
             let isbn = document.getElementById("type-isbn").value;
             let mainUrl = document.getElementById("type-mainUrl").value;
             let introduction = document.getElementById("type-introduction").value;
+            let secondUrl = document.getElementById("type-secondUrl").value;
+            let thirdUrl = document.getElementById("type-thirdUrl").value;
+            let fourthUrl = document.getElementById("type-fourthUrl").value;
+          let previewUrls = [secondUrl, thirdUrl, fourthUrl];
             let product = {
                  CategoryId: categoryId, SupplierId: supplierId, Author: author, PublishDate: publishDate,
                 ProductName: productName, Inventory: inventory, TotalSales: totalSales, UnitPrice: unitPrice,
-                Isbn: isbn, MainUrl: mainUrl, Introduction: introduction
+                Isbn: isbn, MainUrl: mainUrl, Introduction: introduction, PreviewUrls:previewUrls
             };
             $.ajax({
                 url: backendApi,

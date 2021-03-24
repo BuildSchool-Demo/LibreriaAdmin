@@ -226,33 +226,58 @@ namespace LibreriaAdmin.Services
             return true;
         }
 
-        public BaseModel.BaseResult<ProductViewModels.ProductSingleResult> AddProduct ([FromBody] ProductViewModels.ProductSingleResult product)
+        public BaseModel.BaseResult<ProductViewModels.ProductSingleResult> AddProduct ([FromBody] ProductViewModels.ProductSingleResult productVM)
         {
             var result = new BaseModel.BaseResult<ProductViewModels.ProductSingleResult>();
-            Product newProduct= null;
+            Product newProduct = null;
+
+
+
 
             newProduct = new Product
             {
-                ProductName = product.ProductName,
-                ProductId = product.ProductId,
-                CategoryId = product.CategoryId,
-                Introduction = product.Introduction,
-                SupplierId = product.SupplierId,
-                Author = product.Author,
-                Inventory = product.Inventory,
-                TotalSales = product.TotalSales,
-                IsSpecial = product.IsSpecial,
-                UnitPrice = product.UnitPrice,
-                Isbn = product.Isbn,
+                ProductName = productVM.ProductName,
+                ProductId = productVM.ProductId,
+                CategoryId = productVM.CategoryId,
+                Introduction = productVM.Introduction,
+                SupplierId = productVM.SupplierId,
+                Author = productVM.Author,
+                Inventory = productVM.Inventory,
+                TotalSales = productVM.TotalSales,
+                IsSpecial = productVM.IsSpecial,
+                UnitPrice = productVM.UnitPrice,
+                Isbn = productVM.Isbn,
                 CreateTime = DateTime.UtcNow.AddHours(8),
-                Sort = 0,
-                
-                
+                Sort = 0
             };
+
             try
             {
                 _dbRepository.Create<Product>(newProduct);
-                    if(newProduct != null)
+                if (newProduct != null)
+                {
+                    result.IsSuccess = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.IsSuccess = false;
+                result.Msg = ex.ToString();
+            }
+
+
+
+            //圖片
+            Preview mainPreview = new Preview()
+            {
+                ProductId = newProduct.ProductId,
+                ImgUrl = productVM.MainUrl,
+                Sort = 0,
+            };
+            try
+            {
+                _dbRepository.Create(mainPreview);
+                if (mainPreview != null)
                 {
                     result.IsSuccess = true;
                 }
@@ -262,6 +287,35 @@ namespace LibreriaAdmin.Services
                 result.IsSuccess = false;
                 result.Msg = ex.ToString();
             }
+            
+
+            int i = 0;
+            foreach (string previewUrl in productVM.PreviewUrls)
+            {
+                i++;
+                Preview preview = new Preview()
+                {
+                    ProductId = newProduct.ProductId,
+                    ImgUrl = previewUrl,
+                    Sort = i,
+                };
+                try
+                {
+                    _dbRepository.Create(preview);
+                    if (preview != null)
+                    {
+                        result.IsSuccess = true;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result.IsSuccess = false;
+                    result.Msg = ex.ToString();
+                }
+            }
+            
+
+            
             return result;
            
         }
