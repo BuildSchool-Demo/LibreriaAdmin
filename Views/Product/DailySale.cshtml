@@ -100,7 +100,7 @@
 }
 
 
-<div id="Category" class="col-12">
+<div id="category-1 category-2 category-3 category-4 category-5 category-6 category-7" class="col-12">
     <div class="row">
         <!-- Tab items -->
         <div class="tabs col-8">
@@ -135,7 +135,10 @@
             <div class="line"></div>
         </div>
         <div class="col-4 btnArea">
-            <button class="btn btn-dark check" id="Post" @@click:"">確認送出</button>
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-dark check" id="Post" >
+                確認送出
+            </button>
             <button class="btn btn-dark check">取消</button>
         </div>
         <!-- Tab content -->
@@ -375,7 +378,7 @@
 
                             </td>
                             <td v-else>
-                                <input v-bind:id=`td${item.productId}` type="checkbox" name="lang-1" value="javascript" >
+                                <input v-bind:id=`td${item.productId}` type="checkbox" name="lang-1" value="javascript">
 
                             </td>
                             <td>
@@ -399,6 +402,52 @@
 </div>
 
 
+<!-- Modal -->
+@*<div class="modal  fade " id="modal-check" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">是否確認以下書籍為特價?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table aria-busy="false" class="table b-table " id="__BVID__5">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>書名</th>
+                            <th>價錢</th>
+                            <th>特價後價格(8折)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="item in items" v-on:click='ChangeSpecial(item.productId)'>
+                            <td>
+                                {{item.productId}}
+                            </td>
+                            <td>
+                                {{item.productName}}
+                            </td>
+                            <td>
+                                {{item.unitPrice}}
+                            </td>
+                            <td>
+                                {{item.unitPrice*0.8}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
+                <button type="button"  class="btn btn-primary">確認</button>
+            </div>
+        </div>
+    </div>
+</div>*@
+
 
 
 
@@ -407,42 +456,67 @@
     <script src="~/js/Axios.js"></script>
     <script>
         var isSpecial = document.getElementById('isSpecial');
-
+        var Post = document.getElementById('Post');
+        var changeData = [];
         for (var i = 1; i <= 7; i++) {
             var app = new Vue({
                 el: `#category-${i}`,
                 data: {
                     items: [],
-                    orData: [],
+                    AllData: [],
                 },
                 created: function () {
                     axios.get(`/api/Product/GetByCategory/${i}`)
                         .then((res) => {
                             this.items = res.data.body.productList;
-                            console.log(this.items);
                         })
                     axios.get('/api/Product/GetAll')
                         .then((res) => {
-                            this.orData = res.data.body.productList;
-                            console.log(this.orData)
+                            this.AllData = res.data.body.productList;
+
                         })
                 },
                 methods: {
                     ChangeSpecial: function (event) {
-                        console.log(event);
-                        this.orData.forEach(x => {
+                        this.AllData.forEach(x => {
                             if (x.productId == event) {
-                                document.getElementById(`td${event}`).checked = !document.getElementById(`td${event}`).checked;
-                                console.log(x.isSpecial);
-                                x.isSpecial = !x.isSpecial;
+                                if (x.isSpecial == true) {
+                                    x.isSpecial = false;
+                                    console.log(x.isSpecial);
+                                    document.getElementById(`td${event}`).checked = false;
 
+                                } else {
+                                    x.isSpecial = true;
+                                    document.getElementById(`td${event}`).checked = true;
+
+                                    console.log(x.isSpecial);
+                                }
+                                changeData.push(x);
                             }
                         })
-                    }
-                },
+                        console.log(changeData);
+                    },
 
+                },
             })
         }
+        var app2 = new Vue({
+            el: '#modal-check',
+            data: {
+                items: changeData,
+            }
+        })
+        Post.onclick = () => { return edit(); };
+        function edit() {
+            //console.log(1)
+            axios.post('https://localhost:5001/api/Product/EditIsSpecial', changeData).
+                then((res) => {
+                    console.log(res);
+                })
+
+
+        }
+
 
 
 

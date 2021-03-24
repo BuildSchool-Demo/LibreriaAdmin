@@ -171,7 +171,25 @@ namespace LibreriaAdmin.Services
             }
             return false;
         }
+        public bool EditIsSpecial(List<ProductViewModels.ProductSingleResult> productVMList)
+        {
+            foreach (var productVM in productVMList)
+            {
+                Product product = _dbRepository.GetAll<Product>().FirstOrDefault(product => product.ProductId == productVM.ProductId);
+                product.IsSpecial = productVM.IsSpecial;
 
+                try
+                {
+                    _dbRepository.Update(product);
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
         public bool Edit(ProductViewModels.ProductSingleResult productVM)
         {
             Product product = _dbRepository.GetAll<Product>().FirstOrDefault(product => product.ProductId == productVM.ProductId);

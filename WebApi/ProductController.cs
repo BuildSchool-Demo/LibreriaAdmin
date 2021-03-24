@@ -111,6 +111,24 @@ namespace LibreriaAdmin.WebApi
 
         }
         [HttpPost]
+        public BaseModel.BaseResult<List<ProductViewModels.ProductSingleResult>> EditIsSpecial(List<ProductViewModels.ProductSingleResult> productVMList)
+        {
+            BaseModel.BaseResult<List<ProductViewModels.ProductSingleResult>> result = new BaseModel.BaseResult<List<ProductViewModels.ProductSingleResult>>();
+            try
+            {
+                result.IsSuccess = _productService.EditIsSpecial(productVMList);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Msg = ex.Message;
+                result.IsSuccess = false;
+
+                return result;
+            }
+
+        }
+        [HttpPost]
         
         public BaseModel.BaseResult<LibreriaAdmin.ViewModels.ProductViewModels.ProductSingleResult> AddItem([FromBody] ProductViewModels.ProductSingleResult product)
         {
