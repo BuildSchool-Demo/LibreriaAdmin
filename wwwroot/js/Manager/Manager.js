@@ -103,9 +103,9 @@
         submitEdit(item) {
             perPage: 20, item = this.items[this.infoModal.index];
             item.managerID = this.infoModal.managerID;
-            item.ManagerName = this.infoModal.ManagerName;
-            item.ManagerPassword = this.infoModal.ManagerPassword;
-            item.ManagerUserName = this.infoModal.ManagerUserName;
+            item.managerName = this.infoModal.managerName;
+            item.managerPassword = this.infoModal.managerPassword;
+            item.managerUserName = this.infoModal.managerUserName;
             item.managerRoleID = this.infoModal.managerRoleID;
 
 
