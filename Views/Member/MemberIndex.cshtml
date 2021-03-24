@@ -88,19 +88,40 @@
                     <b-button size="sm" v-on:click="info(row.item, row.index, $event.target)" class="mr-1">
                         編輯
                     </b-button>
-                    <b-button v-b-modal.modal-sm variant="primary">
-                        刪除
-                    </b-button>
                 </template>
-                
+
+                <template #cell(delete)="row">
+                    <button v-on:click="deleteMember(row.item, row.index)" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                        刪除
+                    </button>
+                </template>
+
             </b-table>
 
-            <b-modal id="modal-sm" size="sm" @@ok="()=>{removeItem(row.item.memberId)}">
-                <h3>
-                    是否要刪除 ?<h3>
-                        </br>
-                        <p style="color: red;font-size: 15px">(移除將無法還原)</p>
-            </b-modal>
+
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <h3>是否要刪除 ?<h3></br>
+                            <p style="color: red;font-size: 15px">(移除將無法還原)</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-primary" v-on:click="removeItem()">確定</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            
+
 
             <!-- Info modal -->
             <b-modal :id="infoModal.id" :title="infoModal.title" @@ok="()=>{submitEdit()}" v-on:hide="resetInfoModal">
@@ -169,7 +190,8 @@
                 { key: 'completeAddress', label: '住址', class: 'text-center' },
                 { key: 'email', label: '信箱', class: 'text-center mg-right:50px' },
                 { key: 'ordersum', label: '消費金額', sortable: true, class: 'text-right' },
-                { key: 'actions', label: '功能', class: 'text-center' }
+                { key: 'actions', label: '編輯', class: 'text-center' },
+                { key: 'delete', label: '刪除', class: 'text-center' }
             ],
             totalRows: 1,
             currentPage: 1,
@@ -195,6 +217,10 @@
                 email: 'email',
 
 
+            },
+            removeMessageBox: {
+                item: null,
+                index: -1,
             }
         },
         created: function () {
@@ -237,6 +263,7 @@
                 this.infoModal.email = item.email;
                 this.$root.$emit('bv::show::modal', this.infoModal.id, button);
             },
+
             resetInfoModal() {
                 //this.infoModal.title = ''
                 //this.infoModal.content = ''
@@ -267,33 +294,41 @@
                 item.completeAddress = item.city + item.region + item.address;
                 axios.post('/api/Member/Edit', item)
                     .then((res) => {
-                        console.log(res);
+                        //console.log(res);
                     })
             },
 
-            removeItem: function (item) {
+            removeItem() {
                 let backendApi = "https://localhost:5001/api/Member/DeleteItem";
-                if ((item != null || item != '') && item > 0) {
-                    let request = { MembertId: item }
+                if (this.removeMessageBox.item.memberId >= 0) {
+                    let request = { MemberId: this.removeMessageBox.item.memberId }
+                    //console.log(request)
                     $.ajax({
                         url: backendApi,
                         method: "POST",
                         dataType: "json",   //如果有JSON回傳資料, 則加上此行, 若無請勿加, 會引起parse error
                         data: JSON.stringify(request),
                         contentType: "application/json;charset=UTF-8",
-                        success: function (data, textStatus, jqXHR) {
-                            if (jqXHR.status == "202") {
+                        success: function (isSuccess) {
+                            if (isSuccess) {
+                                member.items.splice(member.removeMessageBox.index, 1);
                                 alert("資料刪除成功 !");
+                                $('#exampleModal').modal('hide');
+                            }
+                            else {
+                                alert("資料刪除失敗 !");
+                                $('#exampleModal').modal('hide');
                             }
                         },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            alert("資料刪除失敗 !");
-                        }
                     })
-
                 }
+            },
 
+            deleteMember(item, index) {
+                this.removeMessageBox.item = item;
+                this.removeMessageBox.index = (this.currentPage - 1) * this.perPage + index;
             }
+            
         },
     })
 
