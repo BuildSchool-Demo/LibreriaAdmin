@@ -88,19 +88,19 @@
                     <b-button size="sm" v-on:click="info(row.item, row.index, $event.target)" class="mr-1">
                         編輯
                     </b-button>
-                    <b-button size="sm" v-on:click="row.toggleDetails">
-                        {{ row.detailsShowing ? 'Hide' : 'Show' }} Details
+                    <b-button v-b-modal.modal-sm variant="primary">
+                        刪除
                     </b-button>
                 </template>
-
-                <template #row-details="row">
-                    <b-card>
-                        <ul>
-                            <li v-for="(value, key) in row.item" :key="key">{{ key }}: {{ value }}</li>
-                        </ul>
-                    </b-card>
-                </template>
+                
             </b-table>
+
+            <b-modal id="modal-sm" size="sm" @@ok="()=>{removeItem(row.item.memberId)}">
+                <h3>
+                    是否要刪除 ?<h3>
+                        </br>
+                        <p style="color: red;font-size: 15px">(移除將無法還原)</p>
+            </b-modal>
 
             <!-- Info modal -->
             <b-modal :id="infoModal.id" :title="infoModal.title" @@ok="()=>{submitEdit()}" v-on:hide="resetInfoModal">
@@ -168,7 +168,7 @@
                 { key: 'mobileNumber', label: '手機號碼', class: 'text-center' },
                 { key: 'completeAddress', label: '住址', class: 'text-center' },
                 { key: 'email', label: '信箱', class: 'text-center mg-right:50px' },
-                { key: 'ordersum', label: '消費金額', sortable: true, class: 'text-right'},
+                { key: 'ordersum', label: '消費金額', sortable: true, class: 'text-right' },
                 { key: 'actions', label: '功能', class: 'text-center' }
             ],
             totalRows: 1,
@@ -270,6 +270,30 @@
                         console.log(res);
                     })
             },
+
+            removeItem: function (item) {
+                let backendApi = "https://localhost:5001/api/Member/DeleteItem";
+                if ((item != null || item != '') && item > 0) {
+                    let request = { MembertId: item }
+                    $.ajax({
+                        url: backendApi,
+                        method: "POST",
+                        dataType: "json",   //如果有JSON回傳資料, 則加上此行, 若無請勿加, 會引起parse error
+                        data: JSON.stringify(request),
+                        contentType: "application/json;charset=UTF-8",
+                        success: function (data, textStatus, jqXHR) {
+                            if (jqXHR.status == "202") {
+                                alert("資料刪除成功 !");
+                            }
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            alert("資料刪除失敗 !");
+                        }
+                    })
+
+                }
+
+            }
         },
     })
 

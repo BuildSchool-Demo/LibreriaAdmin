@@ -12,5 +12,7 @@ namespace LibreriaAdmin.Interfaces
         OrderViewModel.OrderListResult GetByMemberId(int id);
 
         bool Edit(MemberViewModel.MemberSingleResult memberVM);
+
+        public bool Remove(int MemberId);
     }
 }

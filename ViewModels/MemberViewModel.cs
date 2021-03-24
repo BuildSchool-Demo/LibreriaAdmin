@@ -54,5 +54,10 @@ namespace LibreriaAdmin.ViewModels
         {
 
         }
+
+        public class GetByIdRequest
+        {
+            public int MemberId { get; set; }
+        }
     }
 }

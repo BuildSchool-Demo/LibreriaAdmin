@@ -166,5 +166,32 @@ namespace LibreriaAdmin.Services
 
             return result;
         }
+
+        public bool Remove(int MemberId)
+        {
+            //判斷商品有沒有產生訂單再刪除
+            bool notCanDelete = false;
+            //訂單詳細
+            notCanDelete = _dbRepository.GetAll<Order>().ToList()
+                .Exists(x => x.MemberId == MemberId);
+            if (notCanDelete == true) return false;
+            //購物車
+            notCanDelete = _dbRepository.GetAll<ShoppingCart>().ToList()
+                .Exists(x => x.MemberId == MemberId);
+            if (notCanDelete == true) return false;
+
+            notCanDelete = _dbRepository.GetAll<Favorite>().ToList()
+                .Exists(x => x.MemberId == MemberId);
+            if (notCanDelete == true) return false;
+
+
+            Member Member = _dbRepository.GetAll<Member>().FirstOrDefault(x => x.MemberId == MemberId);
+            if(!(Member is null))
+            {
+                _dbRepository.Delete(Member);
+                return true;
+            }
+            return false;
+        }
     }
 }
