@@ -69,7 +69,7 @@
                 })
         }
     },
-    mounted() 
+    mounted() {
         // Set the initial number of items
         this.totalRows = this.items.length
     },
