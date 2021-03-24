@@ -110,6 +110,17 @@ namespace LibreriaAdmin.WebApi
             }
 
         }
+        [HttpPost]
+        
+        public BaseModel.BaseResult<LibreriaAdmin.ViewModels.ProductViewModels.ProductSingleResult> AddItem([FromBody] ProductViewModels.ProductSingleResult product)
+        {
+
+            var result = _productService.AddProduct(product);
+
+            return result;
+        }
+
+
     }
 
 }

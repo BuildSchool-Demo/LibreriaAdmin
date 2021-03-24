@@ -1,4 +1,5 @@
 ﻿using LibreriaAdmin.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,7 +43,7 @@ namespace LibreriaAdmin.Interfaces
         /// 新增商品
         /// </summary>
         /// <returns></returns>
-        //public bool Create(ProductViewModels.ProductBaseModel product);
+        BaseModel.BaseResult<ProductViewModels.ProductSingleResult> AddProduct([FromBody] ProductViewModels.ProductSingleResult product);
 
     }
 }

@@ -183,7 +183,7 @@
                             <input v-model="infoModal.categoryId" disabled="disabled" />
                             <br />
                             <label>供應商名稱：</label>
-                            <input v-model="infoModal.supplier" disabled="disabled" >
+                            <input v-model="infoModal.supplier" disabled="disabled">
                             <br />
                             <label>商品編號：</label>
                             <input v-model="infoModal.productId" disabled="disabled" />
@@ -198,48 +198,91 @@
                             <input v-model="infoModal.inventory" />
                             <br />
                             <label>商品銷量：</label>
-                            <input v-model="infoModal.totalSales"/>
+                            <input v-model="infoModal.totalSales" />
                             <br />
                             <label>商品特價：</label>
                             <input v-model="infoModal.isSpecial" />
+                            <br />
+                            <label>商品主圖：</label>
+                            <input v-model="infoModal.mainUrl" />
+                            <br />
+                            <label>商品圖二：</label>
+                            <input v-model="infoModal.secondUrl" />
+                            <br />
+                            <label>商品圖三：</label>
+                            <input v-model="infoModal.thirdUrl" />
+                            <br />
+                            <label>商品圖四：</label>
+                            <input v-model="infoModal.fourthUrl" />
+                            <br />
+                            <label>簡介:</label>
+                            <input v-model="infoModal.introduction" class="h-100 d-inline-block"/>
+                            <br />
 
                         </b-modal>
+                      
                     </b-container>
+                </template>
+                <template>
+                    <div>
+                        
+                    </div>
                 </template>
             </b-tab>
             <b-tab title="新增商品">
+
+                @*CategoryId: categoryId, SupplierId: supplierId, Author: author, PublishDate: publishDate,
+        ProductName: productName, Inventory: inventory, TotalSales: totalSales, UnitPrice: unitPrice,
+        Isbn: isbn, MainUrl: mainUrl, Introduction: introduction*@
                 <div class="result"></div>
                 <template>
-                    <b-container fluid>
-
-                        <b-row class="my-1" v-for="type in types" :key="type">
-                            <b-col sm="3">
-                                <label :for="`type-${type}`"><code>{{ type }}</code>:</label>
-                            </b-col>
-                            <b-col sm="9">
-                                <b-form-input :id="`type-${type}`" :type="type"></b-form-input>
-                            </b-col>
-
-                        </b-row>
-                        <b-row>
-                            <b-col sm="3">
-                                <label><code>introduction</code>:</label>
-                            </b-col>
-                            <b-col sm="9">
-                                <b-form-textarea id="type-introduction"
-                                                 v-model="introduction"
-                                                 placeholder="Enter something..."
-                                                 rows="3"
-                                                 max-rows="6"></b-form-textarea>
-
-                                <pre class="mt-3 mb-0">{{ introduction }}</pre>
-                            </b-col>
-
-                        </b-row>
-                        <b-row><b-button size="sm" variant="danger" v-on:click="addItem()">新增商品</b-button></b-row>
-                    </b-container>
-
+                    <label>商品類別：</label>
+                    <input id="type-categoryId" />
+                    <br />
+                    <label>供應商：</label>
+                    <input id="type-supplierId" />
+                    <br />
+                    <label>作者</label>
+                    <input id="type-author" />
+                    <br />
+                    <label>出版日期：</label>
+                    <input type="date" id="type-publishDate" />
+                    <br />
+                    <label>產品名稱</label>
+                    <input id="type-productName" />
+                    <br />
+                    <label>產品庫存</label>
+                    <input id="type-inventory" />
+                    <br />
+                    <label>產品銷量</label>
+                    <input id="type-totalSales" />
+                    <br />
+                    <label>產品單價</label>
+                    <input id="type-unitPrice" />
+                    <br />
+                    <label>ISBN</label>
+                    <input id="type-isbn" />
+                    <br />
+                    <label>mainUrl</label>
+                    <input id="type-mainUrl" />
+                    <br />
+                    <label>secondUrl</label>
+                    <input id="type-secondUrl" />
+                    <br />
+                    <label>thirdUrl</label>
+                    <input id="type-thirdUrl" />
+                    <br />
+                    <label>fourthUrl</label>
+                    <input id="type-fourthUrl" />
+                    <br />
+                    <label>introduction</label>
+                    <input id="type-introduction" />
+                    <br />
                 </template>
+
+                <b-button size="sm" v-on:click="addItem()" class="mr-1">
+                   新增
+                </b-button>
 
             </b-tab>
         </b-tabs>

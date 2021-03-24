@@ -30,6 +30,9 @@ namespace LibreriaAdmin.ViewModels
             public bool IsSpecial { get; set; }
             public string Supplier { get; set; }
 
+            public string MainUrl { get; set; }
+            public List<string> PreviewUrls { get; set; }
+
 
         }
 
