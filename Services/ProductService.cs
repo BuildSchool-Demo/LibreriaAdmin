@@ -47,6 +47,10 @@ namespace LibreriaAdmin.Services
                                       TotalSales = p.TotalSales,
                                       MainUrl = v.ImgUrl
                                   }).ToList();
+
+
+
+
             return result;
         }
         public ProductViewModels.ProductListResult GetByCategory(int CategoryId)
@@ -190,6 +194,7 @@ namespace LibreriaAdmin.Services
 
             return true;
         }
+
         public bool Edit(ProductViewModels.ProductSingleResult productVM)
         {
             Product product = _dbRepository.GetAll<Product>().FirstOrDefault(product => product.ProductId == productVM.ProductId);
@@ -199,7 +204,7 @@ namespace LibreriaAdmin.Services
             product.TotalSales = productVM.TotalSales;
             product.IsSpecial = productVM.IsSpecial;
             product.Introduction = productVM.Introduction;
-           
+
             _dbRepository.Update(product);
 
             //圖片
@@ -226,7 +231,7 @@ namespace LibreriaAdmin.Services
             return true;
         }
 
-        public BaseModel.BaseResult<ProductViewModels.ProductSingleResult> AddProduct ([FromBody] ProductViewModels.ProductSingleResult productVM)
+        public BaseModel.BaseResult<ProductViewModels.ProductSingleResult> AddProduct([FromBody] ProductViewModels.ProductSingleResult productVM)
         {
             var result = new BaseModel.BaseResult<ProductViewModels.ProductSingleResult>();
             Product newProduct = null;
@@ -282,12 +287,12 @@ namespace LibreriaAdmin.Services
                     result.IsSuccess = true;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 result.IsSuccess = false;
                 result.Msg = ex.ToString();
             }
-            
+
 
             int i = 0;
             foreach (string previewUrl in productVM.PreviewUrls)
@@ -313,11 +318,11 @@ namespace LibreriaAdmin.Services
                     result.Msg = ex.ToString();
                 }
             }
-            
 
-            
+
+
             return result;
-           
+
         }
 
     }
