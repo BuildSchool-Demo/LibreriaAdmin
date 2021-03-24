@@ -19,7 +19,24 @@ namespace LibreriaAdmin.WebApi
         {
             _memberService = memberService;
         }
+        [HttpGet]
+        public BaseModel.BaseResult<MemberViewModel.MemberListResult> GetAllLength()
+        {
+            var result = new BaseModel.BaseResult<MemberViewModel.MemberListResult>();
 
+            try
+            {
+                result.Body = _memberService.GetAllLength();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Msg = ex.Message;
+                result.IsSuccess = false;
+
+                return result;
+            }
+        }
         [HttpGet]
         public BaseModel.BaseResult<MemberViewModel.MemberListResult> GetAll()
         {

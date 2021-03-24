@@ -17,7 +17,16 @@ namespace LibreriaAdmin.Services
         {
             _dbRepository = repository;
         }
-
+        public MemberViewModel.MemberListResult GetAllLength()
+        {
+            var result = new MemberViewModel.MemberListResult();
+            result.MemberList = _dbRepository.GetAll<Member>()
+                                  .Select(x => new MemberViewModel.MemberSingleResult()
+                                  {
+                                      memberId = x.MemberId
+                                  }).ToList();
+            return result;
+        }
         public MemberViewModel.MemberListResult GetAll()
         {
             try
