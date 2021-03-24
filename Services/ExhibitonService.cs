@@ -86,7 +86,7 @@ namespace LibreriaAdmin.Services
                     Credentials = new NetworkCredential(id, password),
                     EnableSsl = true
                 };
-                client.Send(sender, recipient, subject, body + " " + Environment.NewLine + _config["MailCheckUrl"]);
+                client.Send(sender, recipient, subject,"您好" + Environment.NewLine + body + Environment.NewLine + "麻煩請點選以下網址，進行展覽內容修改或確認，謝謝!" + Environment.NewLine + _config["MailCheckUrl"]);
                 return "信件已寄出";
             }
             catch(Exception ex)
@@ -123,8 +123,8 @@ namespace LibreriaAdmin.Services
                       select new ExhibitonEmailViewModel.EmailSingleResult()
                       {
                           ExhibitionId = e.ExhibitionId,
-                          ExhibitionStartTime = e.ExhibitionStartTime,
-                          ExhibitionEndTime = e.ExhibitionEndTime,
+                          ExhibitionStartTime = e.ExhibitionStartTime.ToString("yyyy/MM/dd"),
+                          ExhibitionEndTime = e.ExhibitionEndTime.ToString("yyyy/MM/dd"),
                           ExhibitionIntro = e.ExhibitionIntro,
                           MasterUnit = e.MasterUnit,
                           ExhibitionPrice = e.ExhibitionPrice,
@@ -140,6 +140,7 @@ namespace LibreriaAdmin.Services
 
             return result;
         }
+
         public ExhibitonViewModel.ExhibitonListResult GetTodayExhibiton()
         {
             var result = new ExhibitonViewModel.ExhibitonListResult();
@@ -157,12 +158,29 @@ namespace LibreriaAdmin.Services
                                       ExPhoto = x.ExPhoto,
                                       ExName = x.ExName,
                                       ReviewState = x.ReviewState,
-                                      EditModifyDate =x.EditModifyDate
+                                      EditModifyDate = x.EditModifyDate
 
 
                                   }).ToList();
             return result;
         }
-
+     
+        public RentalViewModel.RentalListResult GetRentalDate(int exhibitionId)
+        {
+            var result = new RentalViewModel.RentalListResult();
+            result.GetRentalDate = (from o in _dbRepository.GetAll<ExhibitionOrder>()
+                                    join c in _dbRepository.GetAll<ExhibitionCustomer>()
+                                    on o.ExCustomerId equals c.ExCustomerId
+                                    join e in _dbRepository.GetAll<Exhibition>()
+                                    on o.ExCustomerId equals e.ExCustomerId
+                                    where e.ExhibitionId == exhibitionId
+                                    select new RentalViewModel.GetRentalDate
+                                    {
+                                        StartDate = o.StartDate.ToString("yyyy/MM/dd"),
+                                        EndDate = o.EndDate.ToString("yyyy/MM/dd")
+                                    }).ToList();
+            
+            return result;
+        }
     }
 }

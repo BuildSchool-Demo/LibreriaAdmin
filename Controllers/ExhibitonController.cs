@@ -32,14 +32,16 @@ namespace LibreriaAdmin.Controllers
             return View();
         }
 
-        public IActionResult Email()
+        public IActionResult Email(int exhibitionId)
         {
+            ViewData["exhibitionData"] = _service.EmailGetAll(exhibitionId);
+            ViewData["GetRentalDate"] = _service.GetRentalDate(exhibitionId);
             return View();
         }
 
         public IActionResult SendMail(int exhibitionId)
         {
-            //ViewBag.exhibitionId = exhibitionId;
+            ViewBag.exhibitionId = exhibitionId;
             ViewData["customerData"] = _service.GetCustomerData(exhibitionId);
             
             return View();

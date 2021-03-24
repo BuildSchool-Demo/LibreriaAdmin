@@ -15,7 +15,6 @@ window.onload = function () {
 
         let product = { ManagerUserName: managerUserName, ManagerName: managername, ManagerPassword: managerPassword, ManagerRoleID: managerRoleID }
 
-
         $.ajax({
             url: backendApi + "/" + "CreateManager",
             method: "POST",

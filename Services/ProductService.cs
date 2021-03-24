@@ -2,6 +2,7 @@
 using LibreriaAdmin.Models;
 using LibreriaAdmin.Repository;
 using LibreriaAdmin.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,10 +31,12 @@ namespace LibreriaAdmin.Services
                                   on p.CategoryId equals c.CategoryId
                                   join s in _dbRepository.GetAll<Supplier>()
                                   on p.SupplierId equals s.SupplierId
+
                                   select new ProductViewModels.ProductSingleResult()
                                   {
                                       ProductId = p.ProductId,
                                       ProductName = p.ProductName,
+                                      CategoryId = p.CategoryId,
                                       UnitPrice = p.UnitPrice,
                                       Author = p.Author,
                                       Supplier = s.Name,
@@ -42,8 +45,11 @@ namespace LibreriaAdmin.Services
                                       Introduction = p.Introduction,
                                       Inventory = p.Inventory,
                                       TotalSales = p.TotalSales,
-
+                                      MainUrl = v.ImgUrl
                                   }).ToList();
+
+
+
 
             return result;
         }
@@ -78,7 +84,7 @@ namespace LibreriaAdmin.Services
 
             return result;
         }
-        
+
 
         public ProductViewModels.ProductSingleResult GetById(ProductViewModels.GetByIdRequest request)
         {
@@ -103,10 +109,12 @@ namespace LibreriaAdmin.Services
                 TotalSales = data.TotalSales,
                 //IsFav = data.IsFav,
                 IsSpecial = data.IsSpecial
+
             };
 
             return result;
         }
+
         public ProductViewModels.ProductListResult GetTotalSale()
         {
             var result = new ProductViewModels.ProductListResult();
@@ -155,17 +163,93 @@ namespace LibreriaAdmin.Services
             if (notCanDelete == true) return false;
             //刪Preview
             List<Preview> previewList = _dbRepository.GetAll<Preview>().Where(x => x.ProductId == productId).ToList();
-            foreach(Preview preview in previewList)
+            foreach (Preview preview in previewList)
             {
                 _dbRepository.Delete(preview);
             }
             Product product = _dbRepository.GetAll<Product>().FirstOrDefault(x => x.ProductId == productId);
-            if(!(product is null))
+            if (!(product is null))
             {
                 _dbRepository.Delete(product);
                 return true;
             }
             return false;
+        }
+
+        public bool Edit(ProductViewModels.ProductSingleResult productVM)
+        {
+            Product product = _dbRepository.GetAll<Product>().FirstOrDefault(product => product.ProductId == productVM.ProductId);
+            product.ProductName = productVM.ProductName;
+            product.UnitPrice = productVM.UnitPrice;
+            product.Inventory = productVM.Inventory;
+            product.TotalSales = productVM.TotalSales;
+            product.IsSpecial = productVM.IsSpecial;
+            product.Introduction = productVM.Introduction;
+           
+            _dbRepository.Update(product);
+
+            //圖片
+            Preview preview = _dbRepository.GetAll<Preview>().FirstOrDefault(preview => preview.ProductId == productVM.ProductId && preview.Sort == 0);
+
+            preview.ProductId = productVM.ProductId;
+            preview.ImgUrl = productVM.MainUrl;
+            preview.Sort = 0;
+
+            _dbRepository.Update(preview);
+
+            int i = 0;
+            foreach (var imgUrl in productVM.PreviewUrls)
+            {
+                i++;
+                preview = _dbRepository.GetAll<Preview>().FirstOrDefault(preview => preview.ProductId == productVM.ProductId && preview.Sort == i);
+
+                preview.ProductId = productVM.ProductId;
+                preview.ImgUrl = imgUrl;
+                preview.Sort = i;
+                _dbRepository.Update(preview);
+            }
+
+            return true;
+        }
+
+        public BaseModel.BaseResult<ProductViewModels.ProductSingleResult> AddProduct ([FromBody] ProductViewModels.ProductSingleResult product)
+        {
+            var result = new BaseModel.BaseResult<ProductViewModels.ProductSingleResult>();
+            Product newProduct= null;
+
+            newProduct = new Product
+            {
+                ProductName = product.ProductName,
+                ProductId = product.ProductId,
+                CategoryId = product.CategoryId,
+                Introduction = product.Introduction,
+                SupplierId = product.SupplierId,
+                Author = product.Author,
+                Inventory = product.Inventory,
+                TotalSales = product.TotalSales,
+                IsSpecial = product.IsSpecial,
+                UnitPrice = product.UnitPrice,
+                Isbn = product.Isbn,
+                CreateTime = DateTime.UtcNow.AddHours(8),
+                Sort = 0,
+                
+                
+            };
+            try
+            {
+                _dbRepository.Create<Product>(newProduct);
+                    if(newProduct != null)
+                {
+                    result.IsSuccess = true;
+                }
+            }
+            catch(Exception ex)
+            {
+                result.IsSuccess = false;
+                result.Msg = ex.ToString();
+            }
+            return result;
+           
         }
 
     }

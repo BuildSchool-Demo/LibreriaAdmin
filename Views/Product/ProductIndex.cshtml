@@ -1,6 +1,6 @@
 ﻿
 
-<div class="col-sm-6">
+@*<div class="col-sm-6">
     <h1 class="m-0">商品查詢</h1>
 </div>
 <div class="col-sm-6">
@@ -8,174 +8,289 @@
         <li class="breadcrumb-item"><a href="~/Home/Index">Home</a></li>
         <li class="breadcrumb-item active">Starter Page</li>
     </ol>
-</div>
+</div>*@
 
 <div id="product-index" class="col-12">
-    <template>
-        <b-container fluid>
-            <!-- User Interface controls -->
-            <div id="result"></div>
-            <div id="apiUrl"></div>
-            <b-row>
-                <b-col lg="6" class="my-1">
-                    <b-form-group label="Sort"
-                                  label-for="sort-by-select"
-                                  label-cols-sm="3"
-                                  label-align-sm="right"
-                                  label-size="sm"
-                                  class="mb-0"
-                                  v-slot="{ ariaDescribedby }">
-                        <b-input-group size="sm">
-                            <b-form-select id="sort-by-select"
-                                           v-model="sortBy"
-                                           :options="sortOptions"
-                                           :aria-describedby="ariaDescribedby"
-                                           class="w-75">
-                                <template #first>
-                                    <option value="">-- none --</option>
-                                </template>
-                            </b-form-select>
+    <div>
+        <b-tabs content-class="mt-3">
+            <b-tab title="商品查詢" active>
+                <template>
+                    <b-container fluid>
+                        <!-- User Interface controls -->
+                        <div id="result"></div>
+                        <div id="apiUrl"></div>
+                        <b-row>
+                            <b-col lg="6" class="my-1">
+                                <b-form-group label="Sort"
+                                              label-for="sort-by-select"
+                                              label-cols-sm="3"
+                                              label-align-sm="right"
+                                              label-size="sm"
+                                              class="mb-0"
+                                              v-slot="{ ariaDescribedby }">
+                                    <b-input-group size="sm">
+                                        <b-form-select id="sort-by-select"
+                                                       v-model="sortBy"
+                                                       :options="sortOptions"
+                                                       :aria-describedby="ariaDescribedby"
+                                                       class="w-75">
+                                            <template #first>
+                                                <option value="">-- none --</option>
+                                            </template>
+                                        </b-form-select>
 
-                            <b-form-select v-model="sortDesc"
-                                           :disabled="!sortBy"
-                                           :aria-describedby="ariaDescribedby"
-                                           size="sm"
-                                           class="w-25">
-                                <option :value="false">Asc</option>
-                                <option :value="true">Desc</option>
-                            </b-form-select>
-                        </b-input-group>
-                    </b-form-group>
-                </b-col>
+                                        <b-form-select v-model="sortDesc"
+                                                       :disabled="!sortBy"
+                                                       :aria-describedby="ariaDescribedby"
+                                                       size="sm"
+                                                       class="w-25">
+                                            <option :value="false">Asc</option>
+                                            <option :value="true">Desc</option>
+                                        </b-form-select>
+                                    </b-input-group>
+                                </b-form-group>
+                            </b-col>
 
-                <b-col lg="6" class="my-1">
-                    <b-form-group label="Initial sort"
-                                  label-for="initial-sort-select"
-                                  label-cols-sm="3"
-                                  label-align-sm="right"
-                                  label-size="sm"
-                                  class="mb-0">
-                        <b-form-select id="initial-sort-select"
-                                       v-model="sortDirection"
-                                       :options="['asc', 'desc', 'last']"
-                                       size="sm"></b-form-select>
-                    </b-form-group>
-                </b-col>
+                            <b-col lg="6" class="my-1">
+                                <b-form-group label="Initial sort"
+                                              label-for="initial-sort-select"
+                                              label-cols-sm="3"
+                                              label-align-sm="right"
+                                              label-size="sm"
+                                              class="mb-0">
+                                    <b-form-select id="initial-sort-select"
+                                                   v-model="sortDirection"
+                                                   :options="['asc', 'desc', 'last']"
+                                                   size="sm"></b-form-select>
+                                </b-form-group>
+                            </b-col>
 
-                <b-col lg="6" class="my-1">
-                    <b-form-group label="Filter"
-                                  label-for="filter-input"
-                                  label-cols-sm="3"
-                                  label-align-sm="right"
-                                  label-size="sm"
-                                  class="mb-0">
-                        <b-input-group size="sm">
-                            <b-form-input id="filter-input"
-                                          v-model="filter"
-                                          type="search"
-                                          placeholder="Type to Search"></b-form-input>
+                            <b-col lg="6" class="my-1">
+                                <b-form-group label="Filter"
+                                              label-for="filter-input"
+                                              label-cols-sm="3"
+                                              label-align-sm="right"
+                                              label-size="sm"
+                                              class="mb-0">
+                                    <b-input-group size="sm">
+                                        <b-form-input id="filter-input"
+                                                      v-model="filter"
+                                                      type="search"
+                                                      placeholder="Type to Search"></b-form-input>
 
-                            <b-input-group-append>
-                                <b-button :disabled="!filter" v-on:click="filter = ''">Clear</b-button>
-                            </b-input-group-append>
-                        </b-input-group>
-                    </b-form-group>
-                </b-col>
+                                        <b-input-group-append>
+                                            <b-button :disabled="!filter" v-on:click="filter = ''">Clear</b-button>
+                                        </b-input-group-append>
+                                    </b-input-group>
+                                </b-form-group>
+                            </b-col>
 
-                <b-col lg="6" class="my-1">
-                    <b-form-group v-model="sortDirection"
-                                  label="Filter On"
-                                  description="Leave all unchecked to filter on all data"
-                                  label-cols-sm="3"
-                                  label-align-sm="right"
-                                  label-size="sm"
-                                  class="mb-0"
-                                  v-slot="{ ariaDescribedby }">
-                        <b-form-checkbox-group v-model="filterOn"
-                                               :aria-describedby="ariaDescribedby"
-                                               class="mt-1">
-                            <b-form-checkbox value="name">Name</b-form-checkbox>
-                            <b-form-checkbox value="age">Age</b-form-checkbox>
-                            <b-form-checkbox value="isActive">Active</b-form-checkbox>
-                        </b-form-checkbox-group>
-                    </b-form-group>
-                </b-col>
+                            <b-col lg="6" class="my-1">
+                                <b-form-group v-model="sortDirection"
+                                              label="Filter On"
+                                              description="Leave all unchecked to filter on all data"
+                                              label-cols-sm="3"
+                                              label-align-sm="right"
+                                              label-size="sm"
+                                              class="mb-0"
+                                              v-slot="{ ariaDescribedby }">
+                                    <b-form-checkbox-group v-model="filterOn"
+                                                           :aria-describedby="ariaDescribedby"
+                                                           class="mt-1">
+                                        <b-form-checkbox value="name">Name</b-form-checkbox>
+                                        <b-form-checkbox value="age">Age</b-form-checkbox>
+                                        <b-form-checkbox value="isActive">Active</b-form-checkbox>
+                                    </b-form-checkbox-group>
+                                </b-form-group>
+                            </b-col>
 
-                <b-col sm="5" md="6" class="my-1">
-                    <b-form-group label="Per page"
-                                  label-for="per-page-select"
-                                  label-cols-sm="6"
-                                  label-cols-md="4"
-                                  label-cols-lg="3"
-                                  label-align-sm="right"
-                                  label-size="sm"
-                                  class="mb-0">
-                        <b-form-select id="per-page-select"
-                                       v-model="perPage"
-                                       :options="pageOptions"
-                                       size="sm"></b-form-select>
-                    </b-form-group>
-                </b-col>
+                            <b-col sm="5" md="6" class="my-1">
+                                <b-form-group label="Per page"
+                                              label-for="per-page-select"
+                                              label-cols-sm="6"
+                                              label-cols-md="4"
+                                              label-cols-lg="3"
+                                              label-align-sm="right"
+                                              label-size="sm"
+                                              class="mb-0">
+                                    <b-form-select id="per-page-select"
+                                                   v-model="perPage"
+                                                   :options="pageOptions"
+                                                   size="sm"></b-form-select>
+                                </b-form-group>
+                            </b-col>
 
-                <b-col sm="7" md="6" class="my-1">
-                    <b-pagination v-model="currentPage"
-                                  :total-rows="totalRows"
-                                  :per-page="perPage"
-                                  align="fill"
-                                  size="sm"
-                                  class="my-0"></b-pagination>
-                </b-col>
-            </b-row>
+                            <b-col sm="7" md="6" class="my-1">
+                                <b-pagination v-model="currentPage"
+                                              :total-rows="totalRows"
+                                              :per-page="perPage"
+                                              align="fill"
+                                              size="sm"
+                                              class="my-0"></b-pagination>
+                            </b-col>
+                        </b-row>
 
-            <!-- Main table element -->
-            <b-table :items="items"
-                     :fields="fields"
-                     :current-page="currentPage"
-                     :per-page="perPage"
-                     :filter="filter"
-                     :filter-included-fields="filterOn"
-                     :sort-by.sync="sortBy"
-                     :sort-desc.sync="sortDesc"
-                     :sort-direction="sortDirection"
-                     stacked="md"
-                     show-empty
-                     small
-                     v-on:filtered="onFiltered">
-                <template #cell(name)="row">
-                    {{ row.value }}
+                        <!-- Main table element -->
+                        <b-table :items="items"
+                                 :fields="fields"
+                                 :current-page="currentPage"
+                                 :per-page="perPage"
+                                 :filter="filter"
+                                 :filter-included-fields="filterOn"
+                                 :sort-by.sync="sortBy"
+                                 :sort-desc.sync="sortDesc"
+                                 :sort-direction="sortDirection"
+                                 stacked="md"
+                                 show-empty
+                                 small
+                                 v-on:filtered="onFiltered">
+                            <template #cell(name)="row">
+                                {{ row.value }}
+                            </template>
+                            <template v-slot:cell(productName)="row">
+                                <div style="max-width:250px; overflow-y:auto;">
+                                    {{ row.value }}
+                                </div>
+                            </template>
+
+                            <template #cell(actions)="row">
+                                <b-button size="sm" v-on:click="row.toggleDetails" variant="success">
+                                    {{ row.detailsShowing ? 'Hide' : 'Show' }} Details
+                                </b-button>
+                                <b-button size="sm" variant="danger" v-on:click="removeItem(row.item.productId)">
+                                    Delete
+                                </b-button>
+
+                                <b-button size="sm" v-on:click="info(row.item, row.index, $event.target)" class="mr-1">
+                                    Info modal
+                                </b-button>
+
+                            </template>
+
+                            <template #row-details="row">
+                                <b-card>
+                                    <ul>
+                                        <li v-for="(value, key) in row.item" :key="key">{{ key }}: {{ value }}</li>
+                                    </ul>
+                                </b-card>
+
+                            </template>
+                        </b-table>
+
+                        <!-- Info modal -->
+                        <b-modal :id="infoModal.id" :title="infoModal.title" @@ok="()=>{submitEdit()}" v-on:hide="resetInfoModal">
+                            <label>商品類別：</label>
+                            <input v-model="infoModal.categoryId" disabled="disabled" />
+                            <br />
+                            <label>供應商名稱：</label>
+                            <input v-model="infoModal.supplier" disabled="disabled">
+                            <br />
+                            <label>商品編號：</label>
+                            <input v-model="infoModal.productId" disabled="disabled" />
+                            <br />
+                            <label>商品名稱：</label>
+                            <input v-model="infoModal.productName" />
+                            <br />
+                            <label>商品單價：</label>
+                            <input v-model="infoModal.unitPrice" />
+                            <br />
+                            <label>商品庫存：</label>
+                            <input v-model="infoModal.inventory" />
+                            <br />
+                            <label>商品銷量：</label>
+                            <input v-model="infoModal.totalSales" />
+                            <br />
+                            <label>商品特價：</label>
+                            <input v-model="infoModal.isSpecial" />
+                            <br />
+                            <label>商品主圖：</label>
+                            <input v-model="infoModal.mainUrl" />
+                            <br />
+                            <label>商品圖二：</label>
+                            <input v-model="infoModal.secondUrl" />
+                            <br />
+                            <label>商品圖三：</label>
+                            <input v-model="infoModal.thirdUrl" />
+                            <br />
+                            <label>商品圖四：</label>
+                            <input v-model="infoModal.fourthUrl" />
+                            <br />
+                            <label>簡介:</label>
+                            <input v-model="infoModal.introduction" class="h-100 d-inline-block"/>
+                            <br />
+
+                        </b-modal>
+                      
+                    </b-container>
                 </template>
-                <template v-slot:cell(productName)="row">
-                    <div style="max-width:250px; overflow-y:auto;">
-                        {{ row.value }}
+                <template>
+                    <div>
+                        
                     </div>
                 </template>
+            </b-tab>
+            <b-tab title="新增商品">
 
-                <template #cell(actions)="row">
-
-                    <b-button size="sm" v-on:click="row.toggleDetails" variant="success">
-                        {{ row.detailsShowing ? 'Hide' : 'Show' }} Details
-                    </b-button>
-                    <b-button size="sm" variant="primary">
-                        Edit
-                    </b-button>
-                    <b-button size="sm" variant="danger" v-on:click="removeItem(row.item.productId)">
-                        Delete
-                    </b-button>
+                @*CategoryId: categoryId, SupplierId: supplierId, Author: author, PublishDate: publishDate,
+        ProductName: productName, Inventory: inventory, TotalSales: totalSales, UnitPrice: unitPrice,
+        Isbn: isbn, MainUrl: mainUrl, Introduction: introduction*@
+                <div class="result"></div>
+                <template>
+                    <label>商品類別：</label>
+                    <input id="type-categoryId" />
+                    <br />
+                    <label>供應商：</label>
+                    <input id="type-supplierId" />
+                    <br />
+                    <label>作者</label>
+                    <input id="type-author" />
+                    <br />
+                    <label>出版日期：</label>
+                    <input type="date" id="type-publishDate" />
+                    <br />
+                    <label>產品名稱</label>
+                    <input id="type-productName" />
+                    <br />
+                    <label>產品庫存</label>
+                    <input id="type-inventory" />
+                    <br />
+                    <label>產品銷量</label>
+                    <input id="type-totalSales" />
+                    <br />
+                    <label>產品單價</label>
+                    <input id="type-unitPrice" />
+                    <br />
+                    <label>ISBN</label>
+                    <input id="type-isbn" />
+                    <br />
+                    <label>mainUrl</label>
+                    <input id="type-mainUrl" />
+                    <br />
+                    <label>secondUrl</label>
+                    <input id="type-secondUrl" />
+                    <br />
+                    <label>thirdUrl</label>
+                    <input id="type-thirdUrl" />
+                    <br />
+                    <label>fourthUrl</label>
+                    <input id="type-fourthUrl" />
+                    <br />
+                    <label>introduction</label>
+                    <input id="type-introduction" />
+                    <br />
                 </template>
 
-                <template #row-details="row">
-                    <b-card>
-                        <ul>
-                            <li v-for="(value, key) in row.item" :key="key">{{ key }}: {{ value }}</li>
-                        </ul>
-                    </b-card>
-                </template>
-            </b-table>
+                <b-button size="sm" v-on:click="addItem()" class="mr-1">
+                   新增
+                </b-button>
+
+            </b-tab>
+        </b-tabs>
+    </div>
 
 
 
-        </b-container>
-    </template>
+
 </div>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 

@@ -14,8 +14,8 @@ namespace LibreriaAdmin.ViewModels
         public class EmailBaseModel
         {
             public int ExhibitionId { get; set; }
-            public DateTime ExhibitionStartTime { get; set; }
-            public DateTime ExhibitionEndTime { get; set; }
+            public string ExhibitionStartTime { get; set; }
+            public string ExhibitionEndTime { get; set; }
             public string ExhibitionIntro { get; set; }
             public string MasterUnit { get; set; }
             public decimal ExhibitionPrice { get; set; }

@@ -48,5 +48,12 @@ namespace LibreriaAdmin.Interfaces
 
         ExhibitonViewModel.ExhibitonListResult GetTodayExhibiton();
 
+
+        /// <summary>
+        /// 取得租借日期
+        /// </summary>
+        /// <param name="exhibitionId"></param>
+        /// <returns></returns>
+        RentalViewModel.RentalListResult GetRentalDate(int exhibitionId);
     }
 }
