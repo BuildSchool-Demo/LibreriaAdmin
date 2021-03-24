@@ -47,10 +47,6 @@ namespace LibreriaAdmin.Services
                                       TotalSales = p.TotalSales,
                                       MainUrl = v.ImgUrl
                                   }).ToList();
-
-
-
-
             return result;
         }
         public ProductViewModels.ProductListResult GetByCategory(int CategoryId)
