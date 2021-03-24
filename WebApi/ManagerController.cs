@@ -87,6 +87,22 @@ namespace LibreriaAdmin.WebApi
             return Ok();
         }
 
+
+        [HttpPost("{id}")]
+        //public async Task<ActionResult<ManagerViewModel.ManagerSingleResult>> CreateManager([FromBody] ManagerViewModel.ManagerSingleResult manager)
+        public ActionResult<ManagerViewModel.ManagerSingleResult> EditManager(int id, [FromBody] ManagerViewModel.ManagerSingleResult manager)
+        {
+            _logger.LogWarning(2001, DateTime.Now.ToLongTimeString() + $" Manager控制器Post方法被呼叫 - 傳入的資料為{nameof(id)}資料為:" + id);
+            var result = _manageService.EditManager(id,manager);
+
+            if (result.IsSuccess == false)
+            {
+                return NotFound();
+            }
+
+            return Ok();
+        }
+
         //Login
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel loginVM)

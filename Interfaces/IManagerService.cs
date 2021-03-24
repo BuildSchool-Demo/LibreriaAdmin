@@ -23,7 +23,7 @@ namespace LibreriaAdmin.Interfaces
 
         BaseModel.BaseResult<ManagerViewModel.ManagerSingleResult> CreateManager([FromBody] ManagerViewModel.ManagerSingleResult manager);
         BaseModel.BaseResult<ManagerViewModel.ManagerSingleResult> DeleteManager(int id);
-        BaseModel.BaseResult<ManagerViewModel.ManagerSingleResult> EditManager(int id);
+        BaseModel.BaseResult<ManagerViewModel.ManagerSingleResult> EditManager(int id, [FromBody] ManagerViewModel.ManagerSingleResult manager);
 
     }
 }

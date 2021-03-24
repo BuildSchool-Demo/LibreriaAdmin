@@ -88,9 +88,7 @@ namespace LibreriaAdmin.Services
         {
             var result = new BaseModel.BaseResult<ManagerViewModel.ManagerSingleResult>();
 
-            var targetmanager = _repository.GetAll<Manager>().Where(x => x.ManagerId == id).FirstOrDefault();
-
-            
+            var targetmanager = _repository.GetAll<Manager>().Where(x => x.ManagerId == id).FirstOrDefault();          
 
 
             try
@@ -110,9 +108,33 @@ namespace LibreriaAdmin.Services
             return result;
         }
 
-        public BaseModel.BaseResult<ManagerViewModel.ManagerSingleResult> EditManager(int id)
+        public BaseModel.BaseResult<ManagerViewModel.ManagerSingleResult> EditManager(int id, [FromBody] ManagerViewModel.ManagerSingleResult manager)
         {
-            throw new NotImplementedException();
+            var result = new BaseModel.BaseResult<ManagerViewModel.ManagerSingleResult>();
+
+            var targetmanager = _repository.GetAll<Manager>().Where(x => x.ManagerId == id).FirstOrDefault();
+
+            targetmanager.ManagerId = id;
+            targetmanager.ManagerName = manager.ManagerName;
+            targetmanager.ManagerPassword = manager.ManagerPassword;
+            targetmanager.ManagerRoleId = manager.ManagerRoleID;
+            targetmanager.ManagerUsername = manager.ManagerUserName;
+
+            try
+            {
+                _repository.Update<Manager>(targetmanager);
+                if (targetmanager != null)
+                {
+                    result.IsSuccess = true;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+                result.IsSuccess = false;
+            }
+            return result;
         }
     }
 }

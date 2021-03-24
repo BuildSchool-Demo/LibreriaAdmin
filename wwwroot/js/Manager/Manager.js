@@ -18,7 +18,12 @@
             sortDesc: false,
             sortDirection: 'asc',
             filter: null,
-            filterOn: []
+            filterOn: [],
+            infoModal: {
+                id: 'info-modal',
+                title: '',
+                content: ''
+            }
         }
 
     },
@@ -44,8 +49,8 @@
     },
     methods: {
         resetInfoModal() {
-            this.infoModal.title = ''
-            this.infoModal.content = ''
+            //this.infoModal.title = ''
+            //this.infoModal.content = ''
         },
         onFiltered(filteredItems) {
             // Trigger pagination to update the number of buttons/pages due to filtering
@@ -53,7 +58,7 @@
             this.currentPage = 1
         },
         createItem(item) {
-            let backendApi = "api/Manager/CreateManager";
+            let backendApi = "/api/Manager/CreateManager";
             $.ajax({
                 url: backendApi,
                 method: "POST",
@@ -65,11 +70,6 @@
                     item.ManagerName = data.ManagerName;
                     item.ManagerPassword = data.ManagerPassword;
                     item.managerRoleID = data.managerRoleID;
-
-                    result.innerText = `Status : ${textStatus}資料新增成功, location : ${jqXHR.getResponseHeader('location')}`;
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    result.innerText = textStatus + "," + jqXHR.state;
                 }
             });
         },
@@ -88,6 +88,23 @@
                     }
                 })            
         },
+        editItem(item) {
+            let backendApi = "/api/Manager/";
+            $.ajax({
+                url: backendApi + "/" + item.managerID,
+                method: "POST",
+                contentType: "application/json;charset=UTF-8",
+                data: JSON.stringify(item),
+                success: function (data, textStatus, jqXHR) {
+                    console.log(data);
+                    console.log(textStatus);
+                    console.log(jqXHR.status);
+                    console.log(jqXHR.getAllResponseHeaders());
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                }
+            })
+        }
        
     }
     });
