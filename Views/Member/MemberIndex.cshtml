@@ -89,9 +89,9 @@
                     <b-button v-on:click="info(row.item, row.index, $event.target)" class="mr-1" style="background-color: #007BFF">
                         編輯
                     </b-button>
-                    <button v-on:click="deleteMember(row.item, row.index)" type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+                    @*<button v-on:click="deleteMember(row.item, row.index)" type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
                         刪除
-                    </button>
+                    </button>*@
                 </template>
                 <template #table-busy>
                     <div class="text-center text-danger my-2">
@@ -137,10 +137,6 @@
                     <input v-model="infoModal.memberUserName" />
                     <br />
 
-                    <label>身分證字號：</label>
-                    <input v-model="infoModal.IDnumber" />
-                    <br />
-
                     <label>帳號：</label>
                     <input v-model="infoModal.memberName" />
                     <br />
@@ -149,7 +145,7 @@
                     <input v-model="infoModal.homeNumber" />
                     <br />
 
-                    <label>手機號碼：</label>
+                    <label>手機：</label>
                     <input v-model="infoModal.mobileNumber" />
                     <br />
 

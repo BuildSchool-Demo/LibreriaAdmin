@@ -8,7 +8,6 @@
         fields: [
             { key: 'memberId', label: '編號', sortable: true, sortDirection: 'desc' },
             { key: 'memberUserName', label: '會員名稱', class: 'text-center' },
-            { key: 'idnumber', label: '身分證字號', class: 'text-center' },
             { key: 'memberName', label: '帳號', class: 'text-center' },
             { key: 'homeNumber', label: '電話', class: 'text-center' },
             { key: 'mobileNumber', label: '手機號碼', class: 'text-center' },
@@ -31,7 +30,6 @@
             title: '',
             memberId: 0,
             memberUserName: '會員名稱',
-            IDnumber: '身分證字號',
             memberName: '帳號',
             homeNumber: '電話',
             mobileNumber: '手機號碼',
@@ -78,7 +76,6 @@
             this.infoModal.content = JSON.stringify(item, null, 2);
             this.infoModal.memberId = item.memberId;
             this.infoModal.memberUserName = item.memberUserName;
-            this.infoModal.IDnumber = item.idnumber;
             this.infoModal.memberName = item.memberName;
             this.infoModal.homeNumber = item.homeNumber;
             this.infoModal.mobileNumber = item.mobileNumber;
@@ -107,7 +104,6 @@
                 item = this.items[this.infoModal.index];
             item.memberId = this.infoModal.memberId;
             item.memberUserName = this.infoModal.memberUserName;
-            item.IDnumber = this.infoModal.IDnumber;
             item.memberName = this.infoModal.memberName;
             item.homeNumber = this.infoModal.homeNumber;
             item.mobileNumber = this.infoModal.mobileNumber;
