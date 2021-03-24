@@ -29,6 +29,11 @@ namespace LibreriaAdmin.ViewModels
             public bool IsFav { get; set; }
             public bool IsSpecial { get; set; }
             public string Supplier { get; set; }
+
+            public string MainUrl { get; set; }
+            public List<string> PreviewUrls { get; set; }
+
+
         }
 
         /// <summary>
@@ -55,5 +60,8 @@ namespace LibreriaAdmin.ViewModels
         {
             public int ProductId { get; set; }
         }
+
+        
+
     }
 }
