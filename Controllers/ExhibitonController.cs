@@ -1,5 +1,6 @@
 ﻿using LibreriaAdmin.Interfaces;
 using LibreriaAdmin.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,8 @@ using System.Threading.Tasks;
 
 namespace LibreriaAdmin.Controllers
 {
-    
+    [Authorize()]
+
     public class ExhibitonController : Controller
     {
         public IExhibitonService _service;

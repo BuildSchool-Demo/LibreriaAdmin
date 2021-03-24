@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 
 namespace LibreriaAdmin.Controllers
 {
+    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
+
     public class ProductController : Controller
     {
         private readonly IProductService _productService;

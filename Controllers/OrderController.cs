@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 
 namespace LibreriaAdmin.Controllers
 {
+    [Authorize()]
+
     public class OrderController : Controller
     {
         private readonly IOrderService _orderService;

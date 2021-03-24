@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 
 namespace LibreriaAdmin.Controllers
 {
+    [Authorize()]
+
     public class ManagerController : Controller
     {
         private readonly ILogger _logger;
