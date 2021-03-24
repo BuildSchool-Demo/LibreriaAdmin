@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace LibreriaAdmin.Controllers
 {
-    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
+    [Authorize()]
 
     public class ProductController : Controller
     {
