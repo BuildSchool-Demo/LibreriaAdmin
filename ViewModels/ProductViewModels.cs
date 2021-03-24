@@ -12,6 +12,11 @@ namespace LibreriaAdmin.ViewModels
         /// </summary>
         public class ProductBaseModel
         {
+            public ProductBaseModel()
+            {
+                PreviewUrls = new List<string>();
+            }
+
             public int ProductId { get; set; }
             public string ProductName { get; set; }
             public decimal UnitPrice { get; set; }

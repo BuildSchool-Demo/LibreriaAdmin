@@ -69,7 +69,7 @@
                 })
         }
     },
-    mounted() {
+    mounted() 
         // Set the initial number of items
         this.totalRows = this.items.length
     },
@@ -83,25 +83,25 @@
             this.totalRows = filteredItems.length
             this.currentPage = 1
         },
-        //info(item, index, button) {
-        //    this.infoModal.index = (this.currentPage - 1) * this.perPage + index;
-        //    this.infoModal.title = `編輯資料: ${item.productName}`
-        //    this.infoModal.categoryId = item.categoryId
-        //    this.infoModal.supplier = item.supplier
-        //    this.infoModal.productId = item.productId
-        //    this.infoModal.productName = item.productName
-        //    this.infoModal.unitPrice = item.unitPrice
-        //    this.infoModal.inventory = item.inventory
-        //    this.infoModal.totalSales = item.totalSales
-        //    this.infoModal.isSpecial = item.isSpecial
-        //    this.infoModal.introduction = item.introduction
-        //    this.info.mainUrl = item.mainUrl
-        //    this.info.secondUrl = item.secondUrl
-        //    this.info.thirdUrl = item.thirdUrl
-        //    this.infoModal.fourthUrl = item.fourthUrl
-        //    this.infoModal.content = JSON.stringify(item, null, 2)
-        //    this.$root.$emit('bv::show::modal', this.infoModal.id, button)
-        //},
+        info(item, index, button) {
+            this.infoModal.index = (this.currentPage - 1) * this.perPage + index;
+            this.infoModal.title = `編輯資料: ${item.productName}`
+            this.infoModal.categoryId = item.categoryId
+            this.infoModal.supplier = item.supplier
+            this.infoModal.productId = item.productId
+            this.infoModal.productName = item.productName
+            this.infoModal.unitPrice = item.unitPrice
+            this.infoModal.inventory = item.inventory
+            this.infoModal.totalSales = item.totalSales
+            this.infoModal.isSpecial = item.isSpecial
+            this.infoModal.introduction = item.introduction
+            this.info.mainUrl = item.mainUrl
+            this.info.secondUrl = item.secondUrl
+            this.info.thirdUrl = item.thirdUrl
+            this.infoModal.fourthUrl = item.fourthUrl
+            this.infoModal.content = JSON.stringify(item, null, 2)
+            this.$root.$emit('bv::show::modal', this.infoModal.id, button)
+        },
         removeItem: function (item) {
             let backendApi = "https://localhost:5001/api/Product/DeleteItem";
             let result = document.getElementById("result");
