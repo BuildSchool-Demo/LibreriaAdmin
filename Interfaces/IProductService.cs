@@ -39,6 +39,7 @@ namespace LibreriaAdmin.Interfaces
         /// <returns></returns>
         public bool Remove(int ProductId);
         public bool Edit(ProductViewModels.ProductSingleResult orderVM);
+
         /// <summary>
         /// 新增商品
         /// </summary>
