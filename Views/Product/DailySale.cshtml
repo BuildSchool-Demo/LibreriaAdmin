@@ -144,7 +144,7 @@
         <!-- Modal -->
         <div class="modal  fade " id="modal-check" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
-                <div class="modal-content" style="width:600px;">
+                <div class="modal-content" style="width:700px;">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">是否確認以下書籍為特價?</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -159,6 +159,7 @@
                                     <th>書名</th>
                                     <th>價錢</th>
                                     <th>特價價格</th>
+                                    <th>是否特價</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -174,6 +175,9 @@
                                     </td>
                                     <td>
                                         {{item.specialPrice}}
+                                    </td>
+                                    <td>
+                                        {{item.isSpecial}}
                                     </td>
                                 </tr>
                             </tbody>
@@ -484,30 +488,37 @@
                             if (x.productId == event) {
                                 if (x.isSpecial == true) {
                                     x.isSpecial = false;
-                                    console.log(x.isSpecial);
+                                    //console.log(x.isSpecial);
                                     document.getElementById(`td${event}`).checked = false;
 
                                 } else {
                                     x.isSpecial = true;
                                     document.getElementById(`td${event}`).checked = true;
-                                    console.log(x.isSpecial);
+                                    //console.log(x.isSpecial);
                                 }
                                 x.specialPrice = document.getElementById(`input${event}`).value;
-                                console.log(x.specialPrice);
+                                //console.log(x.specialPrice);
                                 if (changeData.length == 0) {
-
                                     changeData.push(x);
+                                    console.log(changeData);
                                 } else {
+
                                     changeData.forEach(ch => {
                                         if (ch.productId == x.productId) {
+                                            
                                             ch.isSpecial = x.isSpecial;
-                                            ch.specialPrice = x.specialPrice;
+                                            ch.specailPrice = x.specailPrice;
+                                            console.log(changeData);
+
                                         } else {
                                             changeData.push(x);
+                                            console.log(changeData);
 
                                         }
 
                                     })
+
+
                                 }
                                 //console.log(this.changeData)
                             }
@@ -515,31 +526,7 @@
                     },
 
                 },
-                watch: {
-                    specailPrice: function (event) {
-                        this.AllData.forEach(x => {
-                            if (x.productId == event) {
-                                x.specialPrice = document.getElementById(`input${event}`).value;
-                                console.log(x.specialPrice);
-                                if (changeData.length == 0) {
 
-                                    changeData.push(x);
-                                } else {
-                                    changeData.forEach(ch => {
-                                        if (ch.productId == x.productId) {
-                                            ch.isSpecial = x.isSpecial;
-                                            ch.specialPrice = x.specialPrice;
-                                        } else {
-                                            changeData.push(x);
-                                        }
-
-                                    })
-                                }
-                                //console.log(this.changeData)
-                            }
-                        })
-                    }
-                }
             })
         }
         var app2 = new Vue({
@@ -550,7 +537,6 @@
         })
         document.getElementById("Post").onclick = () => { return edit(); };
         function edit() {
-            //console.log(1);
             axios.post('https://localhost:5001/api/Product/EditIsSpecial', changeData).
                 then((res) => {
                     //console.log(res);
@@ -559,7 +545,6 @@
 
         }
         function Reset() {
-            console.log(1);
             window.location.reload();
         }
 
