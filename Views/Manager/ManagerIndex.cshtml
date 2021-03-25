@@ -78,25 +78,6 @@
                     </b-form-group>
                 </b-col>
 
-                <b-col lg="6" class="my-1">
-                    <b-form-group v-model="sortDirection"
-                                  label="Filter On"
-                                  description="Leave all unchecked to filter on all data"
-                                  label-cols-sm="3"
-                                  label-align-sm="right"
-                                  label-size="sm"
-                                  class="mb-0"
-                                  v-slot="{ ariaDescribedby }">
-                        <b-form-checkbox-group v-model="filterOn"
-                                               :aria-describedby="ariaDescribedby"
-                                               class="mt-1">
-                            <b-form-checkbox value="name">Name</b-form-checkbox>
-                            <b-form-checkbox value="age">Age</b-form-checkbox>
-                            <b-form-checkbox value="isActive">Active</b-form-checkbox>
-                        </b-form-checkbox-group>
-                    </b-form-group>
-                </b-col>
-
                 <b-col sm="5" md="6" class="my-1">
                     <b-form-group label="Per page"
                                   label-for="per-page-select"
@@ -115,7 +96,7 @@
 
 
 
-                <b-col sm="7" md="6" class="my-1">
+                <b-col sm="12" md="12" class="my-1">
                     <b-pagination v-model="currentPage"
                                   :total-rows="totalRows"
                                   :per-page="perPage"
@@ -124,54 +105,33 @@
                                   class="my-0"></b-pagination>
                 </b-col>
             </b-row>
-            <!-- Button trigger modal -->
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                新增管理員資料
-            </button>
 
-            <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="row">
-                                <!-- <form action="https://localhost:5001/api/products" method="post" class="col-6 offset-3" name="productform">-->
-                                <form class="col-6 offset-3" id="productform">
-                                    <h1>新增管理者</h1>
-                                    <h4 id="apiUrl" class="text-primary"></h4>
-                                    <h4 id="result" class="text-danger"></h4>
-                                    <div class="form-group">
-                                        <label for="managerUserName"> 姓名 </label>
-                                        <input type="text" class="form-control" id=" managerUserName " name="managerUserName"  >
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="managerName">Managername帳號</label>
-                                        <input type="text" class="form-control" id="managerName" name="managerName">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="managerPassword">ManagerPassword 密碼</label>
-                                        <input type="text" class="form-control" id="managerPassword" name="managerPassword">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="managerRoleID">ManagerRoleID</label>
-                                        <input type="text" class="form-control" id="managerRoleID" name="managerRoleID">
-                                    </div>
-                                    <button id="btnCreate" class="btn btn-warning">Create</button>
-                                </form>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        </div>
-                    </div>
+
+            <!-- Button trigger modal -->
+
+
+
+            <b-button v-b-modal.modaltext>新增管理員資料</b-button>
+
+            <b-modal id="modaltext" :title="newinfoModal.title" @@ok="()=>{createItem(newinfoModal)}" v-on:hide="resetnewInfoModal">
+                <h1>新增管理者</h1>
+                <div class="form-group">
+                    <label for="managerUserName"> 姓名 </label>
+                    <input v-model="newinfoModal.managerUserName" type="text" class="form-control" id=" managerUserName " name="managerUserName">
                 </div>
-            </div>
+                <div class="form-group">
+                    <label for="managerName">帳號</label>
+                    <input v-model="newinfoModal.managerName" type="text" class="form-control" id="managerName" name="managerName">
+                </div>
+                <div class="form-group">
+                    <label for="managerPassword">密碼</label>
+                    <input v-model="newinfoModal.password" type="password" class="form-control" id="managerPassword" name="managerPassword">
+                </div>
+                <div class="form-group">
+                    <label for="managerRoleID">ManagerRoleID</label>
+                    <input v-model="newinfoModal.managerRoleID" type="text" class="form-control" id="managerRoleID" name="managerRoleID">
+                </div>
+            </b-modal>
             <!-- Modal end -->
             <!-- Main table element -->
             <b-table :items="items"
@@ -198,32 +158,53 @@
 
                 <template #cell(actions)="row">
 
-                    <b-button size="sm" v-on:click="row.toggleDetails" variant="success">
+                    @*<b-button size="sm" v-on:click="row.toggleDetails" variant="success">
                         {{ row.detailsShowing ? 'Hide' : 'Show' }} Details
-                    </b-button>
-                    <b-button size="sm" variant="primary">
+                    </b-button>*@
+                    <b-button size="sm" v-on:click="info(row.item, row.index, $event.target)" class="mr-1">
                         Edit
                     </b-button>
-                    <b-button size="sm" variant="danger">
+                    <b-button size="sm" variant="danger" v-on:click="removeItem(row.item)">
                         Delete
                     </b-button>
                 </template>
 
-                <template #row-details="row">
+                @*<template #row-details="row">
                     <b-card>
                         <ul>
                             <li v-for="(value, key) in row.item" :key="key">{{ key }}: {{ value }}</li>
                         </ul>
                     </b-card>
-                </template>
+                </template>*@
             </b-table>
-
-
-
+            @*修改管理者*@
+            <b-modal :id="infoModal.id" :title="infoModal.title" @@OK="()=>{submitEdit()}" v-on:hide="resetInfoModal">
+                <h1>修改管理者</h1>
+                <div class="form-group">
+                    <label for="managerUserName"> 會員編號 </label>
+                    <input v-model="infoModal.managerID" disabled="disabled" class="form-control" id=" managerUserName " name="managerUserName">
+                </div>
+                <div class="form-group">
+                    <label for="managerUserName"> 姓名 </label>
+                    <input v-model="infoModal.managerUserName" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="managerName">帳號</label>
+                    <input v-model="infoModal.managerName" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="managerPassword">密碼</label>
+                    <input type="password" v-model="infoModal.managerPassword" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="managerRoleID">ManagerRoleID</label>
+                    <input v-model="infoModal.managerRoleID" class="form-control">
+                </div>
+            </b-modal>
         </b-container>
     </template>
 </div>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
 <script src="~/js/Manager/Manager.js"></script>
-<script src="~/js/Manager/ManagerData.js"></script>
+@*<script src="~/js/Manager/ManagerData.js"></script>*@

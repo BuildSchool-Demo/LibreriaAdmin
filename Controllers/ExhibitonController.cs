@@ -1,14 +1,18 @@
 ﻿using LibreriaAdmin.Interfaces;
 using LibreriaAdmin.ViewModels;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace LibreriaAdmin.Controllers
 {
-    
+    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
+
     public class ExhibitonController : Controller
     {
         public IExhibitonService _service;
@@ -32,14 +36,16 @@ namespace LibreriaAdmin.Controllers
             return View();
         }
 
-        public IActionResult Email()
+        public IActionResult Email(int exhibitionId)
         {
+            ViewData["exhibitionData"] = _service.EmailGetAll(exhibitionId);
+            ViewData["GetRentalDate"] = _service.GetRentalDate(exhibitionId);
             return View();
         }
 
         public IActionResult SendMail(int exhibitionId)
         {
-            //ViewBag.exhibitionId = exhibitionId;
+            ViewBag.exhibitionId = exhibitionId;
             ViewData["customerData"] = _service.GetCustomerData(exhibitionId);
             
             return View();

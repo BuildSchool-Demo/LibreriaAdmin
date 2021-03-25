@@ -1,7 +1,7 @@
 ﻿#sendMailapp{
     margin-top:30px;
 }
-.input-group {
+.input-group, .sendMail-content {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;

@@ -1,5 +1,7 @@
 ﻿@{
     Layout = null;
+
+    var a = new[] { new { value = "test1", text = "test1" }, new { value = "test2", text = "test2" } };
 }
 
 <!-- Load required Bootstrap and BootstrapVue CSS -->
@@ -14,6 +16,11 @@
 <!-- Load the following for BootstrapVueIcons support -->
 <script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue-icons.min.js"></script>
 <link href="~/css/Exhibiton/Email.css" rel="stylesheet" />
+
+<script type="text/javascript">
+    var exhibitionData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewData["exhibitionData"]));
+    var getRentalDate = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewData["GetRentalDate"]));
+</script>
 
 <nav class="emailNavbar">
     <div class="emailNavbar-item">
@@ -63,15 +70,15 @@
                 </div>
             </div>
             <div class="col-12 col-md-6 mb-3">
-                <label for="">展覽開始日期: <strong>{{ selected }}</strong></label>
-                <b-form-select v-model="inputData.ExhibitionStartTime" :options="options"></b-form-select>
+                <label>展覽開始日期:</label>
+                <b-form-select v-model="inputData.ExhibitionStartTime" :options="startDateOptions" id="startDate"></b-form-select>
                 <div class="text-danger small mt-1">
                     {{inputDataCheck.CheckPasswordErrorMsg}}
                 </div>
             </div>
             <div class="col-12 col-md-6 mb-3">
-                <label for="">展覽結束日期: <strong>{{ selected }}</strong></label>
-                <b-form-select v-model="inputData.ExhibitionEndTime" :options="options"></b-form-select>
+                <label>展覽結束日期:</label>
+                <b-form-select v-model="inputData.ExhibitionEndTime" :options="endDateOptions" id="endDate"></b-form-select>
                 <div class="text-danger small mt-1">
                     {{inputDataCheck.CheckPasswordErrorMsg}}
                 </div>
@@ -129,7 +136,10 @@
 
     <div class="btn-group">
         <span class="d-inline-block" tabindex="0">
-            <b-button variant="success" v-bind:disabled="AddVerify == false">修改</b-button>
+            <b-button v-if="inputData.isValid != false" variant="success" v-on:click="modify($event)">修改</b-button>
+        </span>
+        <span class="d-inline-block" tabindex="0">
+            <b-button v-else variant="success" v-on:click="modifySubmit">確認送出</b-button>
         </span>
         <span class="d-inline-block" tabindex="0">
             <b-button variant="success" v-bind:disabled="AddVerify == false">確認</b-button>
