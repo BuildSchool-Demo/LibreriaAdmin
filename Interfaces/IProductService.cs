@@ -1,4 +1,5 @@
 ﻿using LibreriaAdmin.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,8 +33,19 @@ namespace LibreriaAdmin.Interfaces
         /// </summary>
         /// <returns></returns>
         ProductViewModels.ProductListResult GetTotalSale();
-
+        /// <summary>
+        /// 依據Id刪除商品
+        /// </summary>
+        /// <returns></returns>
         public bool Remove(int ProductId);
+        public bool Edit(ProductViewModels.ProductSingleResult orderVM);
+        public bool EditIsSpecial(List<ProductViewModels.ProductSingleResult> productVMResults);
+        
+        /// <summary>
+        /// 新增商品
+        /// </summary>
+        /// <returns></returns>
+        BaseModel.BaseResult<ProductViewModels.ProductSingleResult> AddProduct([FromBody] ProductViewModels.ProductSingleResult product);
 
     }
 }

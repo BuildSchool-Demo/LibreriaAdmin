@@ -28,6 +28,16 @@
 
     <!-- Load the following for BootstrapVueIcons support -->
     <script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue-icons.min.js"></script>
+    <!--AXIOS-->
+    <script src="~/js/Axios.js"></script>
+    <!-- jQuery -->
+    <script src="~/js/admin/jquery.min.js"></script>
+    <!-- jQuery Ui -->
+    <script src="~/js/homeindex/jquery-ui.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="~/js/admin/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="~/js/admin/adminlte.min.js"></script>
 
     @await RenderSectionAsync("topCSS", required: false)
     @await RenderSectionAsync("topJS", required: false)
@@ -40,7 +50,8 @@
     </style>
 </head>
 
-<body class="hold-transition sidebar-mini" onload="opener.location.reload()">
+@*<body class="hold-transition sidebar-mini" onload="opener.location.reload()">*@
+<body class="hold-transition sidebar-mini">
     <div class="wrapper">
 
         <!-- Navbar -->
@@ -89,11 +100,11 @@
             <div class="sidebar">
                 <!-- Sidebar user panel (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-                    <div class="image">
-                        <img src="" class="img-circle elevation-2" alt="User Image">
-                    </div>
                     <div class="info">
                         <a href="#" class="d-block">UserName</a>
+                    </div>
+                    <div class="image">
+                        <i class="fas fa-sign-in-alt" id="Logout">Log Out</i>
                     </div>
                 </div>
 
@@ -196,7 +207,7 @@
                                 </p>
                             </a>
                         </li>
-                        <li class="nav-item menu-close">
+                        @*<li class="nav-item menu-close">
                             <a href="#" class="nav-link ">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>
@@ -218,7 +229,7 @@
                                     </a>
                                 </li>
                             </ul>
-                        </li>
+                        </li>*@
                         <li class="nav-item">
                             <a href="~/Manager/ManagerIndex" class="nav-link">
                                 <i class="nav-icon fas fa-user"></i>
@@ -242,10 +253,6 @@
                     <div class="row pt-2" id="app">
                         @RenderBody()
 
-
-
-
-
                         <!-- /.row -->
                     </div><!-- /.container-fluid -->
                 </div>
@@ -266,16 +273,7 @@
 
 
     </div>
-    <!--AXIOS-->
-    <script src="~/js/Axios.js"></script>
-    <!-- jQuery -->
-    <script src="~/js/admin/jquery.min.js"></script>
-    <!-- jQuery Ui -->
-    <script src="~/js/homeindex/jquery-ui.min.js"></script>
-    <!-- Bootstrap 4 -->
-    <script src="~/js/admin/bootstrap.bundle.min.js"></script>
-    <!-- AdminLTE App -->
-    <script src="~/js/admin/adminlte.min.js"></script>
+
     @await RenderSectionAsync("endCSS", required: false)
     @await RenderSectionAsync("endJS", required: false)
     

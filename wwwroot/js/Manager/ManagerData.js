@@ -1,6 +1,6 @@
 ﻿
 //用Form之外的Button Click事件觸發執行Create和Delete
-let backendApi = "https://localhost:5001/api/Manager";
+
 
 window.onload = function () {
 
@@ -14,7 +14,6 @@ window.onload = function () {
         let managerRoleID = document.getElementById("managerRoleID").value;
 
         let product = { ManagerUserName: managerUserName, ManagerName: managername, ManagerPassword: managerPassword, ManagerRoleID: managerRoleID }
-
 
         $.ajax({
             url: backendApi + "/" + "CreateManager",
