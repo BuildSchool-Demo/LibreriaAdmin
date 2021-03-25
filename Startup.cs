@@ -74,26 +74,6 @@ namespace LibreriaAdmin
                 config.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("JWT Token"));
             });
 
-            //services.AddAuthentication()
-            //.AddCookie(cfg => cfg.SlidingExpiration = true)
-            //.AddJwtBearer(cfg =>
-            // {
-            //     cfg.RequireHttpsMetadata = false;
-            //     cfg.SaveToken = true;
-
-            //     cfg.TokenValidationParameters = new TokenValidationParameters()
-            //     {
-            //         ValidateIssuer = true,
-            //         ValidateAudience = true,
-            //         ValidateLifetime = true,
-            //         ValidateIssuerSigningKey = true,
-            //         ValidIssuer = Configuration["Jwt:Issuer"],
-            //         ValidAudience = Configuration["Jwt:Issuer"],
-            //         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
-            //     };
-            // });
-
-
             services.AddAuthentication()
                      .AddCookie(options =>
                      {
@@ -118,24 +98,6 @@ namespace LibreriaAdmin
                         };
                     });
 
-        
-
-
-
-            //    services.AddAuthentication()
-            //.AddJwtBearer(options =>
-            //    options.TokenValidationParameters = new TokenValidationParameters()
-            //    {
-            //        ValidateIssuer = true,
-            //        ValidateAudience = true,
-            //        ValidateLifetime = true,
-            //        ValidateIssuerSigningKey = true,
-            //        ValidIssuer = Configuration["Jwt:Issuer"],
-            //        ValidAudience = Configuration["Jwt:Issuer"],
-            //        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
-            //    });
-            //        services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-            //.AddCookie();
             services.AddTransient<IExhibitonService, ExhibitonService>();
 
             services.AddRazorPages().AddRazorRuntimeCompilation();
@@ -165,7 +127,7 @@ namespace LibreriaAdmin
 
             app.UseAuthentication();
 
-
+            #region 若要控制Server response的控制，請取消註解並修改此段程式
             //app.UseStatusCodePages(async context =>
             //{
             //    var request = context.HttpContext.Request;
@@ -176,6 +138,8 @@ namespace LibreriaAdmin
             //        response.Redirect("/Manager/login");
             //    }
             //});
+            #endregion 
+
             app.UseCookiePolicy();
 
 

@@ -1,5 +1,6 @@
 ﻿using LibreriaAdmin.Interfaces;
 using LibreriaAdmin.ViewModels;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace LibreriaAdmin.Controllers
 {
-    //[Authorize]
+    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
 
     public class ProductController : Controller
     {

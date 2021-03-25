@@ -42,7 +42,6 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\img\" />
-    <Folder Include="Repository\" />
     <Folder Include="wwwroot\js\NewFolder\" />
   </ItemGroup>
 

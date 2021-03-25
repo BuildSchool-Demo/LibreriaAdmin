@@ -1,4 +1,6 @@
 ﻿using LibreriaAdmin.Interfaces;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -9,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace LibreriaAdmin.Controllers
 {
-    [Authorize]
+    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
 
     public class ManagerController : Controller
     {
@@ -25,6 +27,7 @@ namespace LibreriaAdmin.Controllers
         {
             return View();
         }
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult ManagerIndex()
         {
             return View();

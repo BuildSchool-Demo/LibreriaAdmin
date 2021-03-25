@@ -83,5 +83,58 @@ namespace LibreriaAdmin.Services
             }
             return result;
         }
+
+        public BaseModel.BaseResult<ManagerViewModel.ManagerSingleResult> DeleteManager(int id)
+        {
+            var result = new BaseModel.BaseResult<ManagerViewModel.ManagerSingleResult>();
+
+            var targetmanager = _repository.GetAll<Manager>().Where(x => x.ManagerId == id).FirstOrDefault();          
+
+
+            try
+            {
+                _repository.Delete<Manager>(targetmanager);
+                if (targetmanager != null)
+                {
+                    result.IsSuccess = true;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+                result.IsSuccess = false;
+            }
+            return result;
+        }
+
+        public BaseModel.BaseResult<ManagerViewModel.ManagerSingleResult> EditManager(int id, [FromBody] ManagerViewModel.ManagerSingleResult manager)
+        {
+            var result = new BaseModel.BaseResult<ManagerViewModel.ManagerSingleResult>();
+
+            var targetmanager = _repository.GetAll<Manager>().Where(x => x.ManagerId == id).FirstOrDefault();
+
+            targetmanager.ManagerId = id;
+            targetmanager.ManagerName = manager.ManagerName;
+            targetmanager.ManagerPassword = manager.ManagerPassword;
+            targetmanager.ManagerRoleId = manager.ManagerRoleID;
+            targetmanager.ManagerUsername = manager.ManagerUserName;
+
+            try
+            {
+                _repository.Update<Manager>(targetmanager);
+                if (targetmanager != null)
+                {
+                    result.IsSuccess = true;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+                result.IsSuccess = false;
+            }
+            return result;
+        }
     }
 }

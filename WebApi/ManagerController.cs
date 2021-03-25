@@ -2,6 +2,8 @@
 using LibreriaAdmin.ViewModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -36,7 +38,7 @@ namespace LibreriaAdmin.WebApi
         }
 
         [HttpGet]
-        public BaseModel.BaseResult<ManagerViewModel.ManagerListResult> GetAllManagers()
+        public async Task<BaseModel.BaseResult<ManagerViewModel.ManagerListResult>> GetAllManagers()
         {
             var result = new BaseModel.BaseResult<ManagerViewModel.ManagerListResult>();
             try
@@ -54,13 +56,43 @@ namespace LibreriaAdmin.WebApi
             }
         }
 
-
         [HttpPost]
         //public async Task<ActionResult<ManagerViewModel.ManagerSingleResult>> CreateManager([FromBody] ManagerViewModel.ManagerSingleResult manager)
         public ActionResult<ManagerViewModel.ManagerSingleResult> CreateManager([FromBody] ManagerViewModel.ManagerSingleResult manager)
         {
             _logger.LogWarning(2001, DateTime.Now.ToLongTimeString() + $" Manager控制器Post方法被呼叫 - 傳入的資料為:" + JsonSerializer.Serialize(manager));
             var result = _manageService.CreateManager(manager);
+
+            if (result.IsSuccess == false)
+            {
+                return NotFound();
+            }
+
+            return Ok();
+        }
+
+        [HttpPost("{id}")]
+        //public async Task<ActionResult<ManagerViewModel.ManagerSingleResult>> CreateManager([FromBody] ManagerViewModel.ManagerSingleResult manager)
+        public ActionResult<ManagerViewModel.ManagerSingleResult> DeleteManager(int id)
+        {
+            _logger.LogWarning(2001, DateTime.Now.ToLongTimeString() + $" Manager控制器Post方法被呼叫 - 傳入的資料為{nameof(id)}資料為:" + id);
+            var result = _manageService.DeleteManager(id);
+
+            if (result.IsSuccess == false)
+            {
+                return NotFound();
+            }
+
+            return Ok();
+        }
+
+
+        [HttpPost("{id}")]
+        //public async Task<ActionResult<ManagerViewModel.ManagerSingleResult>> CreateManager([FromBody] ManagerViewModel.ManagerSingleResult manager)
+        public ActionResult<ManagerViewModel.ManagerSingleResult> EditManager(int id, [FromBody] ManagerViewModel.ManagerSingleResult manager)
+        {
+            _logger.LogWarning(2001, DateTime.Now.ToLongTimeString() + $" Manager控制器Post方法被呼叫 - 傳入的資料為{nameof(id)}資料為:" + id);
+            var result = _manageService.EditManager(id,manager);
 
             if (result.IsSuccess == false)
             {
@@ -80,11 +112,12 @@ namespace LibreriaAdmin.WebApi
 
             var user = GetManagerAuthentication(loginVM);
 
-            if (user.IsSuccess == true)
+            if (user.IsSuccess == true && user.Msg == "0")
+            //if (user.IsSuccess == true)
             {
                 var tokenString = GenerateJsonWebToken(loginVM);
                 response = Ok(new { token = tokenString });
-                Response.Cookies.Append("R", user.Msg);
+                //Response.Cookies.Append("R", user.Msg);
             }
 
             var claims = new List<Claim>
@@ -130,10 +163,7 @@ namespace LibreriaAdmin.WebApi
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-            //var claims = new[]
-            //{
-            //  new Claim("RoleID", userInfo.RoleID)
-            //};
+
             var token = new JwtSecurityToken(
                 _config["Jwt:Issuer"],
                 _config["Jwt:Issuer"],
