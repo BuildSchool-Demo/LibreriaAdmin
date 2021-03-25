@@ -8,7 +8,6 @@
                 { key: 'managerUserName', label: '姓名', sortable: true, sortDirection: 'desc' },
                 { key: 'managerRoleID', label: '管理者層級', sortable: true, sortDirection: 'desc' },
                 { key: 'actions', label: '執行' },
-
             ],
             totalRows: 1,
             currentPage: 1,
@@ -23,9 +22,13 @@
                 id: 'info-modal',
                 title: '',
                 content: ''
+            },
+            newinfoModal: {
+                id: 'newinfo-modal',
+                title: '',
+                content: ''
             }
         }
-
     },
     created: function () {
         axios.get("/api/Manager/GetAllManagers")
@@ -53,6 +56,10 @@
             this.infoModal.title = ''
             this.infoModal.content = ''
         },
+        resetnewInfoModal() {
+            this.newinfoModal.title = ''
+            this.newinfoModal.content = ''
+        },
         onFiltered(filteredItems) {
             // Trigger pagination to update the number of buttons/pages due to filtering
             this.totalRows = filteredItems.length
@@ -71,17 +78,21 @@
         },
         createItem(item) {
             let backendApi = "/api/Manager/CreateManager";
+            let managerUserName = item.managerUserName
+            let managername = item.managerName
+            let managerPassword = item.password
+            let managerRoleID = item.managerRoleID
+
+            let manager = { managerUserName: managerUserName, managerName: managername, managerPassword: managerPassword, managerRoleID: managerRoleID }
+            
             $.ajax({
                 url: backendApi,
                 method: "POST",
                 dataType: "json",
                 contentType: "application/json;charset=UTF-8",
-                data: JSON.stringify(product),
+                data: JSON.stringify(manager),
                 success: function (data, textStatus, jqXHR) {
-                    item.managerUserName = data.managerUserName;
-                    item.managerName = data.managerName;
-                    item.managerPassword = data.managerPassword;
-                    item.managerRoleID = data.managerRoleID;
+
                 }
             });
         },
