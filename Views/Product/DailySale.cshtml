@@ -136,7 +136,7 @@
         </div>
         <div class="col-4 btnArea">
             <!-- Button trigger modal -->
-            <button type="button" class="btn btn-dark check" id="Post" >
+            <button type="button" class="btn btn-dark check" data-toggle="modal" data-target="#modal-check" >
                 確認送出
             </button>
             <button class="btn btn-dark check" id="Reset" onclick="Reset()">取消</button>
@@ -403,7 +403,7 @@
 
 
 <!-- Modal -->
-@*<div class="modal  fade " id="modal-check" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal  fade " id="modal-check" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -442,11 +442,11 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
-                <button type="button"  class="btn btn-primary">確認</button>
+                <button type="button" id="Post"  class="btn btn-primary">確認</button>
             </div>
         </div>
     </div>
-</div>*@
+</div>
 
 
 
@@ -456,7 +456,6 @@
     <script src="~/js/Axios.js"></script>
     <script>
         var isSpecial = document.getElementById('isSpecial');
-        var Post = document.getElementById('Post');
         var Reset = document.getElementById('Reset');
         var changeData = [];
         for (var i = 1; i <= 7; i++) {
@@ -507,9 +506,9 @@
                 items: changeData,
             }
         })
-        Post.onclick = () => { return edit(); };
+        document.getElementById("Post").onclick = () => { return edit(); };
         function edit() {
-            //console.log(1)
+            //console.log(1);
             axios.post('https://localhost:5001/api/Product/EditIsSpecial', changeData).
                 then((res) => {
                     console.log(res);
