@@ -125,6 +125,8 @@ namespace LibreriaAdmin
 
             app.UseRouting();
 
+            app.UseCors();
+
             app.UseAuthentication();
 
             #region 若要控制Server response的控制，請取消註解並修改此段程式
