@@ -36,6 +36,7 @@ namespace LibreriaAdmin.Controllers
             return View();
         }
 
+        [AllowAnonymous]
         public IActionResult Email(int exhibitionId)
         {
             ViewData["exhibitionData"] = _service.EmailGetAll(exhibitionId);
