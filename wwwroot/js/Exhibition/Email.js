@@ -237,7 +237,10 @@ var form = new Vue({
             reader.onload = function (e) {
                 //this.inputData.changeimg = !this.inputData.changeimg
                 ExPhoto = file
-                let i = URL.createObjectURL(file)
+                img = URL.createObjectURL(file)
+                let i = document.getElementsByTagName('img')
+                i.setAttribute("src", img);
+
                 //$('#upload-image label').css('background-image', 'url("' + e.target.result + '")');
 
             };
