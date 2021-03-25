@@ -11,11 +11,14 @@
 
 
 
+
 var form = new Vue({
     el: '#email',
     data: {
         AddVerify: true,
         inputData: {
+            ExhibitionId: exhibitionData.EmailList[0].ExhibitionId,
+            ExCustomerId: exhibitionData.EmailList[0].ExCustomerId,
             ExCustomerName: exhibitionData.EmailList[0].ExCustomerName,
             ExCustomerPhone: exhibitionData.EmailList[0].ExCustomerPhone,
             ExCustomerEmail: exhibitionData.EmailList[0].ExCustomerEmail,
@@ -26,7 +29,11 @@ var form = new Vue({
             MasterUnit: exhibitionData.EmailList[0].MasterUnit,
             ExPhoto: exhibitionData.EmailList[0].ExPhoto,
             ExhibitionIntro: exhibitionData.EmailList[0].ExhibitionIntro,
-            isValid: true
+            CustomerVerify: exhibitionData.EmailList[0].CustomerVerify,
+            ReviewState: exhibitionData.EmailList[0].ReviewState,
+            isValid: true,
+            changeimg: true,
+            img:'https://imgur.com/6qcWtCf',
         },
         inputDataCheck: {
             AccountError: false,
@@ -45,7 +52,7 @@ var form = new Vue({
 
     },
     //created: function () {
-    //    axios.get("/api/Exhibiton/GetEmailData")
+    //    axios.get("/api/Exhibiton/EmailGetAll/")
     //        .then((res) => {
     //            console.log(res);
     //            this.inputData = res.data.body.emailList;
@@ -102,19 +109,10 @@ var form = new Vue({
     //    }
     //},
     methods: {
-        checkAddVerify() {
-            for (let index in this.inputDataCheck) {
-                if (this.inputDataCheck[index] == true) {
-                    thid.AddVerify = false;
-                    return;
-                }
-            }
-            this.AddVerify = true;
-        },
         modify(event) {
             this.$data.inputData.isValid = !this.$data.inputData.isValid
-            let startDate = new Date(getRentalDate.GetRentalDate[0].StartDate)
-            let endDate = new Date(getRentalDate.GetRentalDate[0].EndDate)
+            let startDate = new Date(exhibitionData.EmailList[0].RentalDate.StartDate)
+            let endDate = new Date(exhibitionData.EmailList[0].RentalDate.EndDate)
 
             Date.prototype.addDays = function (days) {
                 let dat = new Date(this.valueOf())
@@ -157,7 +155,93 @@ var form = new Vue({
             })
         },
         modifySubmit: function () {
-            this.$data.inputData.isValid =! this.$data.inputData.isValid
+            this.$data.inputData.isValid = !this.$data.inputData.isValid
+
+            //客戶回覆狀態變更
+            let customerVerify = this.$data.inputData.CustomerVerify;
+            if (customerVerify == false) {
+                customerVerify = this.$data.inputData.CustomerVerify = !this.$data.inputData.CustomerVerify
+            }
+
+
+            let result = {
+                ExhibitionId: this.$data.inputData.ExhibitionId,
+                ExCustomerId: this.$data.inputData.ExCustomerId,
+                ExCustomerName: document.getElementById("exCustomerName").value,
+                ExCustomerPhone: document.getElementById("exCustomerPhone").value,
+                ExCustomerEmail: document.getElementById("exCustomerEmail").value,
+                ExhibitionPrice: document.getElementById("exhibitionPrice").value,
+                ExhibitionStartTime: document.getElementById("startDate").value,
+                ExhibitionEndTime: document.getElementById("endDate").value,
+                ExName: document.getElementById("exName").value,
+                MasterUnit: document.getElementById("masterUnit").value,
+                ExPhoto: this.$data.inputData.ExPhoto,
+                ExhibitionIntro: document.getElementById("textarea-rows").value,
+                CustomerVerify: customerVerify,
+                ReviewState: this.$data.inputData.ReviewState,
+            }
+
+            axios({
+                method: 'POST',
+                headers: { 'content-type': 'application/json' },
+                data: JSON.stringify(result),
+                url: '/api/Exhibiton/ModifyExhibition',
+            })
+                .then((res) => {
+                    if (res.data.isSuccess == true) {
+                        alert("已修改，後續會再與您做最後確認展覽資訊，謝謝!")
+                    }
+                })
+                .catch((err) => {
+                    console.log(err.data)
+                })
+        },
+        Submit: function () {
+            let customerVerify = this.$data.inputData.CustomerVerify;
+            let reviewState = this.$data.inputData.ReviewState
+            if (customerVerify == false) {
+                customerVerify = this.$data.inputData.CustomerVerify =!this.$data.inputData.CustomerVerify
+            }
+            if (reviewState == false) {
+                reviewState = this.$data.inputData.ReviewState =!this.$data.inputData.ReviewState
+            }
+
+            let result = {
+                ExhibitionId: this.$data.inputData.ExhibitionId,
+                ExCustomerId: this.$data.inputData.ExCustomerId,
+                CustomerVerify: customerVerify,
+                ReviewState: reviewState
+            }
+            axios({
+                method: 'POST',
+                headers: { 'content-type': 'application/json' },
+                data: JSON.stringify(result),
+                url: '/api/Exhibiton/ConfirmEmail',
+            })
+            .then((res) => {
+                if (res.data.isSuccess == true) {
+                    alert("已確認，展覽資訊會馬上上傳至展演區，")
+                }
+            })
+            .catch((err) => {
+                console.log(err.data)
+            })
+        },
+        cancel: function () {
+            this.$data.inputData.isValid = !this.$data.inputData.isValid
+
+        },
+        photo: function () {
+            let file = $('#exPhoto__BV_file_outer_ input')[0].files[0];
+            let reader = new FileReader;
+            reader.onload = function (e) {
+                //this.inputData.changeimg = !this.inputData.changeimg
+                ExPhoto = file
+                let i = URL.createObjectURL(file)
+                //$('#upload-image label').css('background-image', 'url("' + e.target.result + '")');
+
+            };
+            reader.readAsDataURL(file);
         }
     }
 });

@@ -1,7 +1,5 @@
 ﻿@{
     Layout = null;
-
-    var a = new[] { new { value = "test1", text = "test1" }, new { value = "test2", text = "test2" } };
 }
 
 <!-- Load required Bootstrap and BootstrapVue CSS -->
@@ -15,11 +13,13 @@
 <script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js"></script>
 <!-- Load the following for BootstrapVueIcons support -->
 <script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue-icons.min.js"></script>
+<script src="~/lib/jquery/dist/jquery.js"></script>
 <link href="~/css/Exhibiton/Email.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous"></script>
 
 <script type="text/javascript">
     var exhibitionData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewData["exhibitionData"]));
-    var getRentalDate = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewData["GetRentalDate"]));
+    //var getRentalDate = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewData["GetRentalDate"]));
 </script>
 
 <nav class="emailNavbar">
@@ -41,7 +41,7 @@
         <div class="row col-12 col-md-6">
             <div class="col-12 col-md-6 mb-3">
                 <label for="">聯絡人姓名</label>
-                <input v-model="inputData.ExCustomerName" type="text" class="form-control">
+                <input v-model="inputData.ExCustomerName" type="text" class="form-control" id="exCustomerName">
                 <div class="text-danger small mt-1">
                     {{inputDataCheck.AccountErrorMsg}}
                 </div>
@@ -49,7 +49,7 @@
             </div>
             <div class="col-12 col-md-6 mb-3">
                 <label for="">聯絡電話</label>
-                <input v-model="inputData.ExCustomerPhone" type="text" class="form-control">
+                <input v-model="inputData.ExCustomerPhone" type="text" class="form-control" id="exCustomerPhone">
                 <div class="text-danger small mt-1">
                     {{inputDataCheck.AccountErrorMsg}}
                 </div>
@@ -57,14 +57,14 @@
             <div class="col-12 col-md-8 mb-3">
                 <label for="">電子郵件</label>
                 <input v-model="inputData.ExCustomerEmail" type="text" v-bind:class="{'is-invalid':inputDataCheck.AccountError}"
-                       class="form-control">
+                       class="form-control" id="exCustomerEmail">
                 <div class="text-danger small mt-1">
                     {{inputDataCheck.AccountErrorMsg}}
                 </div>
             </div>
             <div class="col-12 col-md-4 mb-3">
                 <label for="">票價</label>
-                <input v-model="inputData.ExhibitionPrice" type="text" class="form-control">
+                <input v-model="inputData.ExhibitionPrice" type="text" class="form-control" id="exhibitionPrice">
                 <div class="text-danger small mt-1">
                     {{inputDataCheck.CheckPasswordErrorMsg}}
                 </div>
@@ -86,7 +86,7 @@
             <div class="col-12 col-md-12 mb-3">
                 <label for="">展覽名稱</label>
                 <input v-model="inputData.ExName" type="text"
-                       v-bind:class="{'is-invalid':inputDataCheck.PasswordError}" class="form-control">
+                       v-bind:class="{'is-invalid':inputDataCheck.PasswordError}" class="form-control" id="exName">
                 <div class="text-danger small mt-1">
                     {{inputDataCheck.PasswordErrorMsg}}
                 </div>
@@ -94,7 +94,7 @@
             <div class="col-12 col-md-12 mb-3">
                 <label for="">主辦單位</label>
                 <input v-model="inputData.MasterUnit" type="text"
-                       v-bind:class="{'is-invalid':inputDataCheck.checkPasswordError}" class=" form-control">
+                       v-bind:class="{'is-invalid':inputDataCheck.checkPasswordError}" class=" form-control" id="masterUnit">
                 <div class="text-danger small mt-1">
                     {{inputDataCheck.CheckPasswordErrorMsg}}
                 </div>
@@ -109,12 +109,15 @@
             <div class="col-12 col-md-12 mb-3">
                 <label for="">展覽圖片</label>
                 <div class="col-12 mb-3 email-pic">
-                    <img src="https://i.imgur.com/5hVqx53.jpg" />
+                    <img v-bind:src="inputData.ExPhoto" />
+                    @*<div class="" v-bind:style="{'background-image': 'url('+ inputData.img +')'}"></div>*@
                 </div>
                 <b-form-file v-model="inputData.ExPhoto"
                              :state="Boolean(inputData.ExPhoto)"
                              placeholder="Choose a file or drop it here..."
-                             drop-placeholder="Drop file here..."></b-form-file>
+                             drop-placeholder="Drop file here..."
+                             id="exPhoto"
+                             v-on:change="photo"></b-form-file>
                 @*<div class="mt-3">Selected file: {{ inputData.Pic ? inputData.Pic.name : '' }}</div>*@
                 <div class="text-danger small mt-1">
                     {{inputDataCheck.CheckPasswordErrorMsg}}
@@ -139,10 +142,13 @@
             <b-button v-if="inputData.isValid != false" variant="success" v-on:click="modify($event)">修改</b-button>
         </span>
         <span class="d-inline-block" tabindex="0">
-            <b-button v-else variant="success" v-on:click="modifySubmit">確認送出</b-button>
+            <b-button v-if="inputData.isValid != true" variant="success" v-on:click="modifySubmit">確認送出</b-button>
         </span>
         <span class="d-inline-block" tabindex="0">
-            <b-button variant="success" v-bind:disabled="AddVerify == false">確認</b-button>
+            <b-button v-if="inputData.isValid != true" variant="success" v-on:click="cancel">取消</b-button>
+        </span>
+        <span class="d-inline-block" tabindex="0">
+            <b-button v-if="inputData.isValid != false" variant="success" v-on:click="Submit">確認</b-button>
         </span>
     </div>
 

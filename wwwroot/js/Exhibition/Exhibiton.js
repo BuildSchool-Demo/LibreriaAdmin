@@ -14,8 +14,8 @@
             { key: 'exhibitionEndTime', label: '展覽結束日期', sortable: true, class: 'text-center' },
             { key: 'exhibitionPrice', label: '門票', sortable: true, class: 'text-center' },
             { key: 'exhibitionIntro', label: '展演簡介', class: 'text-center' },
-            //{ key: 'exPhoto', label: '展演圖片', class: 'text-center' },
             { key: 'email', label: '寄信', class: 'text-center' },
+            { key: 'delete', label: '刪除', class: 'text-center' },
             {
                 key: 'reviewState',
                 label: '審核狀態',
@@ -80,9 +80,9 @@
     },
     methods: {
         //info(item, button) {
-        //    this.infoModal.title = '展演圖片'
-        //    this.infoModal.content = item.exPhoto
-        //    this.$root.$emit('bv::show::modal', this.infoModal.id, button)
+        //    this.infoModal.title = ''
+        //    this.infoModal.content =''
+        //    //this.$root.$emit('bv::show::modal', this.infoModal.id, button)
         //},
         email(item, button) {
             location.href = '/Exhibiton/SendMail?exhibitionId=' + item.exhibitionId;

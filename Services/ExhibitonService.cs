@@ -9,6 +9,10 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Net.Mail;
 using Microsoft.Extensions.Configuration;
+using Imgur.API.Authentication;
+using Imgur.API.Endpoints;
+using System.Net.Http;
+using System.IO;
 
 namespace LibreriaAdmin.Services
 {
@@ -75,7 +79,7 @@ namespace LibreriaAdmin.Services
             return result;
         }
 
-        public string Send(string sender, string recipient, string subject, string body)
+        public string Send(string sender, string recipient, string subject, string body,int Exid)
         {
             try
             {
@@ -86,7 +90,7 @@ namespace LibreriaAdmin.Services
                     Credentials = new NetworkCredential(id, password),
                     EnableSsl = true
                 };
-                client.Send(sender, recipient, subject,"您好" + Environment.NewLine + body + Environment.NewLine + "麻煩請點選以下網址，進行展覽內容修改或確認，謝謝!" + Environment.NewLine + _config["MailCheckUrl"]);
+                client.Send(sender, recipient, subject,"您好" + Environment.NewLine + body + Environment.NewLine + "麻煩請點選以下網址，進行展覽內容修改或確認，謝謝!" + Environment.NewLine + $"https://libreriaadmin.azurewebsites.net/Exhibiton/Email?exhibitionId={Exid}");
                 return "信件已寄出";
             }
             catch(Exception ex)
@@ -94,7 +98,7 @@ namespace LibreriaAdmin.Services
                 return ex.ToString();
             }
             
-            return "信件尚未寄出";
+            
         }
 
         public ExhibitonSendMailViewModel.GetByCustomerEmailRequest GetCustomerData(int exhibitionId)
@@ -113,13 +117,15 @@ namespace LibreriaAdmin.Services
         }
 
 
-        public ExhibitonEmailViewModel.EmailListResult EmailGetAll(int id)
+        public ExhibitonEmailViewModel.EmailListResult EmailGetAll(int exhibitonId)
         {
             var result = new ExhibitonEmailViewModel.EmailListResult();
             result.EmailList = (from e in _dbRepository.GetAll<Exhibition>()
                       join c in _dbRepository.GetAll<ExhibitionCustomer>()
                       on e.ExCustomerId equals c.ExCustomerId
-                      where (e.ExhibitionId == id)
+                      join o in _dbRepository.GetAll<ExhibitionOrder>()
+                      on e.ExCustomerId equals o.ExCustomerId
+                      where e.ExhibitionId == exhibitonId
                       select new ExhibitonEmailViewModel.EmailSingleResult()
                       {
                           ExhibitionId = e.ExhibitionId,
@@ -128,7 +134,6 @@ namespace LibreriaAdmin.Services
                           ExhibitionIntro = e.ExhibitionIntro,
                           MasterUnit = e.MasterUnit,
                           ExhibitionPrice = e.ExhibitionPrice,
-                          EditModifyDate = e.EditModifyDate,
                           ExCustomerId = e.ExCustomerId,
                           ExPhoto = e.ExPhoto,
                           ExName = e.ExName,
@@ -136,6 +141,12 @@ namespace LibreriaAdmin.Services
                           ExCustomerName = c.ExCustomerName,
                           ExCustomerPhone = c.ExCustomerPhone,
                           ExCustomerEmail = c.ExCustomerEmail,
+                          CustomerVerify = o.CustomerVerify,
+                          RentalDate = new ExhibitonEmailViewModel.RentalDateModel()
+                          {
+                              StartDate = o.StartDate.ToString("yyyy/MM/dd"),
+                              EndDate = o.EndDate.ToString("yyyy/MM/dd")
+                          }
                       }).ToList();
 
             return result;
@@ -165,22 +176,75 @@ namespace LibreriaAdmin.Services
             return result;
         }
      
-        public RentalViewModel.RentalListResult GetRentalDate(int exhibitionId)
+        public bool ConfirmEmail(ExhibitonEmailViewModel.EmailSingleResult ExVM)
         {
-            var result = new RentalViewModel.RentalListResult();
-            result.GetRentalDate = (from o in _dbRepository.GetAll<ExhibitionOrder>()
-                                    join c in _dbRepository.GetAll<ExhibitionCustomer>()
-                                    on o.ExCustomerId equals c.ExCustomerId
-                                    join e in _dbRepository.GetAll<Exhibition>()
-                                    on o.ExCustomerId equals e.ExCustomerId
-                                    where e.ExhibitionId == exhibitionId
-                                    select new RentalViewModel.GetRentalDate
-                                    {
-                                        StartDate = o.StartDate.ToString("yyyy/MM/dd"),
-                                        EndDate = o.EndDate.ToString("yyyy/MM/dd")
-                                    }).ToList();
-            
-            return result;
+
+            var exhibition = _dbRepository.GetAll<Exhibition>().First(x => x.ExhibitionId == ExVM.ExhibitionId);
+            var exhibitionOrder = _dbRepository.GetAll<ExhibitionOrder>().First(x => x.ExCustomerId == ExVM.ExCustomerId);
+
+            exhibition.ReviewState = ExVM.ReviewState;
+            _dbRepository.Update(exhibition);
+            exhibitionOrder.CustomerVerify = ExVM.CustomerVerify;
+            _dbRepository.Update(exhibitionOrder);
+
+            return true;
         }
+
+        public async Task<bool> ModifyExhibition(ExhibitonEmailViewModel.ModifyExhibitionModel ExVM)
+        {
+            //圖片上傳至imgur並取得圖片網址
+            string imageUrl = null;
+            if (ExVM.ExPhoto.Length > 0)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    await ExVM.ExPhoto.CopyToAsync(memoryStream);
+                    var apiClient = new ApiClient("8b8585e4ec973fc");
+                    var httpClient = new HttpClient();
+                    var imageEndpoint = new ImageEndpoint(apiClient, httpClient);
+                    var imageUpload = await imageEndpoint.UploadImageAsync((Stream)ExVM.ExPhoto);
+                    imageUrl = imageUpload.Link;
+                }
+                   
+            }
+
+            var exhibition = _dbRepository.GetAll<Exhibition>().First(x => x.ExhibitionId == ExVM.ExhibitionId);
+            var exhibitionCustomer = _dbRepository.GetAll<ExhibitionCustomer>().First(x => x.ExCustomerId == ExVM.ExCustomerId);
+            
+            exhibition.ExhibitionStartTime = DateTime.ParseExact(ExVM.ExhibitionStartTime, "yyyy/MM/dd", null);
+            exhibition.ExhibitionEndTime = DateTime.ParseExact(ExVM.ExhibitionEndTime, "yyyy/MM/dd", null);
+            exhibition.ExhibitionIntro = ExVM.ExhibitionIntro;
+            exhibition.MasterUnit = ExVM.MasterUnit;
+            exhibition.ExhibitionPrice = ExVM.ExhibitionPrice;
+            exhibition.ExPhoto = imageUrl;
+            exhibition.ExName = ExVM.ExName;
+            exhibition.ReviewState = ExVM.ReviewState;
+            _dbRepository.Update(exhibition);
+
+            exhibitionCustomer.ExCustomerName = ExVM.ExCustomerName;
+            exhibitionCustomer.ExCustomerPhone = ExVM.ExCustomerPhone;
+            exhibitionCustomer.ExCustomerEmail = ExVM.ExCustomerEmail;
+            _dbRepository.Update(exhibitionCustomer);
+
+            return true;
+        }
+
+        //public ExhibitonEmailViewModel.EmailListResult GetRentalDate(int exhibitionId)
+        //{
+        //    var result = new ExhibitonEmailViewModel.EmailListResult();
+        //    result.RentalDate = (from o in _dbRepository.GetAll<ExhibitionOrder>()
+        //                            join c in _dbRepository.GetAll<ExhibitionCustomer>()
+        //                            on o.ExCustomerId equals c.ExCustomerId
+        //                            join e in _dbRepository.GetAll<Exhibition>()
+        //                            on o.ExCustomerId equals e.ExCustomerId
+        //                            where e.ExhibitionId == exhibitionId
+        //                            select new RentalViewModel.GetRentalDate
+        //                            {
+        //                                StartDate = o.StartDate.ToString("yyyy/MM/dd"),
+        //                                EndDate = o.EndDate.ToString("yyyy/MM/dd")
+        //                            }).ToList();
+
+        //    return result;
+        //}
     }
 }

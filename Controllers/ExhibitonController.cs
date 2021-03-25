@@ -35,7 +35,7 @@ namespace LibreriaAdmin.Controllers
         public IActionResult Email(int exhibitionId)
         {
             ViewData["exhibitionData"] = _service.EmailGetAll(exhibitionId);
-            ViewData["GetRentalDate"] = _service.GetRentalDate(exhibitionId);
+            //ViewData["GetRentalDate"] = _service.GetRentalDate(exhibitionId);
             return View();
         }
 

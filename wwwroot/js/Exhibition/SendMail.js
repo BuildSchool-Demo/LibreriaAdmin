@@ -11,7 +11,7 @@
             },
             show: true,
             customerName: customerData.customerName,
-            libreriaEmail: "https://localhost:5001/Exhibiton/Email"
+            libreriaEmail: `https://libreriaadmin.azurewebsites.net/Exhibiton/Email?exhibitionId=${exhibitionId}`
 
         }
     },

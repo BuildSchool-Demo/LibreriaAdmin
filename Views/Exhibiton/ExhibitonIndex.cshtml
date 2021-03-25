@@ -65,17 +65,18 @@
                 </b-button>
             </template>
 
-            @*<template #cell(exPhoto)="pic">
-                <b-button size="sm" v-on:click="info(pic.item, pic.index, $event.target)" class="mr-1">
-                    開啟
-                </b-button>
-            </template>*@
 
             <template #cell(email)="data">
                 <b-button size="sm" v-on:click="email(data.item, data.index, $event.target)" class="mr-1">
                     前往
                 </b-button>
             </template>
+
+            @*<template #cell(delete)="delete">
+                <b-button size="sm" v-on:click="info(delete.item, delete.index, $event.target)" class="mr-1">
+                    刪除
+                </b-button>
+            </template>*@
 
             <template #row-details="row">
                 <b-card>
@@ -89,8 +90,8 @@
 
 
         <!-- Info modal -->
-        @*<b-modal :id="infoModal.id" :title="infoModal.title" ok-only ok-title="關閉" v-on:hide="resetInfoModal" size="xl">
-            <img v-bind:src="infoModal.content" />
+        @*<b-modal :id="infomodal.id" :title="infomodal.title" ok-only ok-title="關閉" v-on:hide="resetinfomodal" size="xl">
+            <p>請確認是否刪除?</p>
         </b-modal>*@
 
         <b-col sm="7" md="12" class="my-1 page">

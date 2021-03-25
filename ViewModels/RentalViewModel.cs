@@ -63,12 +63,7 @@ namespace LibreriaAdmin.ViewModels
             public string ExhibitionStartTime { get; set; }
             public string ExhibitionEndTime { get; set; }
         }
-
-        public class GetRentalDate
-        {
-            public string StartDate { get; set; }
-            public string EndDate { get; set; }
-        }
+        
 
         /// <summary>
         /// 取得多種租借資料模型
@@ -76,7 +71,7 @@ namespace LibreriaAdmin.ViewModels
         public class RentalListResult
         {
             public List<RentalSingleResult> RentalList { get; set; }
-            public List<GetRentalDate> GetRentalDate { get; set; }
+            
         }
 
         /// <summary>

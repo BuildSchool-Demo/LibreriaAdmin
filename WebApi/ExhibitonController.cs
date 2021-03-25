@@ -30,13 +30,13 @@ namespace LibreriaAdmin.WebApi
                 result.Body = _service.RentalGetAll();
                 return result;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 result.Msg = ex.Message;
                 result.IsSuccess = false;
                 return result;
             }
-             
+
         }
 
         [HttpGet]
@@ -48,7 +48,7 @@ namespace LibreriaAdmin.WebApi
                 result.Body = _service.ExhibitonGetAll();
                 return result;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 result.Msg = ex.Message;
                 result.IsSuccess = false;
@@ -59,18 +59,19 @@ namespace LibreriaAdmin.WebApi
         [HttpPost]
         public IActionResult SendMail([FromBody] ExhibitonSendMailViewModel.SendMailSingleResult mailVM)
         {
-            string result = _service.Send(mailVM.sender, mailVM.recipient, mailVM.subject, mailVM.body);
+            string result = _service.Send(mailVM.sender, mailVM.recipient, mailVM.subject, mailVM.body, mailVM.exhibitionId);
             return Content(result);
         }
 
-        [HttpGet]
-        public BaseModel.BaseResult<ExhibitonEmailViewModel.EmailListResult> GetEmailData()
+        [HttpGet("{id}")]
+        public BaseModel.BaseResult<ExhibitonEmailViewModel.EmailListResult> EmailGetAll(int exhibitionId)
         {
             var result = new BaseModel.BaseResult<ExhibitonEmailViewModel.EmailListResult>();
             try
             {
-                int i = 1;
-                result.Body = _service.EmailGetAll(i);
+                
+                result.Body = _service.EmailGetAll(exhibitionId);
+                
                 return result;
             }
             catch (Exception ex)
@@ -80,6 +81,25 @@ namespace LibreriaAdmin.WebApi
                 return result;
             }
         }
+
+        [HttpPost]
+        public BaseModel.BaseResult<ExhibitonEmailViewModel.EmailSingleResult> ConfirmEmail(ExhibitonEmailViewModel.EmailSingleResult ExVM)
+        {
+            BaseModel.BaseResult<ExhibitonEmailViewModel.EmailSingleResult> result = new BaseModel.BaseResult<ExhibitonEmailViewModel.EmailSingleResult>();
+            result.Body = ExVM;
+            try
+            {
+                result.IsSuccess = _service.ConfirmEmail(ExVM);
+                return result;
+            }
+            catch(Exception ex)
+            {
+                result.Msg = ex.Message;
+                result.IsSuccess = false;
+                return result;
+            }
+        }
+
         [HttpGet]
         public BaseModel.BaseResult<ExhibitonViewModel.ExhibitonListResult> GetTodayExhibiton()
         {
@@ -98,5 +118,24 @@ namespace LibreriaAdmin.WebApi
             }
 
         }
+
+        [HttpPost]
+        public BaseModel.BaseResult<Task<bool>> ModifyExhibition(ExhibitonEmailViewModel.ModifyExhibitionModel ExVM)
+        {
+            var result = new BaseModel.BaseResult<Task<bool>>();
+
+            try
+            {
+                result.Body = _service.ModifyExhibition(ExVM);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Msg = ex.Message;
+                result.IsSuccess = false;
+                return result;
+            }
+        }
+
     }
 }

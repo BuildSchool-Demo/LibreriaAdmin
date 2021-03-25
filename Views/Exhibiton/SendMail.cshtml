@@ -20,8 +20,8 @@
     <b-form v-on:submit="onSubmit" v-on:reset="onReset" v-if="show">
         <div class="row">
             <div class="col-6 sendMail-content">
-                <h4>預覽</h4>
                 <div class="emailContent">
+                    <h4>預覽</h4>
                     <p v-model="customerName">{{customerName}} ，您好</p>
                     <div>{{form.body}}</div>
                     <p>麻煩請點選以下網址，進行展覽內容修改或確認，謝謝!</p>
