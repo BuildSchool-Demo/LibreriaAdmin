@@ -112,12 +112,12 @@ namespace LibreriaAdmin.WebApi
 
             var user = GetManagerAuthentication(loginVM);
 
-            if (user.IsSuccess == true && user.Msg == "0")
-            //if (user.IsSuccess == true)
+            //if (user.IsSuccess == true && user.Msg == "0")
+            if (user.IsSuccess == true)
             {
                 var tokenString = GenerateJsonWebToken(loginVM);
                 response = Ok(new { token = tokenString });
-                //Response.Cookies.Append("R", user.Msg);
+                Response.Cookies.Append("R", user.Msg);
             }
 
             var claims = new List<Claim>
