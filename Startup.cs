@@ -60,6 +60,17 @@ namespace LibreriaAdmin
             //repository signup
             services.AddTransient<IRepository, LibreriaRepository>();
 
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin()
+                               .AllowAnyMethod()
+                               .AllowAnyHeader()
+                               .WithExposedHeaders("*");
+                    });
+            });
 
             services.AddSwaggerDocument(config =>
             {
