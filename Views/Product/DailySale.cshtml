@@ -500,20 +500,22 @@
                                 //console.log(x.specialPrice);
                                 if (changeData.length == 0) {
                                     changeData.push(x);
-                                } else {
+
+                                }
+                                for (var i = 0; i < changeData.length; i++) {
                                     changeData.forEach(ch => {
-                                        if (ch.productId != x.productId) {
-                                            changeData.push(x);
-                                            console.log(changeData);
-                                        } else {
+                                        if (ch.productId == x.productId) {
                                             ch.isSpecial = x.isSpecial;
-                                            ch.specailPrice = x.specailPrice;
+                                            xh.specailPrice = x.specailPrice;
                                             console.log(changeData);
                                         }
-
                                     })
+                                    changeData.push(x);
+
                                 }
                                 
+                                
+
                                 //console.log(this.changeData)
                             }
                         })
