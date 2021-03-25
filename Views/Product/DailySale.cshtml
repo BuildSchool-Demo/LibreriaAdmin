@@ -533,7 +533,7 @@
         })
         document.getElementById("Post").onclick = () => { return edit(); };
         function edit() {
-            axios.post('https://localhost:5001/api/Product/EditIsSpecial', changeData).
+            axios.post('/api/Product/EditIsSpecial', changeData).
                 then((res) => {
                     //console.log(res);
                 })
