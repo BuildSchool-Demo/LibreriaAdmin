@@ -1,5 +1,4 @@
-﻿let jwtAuthUrl = "https://localhost:5001/api/Manager/Login";
-
+﻿
 $("#submitLogin").click(function () {
     let username = document.getElementById("username").value;
     let password = document.getElementById("password").value;
@@ -8,7 +7,7 @@ $("#submitLogin").click(function () {
 
 
     $.ajax({
-        url: jwtAuthUrl,
+        url: "/api/Manager/Login",
         method: "POST", 
         contentType: "application/json;charset=UTF-8",
         dataType: "json",
