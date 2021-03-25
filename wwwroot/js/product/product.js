@@ -103,7 +103,7 @@
             this.$root.$emit('bv::show::modal', this.infoModal.id, button)
         },
         removeItem: function (item) {
-            let backendApi = "https://localhost:5001/api/Product/DeleteItem";
+            let backendApi = "/api/Product/DeleteItem";
             let result = document.getElementById("result");
             if ((item != null || item != '') && item > 0) {
                 document.getElementById("apiUrl").innerText = "BackendAPI URL : " + backendApi;
@@ -142,7 +142,7 @@
             item.fourthUrl = this.infoModal.fourthUrl
             item.introduction = this.infoModal.introduction
             item.PreviewUrls = [item.secondUrl, item.thirdUrl, item.fourthUrl]
-            axios.post('https://localhost:5001/api/Product/Edit', item).
+            axios.post('/api/Product/Edit', item).
                 then((res) => {
                     console.log(res);
                 })
