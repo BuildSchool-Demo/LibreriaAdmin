@@ -48,7 +48,6 @@
     created: function () {
         axios.get("/Api/Member/GetAll")
             .then((res) => {
-                console.log(res);
                 this.items = res.data.body.memberList;
                 this.mounted();
                 this.isBusy = false;
