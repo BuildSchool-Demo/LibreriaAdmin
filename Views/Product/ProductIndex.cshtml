@@ -160,7 +160,7 @@
                                 </b-button>
 
                                 <b-button size="sm" v-on:click="info(row.item, row.index, $event.target)" class="mr-1">
-                                    Info modal
+                                   Edit
                                 </b-button>
 
                             </template>
@@ -177,45 +177,53 @@
 
                         <!-- Info modal -->
                         <b-modal :id="infoModal.id" :title="infoModal.title" @@ok="()=>{submitEdit()}" v-on:hide="resetInfoModal">
-                            <label>商品類別：</label>
-                            <input v-model="infoModal.categoryId" disabled="disabled" />
+                            <b-input-group prepend="商品類別">
+                                <b-form-input v-model="infoModal.categoryId" disabled="disabled"></b-form-input>
+                            </b-input-group>
                             <br />
-                            <label>供應商名稱：</label>
-                            <input v-model="infoModal.supplier" disabled="disabled">
+                            <b-input-group prepend="供應商名稱">
+                                <b-form-input v-model="infoModal.supplier" disabled="disabled"></b-form-input>
+                            </b-input-group>
                             <br />
-                            <label>商品編號：</label>
-                            <input v-model="infoModal.productId" disabled="disabled" />
+                            <b-input-group prepend="商品名稱">
+                                <b-form-input v-model="infoModal.productName"></b-form-input>
+                            </b-input-group>
                             <br />
-                            <label>商品名稱：</label>
-                            <input v-model="infoModal.productName" />
+                            <b-input-group prepend="商品單價">
+                                <b-form-input v-model="infoModal.unitPrice"></b-form-input>
+                            </b-input-group>
                             <br />
-                            <label>商品單價：</label>
-                            <input v-model="infoModal.unitPrice" />
+                            <b-input-group prepend="商品庫存">
+                                <b-form-input v-model="infoModal.inventory"></b-form-input>
+                            </b-input-group>
                             <br />
-                            <label>商品庫存：</label>
-                            <input v-model="infoModal.inventory" />
+                            <b-row>
+
+                                <b-col>
+                                    <b-form-textarea v-model="infoModal.introduction"
+                                                     placeholder="簡介"
+                                                     rows="3"
+                                                     max-rows="8"></b-form-textarea>
+                                </b-col>
+                            </b-row>
+
                             <br />
-                            <label>商品銷量：</label>
-                            <input v-model="infoModal.totalSales" />
+                            <b-input-group prepend="商品主圖">
+                                <b-form-input v-model="infoModal.mainUrl"></b-form-input>
+                            </b-input-group>
                             <br />
-                            <label>商品特價：</label>
-                            <input v-model="infoModal.isSpecial" />
-                            <br />
-                            <label>商品主圖：</label>
-                            <input v-model="infoModal.mainUrl" />
-                            <br />
-                            <label>商品圖二：</label>
-                            <input v-model="infoModal.secondUrl" />
-                            <br />
-                            <label>商品圖三：</label>
-                            <input v-model="infoModal.thirdUrl" />
-                            <br />
-                            <label>商品圖四：</label>
-                            <input v-model="infoModal.fourthUrl" />
+                            <b-input-group prepend="預覽圖一">
+                                <b-form-input v-model="infoModal.secondUrl"></b-form-input>
+                            </b-input-group>
                             <br />
                             <label>簡介:</label>
-                            <input v-model="infoModal.introduction" class="h-100 d-inline-block" />
+                            <input v-model="infoModal.introduction" class="h-100 d-inline-block"/>
                             <br />
+                            <b-input-group prepend="預覽圖三">
+                                <b-form-input v-model="infoModal.fourthUrl"></b-form-input>
+                            </b-input-group>
+
+
 
                         </b-modal>
 

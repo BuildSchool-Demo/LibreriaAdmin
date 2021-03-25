@@ -136,10 +136,55 @@
         </div>
         <div class="col-4 btnArea">
             <!-- Button trigger modal -->
-            <button type="button" class="btn btn-dark check" data-toggle="modal" data-target="#modal-check" >
+            <button type="button" class="btn btn-dark check" data-toggle="modal" data-target="#modal-check">
                 確認送出
             </button>
             <button class="btn btn-dark check" id="Reset" onclick="Reset()">取消</button>
+        </div>
+        <!-- Modal -->
+        <div class="modal  fade " id="modal-check" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">是否確認以下書籍為特價?</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <table aria-busy="false" class="table b-table " id="__BVID__5">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>書名</th>
+                                    <th>價錢</th>
+                                    <th>特價價格</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="item in items" v-on:click='ChangeSpecial(item.productId)'>
+                                    <td>
+                                        {{item.productId}}
+                                    </td>
+                                    <td>
+                                        {{item.productName}}
+                                    </td>
+                                    <td>
+                                        {{item.unitPrice}}
+                                    </td>
+                                    <td>
+                                        {{item.specialPrice}}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
+                        <button type="button" id="Post" class="btn btn-primary">確認</button>
+                    </div>
+                </div>
+            </div>
         </div>
         <!-- Tab content -->
         <div class="tab-content col-12">
@@ -152,7 +197,7 @@
                             <th>ID</th>
                             <th>書名</th>
                             <th>價錢</th>
-                            <th>銷量</th>
+                            <th>特價金額</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -173,7 +218,7 @@
                                 {{item.unitPrice}}
                             </td>
                             <td>
-                                {{item.totalSales}}
+                                <input v-bind:id=`input${item.productId}`  type="text" name="name"  v-bind:value="item.specialPrice"/>
                             </td>
                         </tr>
                     </tbody>
@@ -188,7 +233,7 @@
                             <th>ID</th>
                             <th>書名</th>
                             <th>價錢</th>
-                            <th>銷量</th>
+                            <th>特價金額</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -209,7 +254,7 @@
                                 {{item.unitPrice}}
                             </td>
                             <td>
-                                {{item.totalSales}}
+                                <input v-bind:id=`input${item.productId}` type="text" name="name" v-bind:value="item.specialPrice" />
                             </td>
                         </tr>
                     </tbody>
@@ -224,7 +269,7 @@
                             <th>ID</th>
                             <th>書名</th>
                             <th>價錢</th>
-                            <th>銷量</th>
+                            <th>特價金額</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -245,7 +290,7 @@
                                 {{item.unitPrice}}
                             </td>
                             <td>
-                                {{item.totalSales}}
+                                <input v-bind:id=`input${item.productId}` type="text" name="name" v-bind:value="item.specialPrice" />
                             </td>
                         </tr>
                     </tbody>
@@ -260,7 +305,7 @@
                             <th>ID</th>
                             <th>書名</th>
                             <th>價錢</th>
-                            <th>銷量</th>
+                            <th>特價金額</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -281,7 +326,7 @@
                                 {{item.unitPrice}}
                             </td>
                             <td>
-                                {{item.totalSales}}
+                                <input v-bind:id=`input${item.productId}` type="text" name="name" v-bind:value="item.specialPrice" />
                             </td>
                         </tr>
                     </tbody>
@@ -296,7 +341,7 @@
                             <th>ID</th>
                             <th>書名</th>
                             <th>價錢</th>
-                            <th>銷量</th>
+                            <th>特價金額</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -317,7 +362,7 @@
                                 {{item.unitPrice}}
                             </td>
                             <td>
-                                {{item.totalSales}}
+                                <input v-bind:id=`input${item.productId}` type="text" name="name" v-bind:value="item.specialPrice" />
                             </td>
                         </tr>
                     </tbody>
@@ -332,7 +377,7 @@
                             <th>ID</th>
                             <th>書名</th>
                             <th>價錢</th>
-                            <th>銷量</th>
+                            <th>特價金額</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -353,7 +398,7 @@
                                 {{item.unitPrice}}
                             </td>
                             <td>
-                                {{item.totalSales}}
+                                <input v-bind:id=`input${item.productId}` type="text" name="name" v-bind:value="item.specialPrice" />
                             </td>
                         </tr>
                     </tbody>
@@ -368,7 +413,7 @@
                             <th>ID</th>
                             <th>書名</th>
                             <th>價錢</th>
-                            <th>銷量</th>
+                            <th>特價金額</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -391,7 +436,7 @@
                                 {{item.unitPrice}}
                             </td>
                             <td>
-                                {{item.totalSales}}
+                                <input v-bind:id=`input${item.productId}` type="text" name="name" v-bind:value="item.specialPrice" />
                             </td>
                         </tr>
                     </tbody>
@@ -402,51 +447,7 @@
 </div>
 
 
-<!-- Modal -->
-<div class="modal  fade " id="modal-check" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">是否確認以下書籍為特價?</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <table aria-busy="false" class="table b-table " id="__BVID__5">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>書名</th>
-                            <th>價錢</th>
-                            <th>特價後價格(8折)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="item in items" v-on:click='ChangeSpecial(item.productId)'>
-                            <td>
-                                {{item.productId}}
-                            </td>
-                            <td>
-                                {{item.productName}}
-                            </td>
-                            <td>
-                                {{item.unitPrice}}
-                            </td>
-                            <td>
-                                {{item.unitPrice*0.8}}
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
-                <button type="button" id="Post"  class="btn btn-primary">確認</button>
-            </div>
-        </div>
-    </div>
-</div>
+
 
 
 
@@ -464,6 +465,7 @@
                 data: {
                     items: [],
                     AllData: [],
+                    specailPrice:'',
                 },
                 created: function () {
                     axios.get(`/api/Product/GetByCategory/${i}`)
@@ -473,7 +475,7 @@
                     axios.get('/api/Product/GetAll')
                         .then((res) => {
                             this.AllData = res.data.body.productList;
-
+                            
                         })
                 },
                 methods: {
@@ -488,16 +490,53 @@
                                 } else {
                                     x.isSpecial = true;
                                     document.getElementById(`td${event}`).checked = true;
-
                                     console.log(x.isSpecial);
                                 }
-                                changeData.push(x);
+                                x.specialPrice = document.getElementById(`input${event}`).value;
+                                console.log(x.specialPrice);
+                                if (changeData.length == 0) {
+
+                                    changeData.push(x);
+                                } else {
+                                    changeData.forEach(ch => {
+                                        if (ch.productId == x.productId) {
+                                            ch.isSpecial = x.isSpecial;
+                                            ch.specialPrice = x.specialPrice;
+                                        } 
+                                        
+                                    })
+                                }
+                                console.log(this.changeData)
                             }
                         })
-                        console.log(changeData);
                     },
-
+                    
                 },
+                watch: {
+                    specailPrice: function (event) {
+                        this.AllData.forEach(x => {
+                            if (x.productId == event) {
+                                x.specialPrice = document.getElementById(`input${event}`).value;
+                                console.log(x.specialPrice);
+                                if (changeData.length == 0) {
+
+                                    changeData.push(x);
+                                } else {
+                                    changeData.forEach(ch => {
+                                        if (ch.productId == x.productId) {
+                                            ch.isSpecial = x.isSpecial;
+                                            ch.specialPrice = x.specialPrice;
+                                        } else {
+                                            changeData.push(x);
+                                        }
+
+                                    })
+                                }
+                                console.log(this.changeData)
+                            }
+                        })
+                    }
+                }
             })
         }
         var app2 = new Vue({

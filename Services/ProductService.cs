@@ -45,7 +45,8 @@ namespace LibreriaAdmin.Services
                                       Introduction = p.Introduction,
                                       Inventory = p.Inventory,
                                       TotalSales = p.TotalSales,
-                                      MainUrl = v.ImgUrl
+                                      MainUrl = v.ImgUrl,
+                                      SpecialPrice = p.SpecialPrice
                                   }).ToList();
 
 
@@ -78,7 +79,8 @@ namespace LibreriaAdmin.Services
                                       Introduction = p.Introduction,
                                       Inventory = p.Inventory,
                                       TotalSales = p.TotalSales,
-                                      IsSpecial = p.IsSpecial
+                                      IsSpecial = p.IsSpecial,
+                                      SpecialPrice = p.SpecialPrice
 
                                   }).ToList();
 
@@ -139,6 +141,7 @@ namespace LibreriaAdmin.Services
                                       Introduction = p.Introduction,
                                       Inventory = p.Inventory,
                                       TotalSales = p.TotalSales,
+                                      SpecialPrice = p.SpecialPrice
 
                                   }).ToList();
 
@@ -181,7 +184,7 @@ namespace LibreriaAdmin.Services
             {
                 Product product = _dbRepository.GetAll<Product>().FirstOrDefault(product => product.ProductId == productVM.ProductId);
                 product.IsSpecial = productVM.IsSpecial;
-
+                product.SpecialPrice = productVM.SpecialPrice;
                 try
                 {
                     _dbRepository.Update(product);
