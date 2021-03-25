@@ -1,14 +1,13 @@
 ﻿var managerAPP = new Vue({
     el: '#manager-index',
-    data(){
+    data() {
         return {
             items: [],
             fields: [
                 { key: 'managerID', label: 'ID', sortable: true, sortDirection: 'desc' },
-                { key: 'managerName', label: '姓名', sortable: true, sortDirection: 'desc' },
+                { key: 'managerUserName', label: '姓名', sortable: true, sortDirection: 'desc' },
                 { key: 'managerRoleID', label: '管理者層級', sortable: true, sortDirection: 'desc' },
-                { key: 'actions', label: '執行' },             
-
+                { key: 'actions', label: '執行' },
             ],
             totalRows: 1,
             currentPage: 1,
@@ -18,9 +17,18 @@
             sortDesc: false,
             sortDirection: 'asc',
             filter: null,
-            filterOn: []
+            filterOn: [],
+            infoModal: {
+                id: 'info-modal',
+                title: '',
+                content: ''
+            },
+            newinfoModal: {
+                id: 'newinfo-modal',
+                title: '',
+                content: ''
+            }
         }
-        
     },
     created: function () {
         axios.get("/api/Manager/GetAllManagers")
@@ -48,45 +56,86 @@
             this.infoModal.title = ''
             this.infoModal.content = ''
         },
+        resetnewInfoModal() {
+            this.newinfoModal.title = ''
+            this.newinfoModal.content = ''
+        },
         onFiltered(filteredItems) {
             // Trigger pagination to update the number of buttons/pages due to filtering
             this.totalRows = filteredItems.length
             this.currentPage = 1
         },
-        removeItem: function (item) {
-            let backendApi = "https://localhost:5001/api/Product/DeleteItem";
-            let result = document.getElementById("result");
+        info(item, index, button) {
+            this.infoModal.index = (this.currentPage - 1) * this.perPage + index
+            this.infoModal.title = `編輯資料: 管理者${item.managerUserName}`
+            this.infoModal.managerID = item.managerID
+            this.infoModal.managerName = item.managerName
+            this.infoModal.managerPassword = item.managerPassword
+            this.infoModal.managerUserName = item.managerUserName
+            this.infoModal.managerRoleID = item.managerRoleID
+            this.infoModal.content = JSON.stringify(item, null, 2)
+            this.$root.$emit('bv::show::modal', this.infoModal.id, button)
+        },
+        createItem(item) {
+            let backendApi = "/api/Manager/CreateManager";
+            let managerUserName = item.managerUserName
+            let managername = item.managerName
+            let managerPassword = item.password
+            let managerRoleID = item.managerRoleID
+
+            let manager = { managerUserName: managerUserName, managerName: managername, managerPassword: managerPassword, managerRoleID: managerRoleID }
             
-            console.log(item);
-            //axios.delete("/api/Product/DeleteItem")
-            //    .then((res) => {
-            //        console.log(res);
-            //  })
-            if ((item != null || item != '') && item > 0) {
-                document.getElementById("apiUrl").innerText = "BackendAPI URL : " + backendApi;
-                let request = {ProductId: item}
+            $.ajax({
+                url: backendApi,
+                method: "POST",
+                dataType: "json",
+                contentType: "application/json;charset=UTF-8",
+                data: JSON.stringify(manager),
+                success: function (data, textStatus, jqXHR) {
+
+                }
+            });
+        },
+        removeItem(item) {
+            let backendApi = "/api/Manager/DeleteManager";
                 $.ajax({
-                    url: backendApi,
+                    url: backendApi + "/" + item.managerID,
                     method: "POST",
-                    dataType: "json",   //如果有JSON回傳資料, 則加上此行, 若無請勿加, 會引起parse error
-                    data: JSON.stringify(request),
-                    contentType: "application/json;charset=UTF-8",   
                     success: function (data, textStatus, jqXHR) {
                         console.log(data);
                         console.log(textStatus);
                         console.log(jqXHR.status);
                         console.log(jqXHR.getAllResponseHeaders());
-                        if (jqXHR.status == "202") {
-                            result.innerText = `${item}資料刪除成功!`;
-                        }
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
-                        result.innerText = textStatus + ", " + jqXHR.status;
                     }
-                })
+                })            
+        },
+        submitEdit(item) {
+            perPage: 20, item = this.items[this.infoModal.index];
+            item.managerID = this.infoModal.managerID;
+            item.managerName = this.infoModal.managerName;
+            item.managerPassword = this.infoModal.managerPassword;
+            item.managerUserName = this.infoModal.managerUserName;
+            item.managerRoleID = this.infoModal.managerRoleID;
 
-            }
 
-        }        
+            let backendApi = "/api/Manager/EditManager";
+            $.ajax({
+                url: backendApi + "/" + item.managerID,
+                method: "POST",
+                contentType: "application/json;charset=UTF-8",
+                data: JSON.stringify(item),
+                success: function (data, textStatus, jqXHR) {
+                    console.log(data);
+                    console.log(textStatus);
+                    console.log(jqXHR.status);
+                    console.log(jqXHR.getAllResponseHeaders());
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                }
+            })
+        },
+       
     }
-});
+    });

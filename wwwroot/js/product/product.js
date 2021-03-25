@@ -1,15 +1,15 @@
 ﻿var productAPP = new Vue({
     el: '#product-index',
-    data(){
+    data() {
         return {
             text: 'productName',
             items: [],
             fields: [
                 { key: 'productId', label: '編號', sortable: true, sortDirection: 'desc' },
-                { key: 'productName', label: '書名',  sortDirection: 'desc' },
+                { key: 'productName', label: '書名', sortDirection: 'desc' },
                 { key: 'inventory', label: '庫存', sortable: true, sortDirection: 'desc' },
                 { key: 'totalSales', label: '銷量', sortable: true, sortDirection: 'desc' },
-                { key: 'isSpecial', label: '折扣',  sortDirection: 'desc' },
+                { key: 'isSpecial', label: '折扣', sortDirection: 'desc' },
                 { key: 'unitPrice', label: '價格', sortable: true, sortDirection: 'desc' },
                 { key: 'actions', label: '執行' },
             ],
@@ -29,9 +29,9 @@
                 'secondUrl',
                 'thirdUrl',
                 'fourthUrl',
-                
+
             ],
-            introduction:'',
+            introduction: '',
             totalRows: 1,
             currentPage: 1,
             perPage: 20,
@@ -47,12 +47,12 @@
                 content: ''
             }
         }
-        
+
     },
     created: function () {
         axios.get("/api/Product/GetAll")
             .then((res) => {
-                
+
                 this.items = res.data.body.productList;
                 //mounted();
                 //onFiltered(filteredItems)
@@ -107,13 +107,13 @@
             let result = document.getElementById("result");
             if ((item != null || item != '') && item > 0) {
                 document.getElementById("apiUrl").innerText = "BackendAPI URL : " + backendApi;
-                let request = {ProductId: item}
+                let request = { ProductId: item }
                 $.ajax({
                     url: backendApi,
                     method: "POST",
-                    dataType: "json",  
+                    dataType: "json",
                     data: JSON.stringify(request),
-                    contentType: "application/json;charset=UTF-8",   
+                    contentType: "application/json;charset=UTF-8",
                     success: function (data, textStatus, jqXHR) {
                         console.log(data);
                         console.log(textStatus);
@@ -150,7 +150,7 @@
         addItem() {
             alert("Hi");
             let backendApi = "/api/Product/AddItem";
-           /* let productId = document.getElementById("type-productId").value;*/
+            /* let productId = document.getElementById("type-productId").value;*/
             let categoryId = document.getElementById("type-categoryId").value;
             let supplierId = document.getElementById("type-supplierId").value;
             let author = document.getElementById("type-author").value;
@@ -166,11 +166,11 @@
             let secondUrl = document.getElementById("type-secondUrl").value;
             let thirdUrl = document.getElementById("type-thirdUrl").value;
             let fourthUrl = document.getElementById("type-fourthUrl").value;
-          let previewUrls = [secondUrl, thirdUrl, fourthUrl];
+            let previewUrls = [secondUrl, thirdUrl, fourthUrl];
             let product = {
-                 CategoryId: categoryId, SupplierId: supplierId, Author: author, PublishDate: publishDate,
+                CategoryId: categoryId, SupplierId: supplierId, Author: author, PublishDate: publishDate,
                 ProductName: productName, Inventory: inventory, TotalSales: totalSales, UnitPrice: unitPrice,
-                Isbn: isbn, MainUrl: mainUrl, Introduction: introduction, PreviewUrls:previewUrls
+                Isbn: isbn, MainUrl: mainUrl, Introduction: introduction, PreviewUrls: previewUrls
             };
             $.ajax({
                 url: backendApi,
@@ -191,14 +191,14 @@
                     result.innerText = textStatus + ", " + jqXHR.status;
                 }
             })
-          
+
 
 
         }
-        
 
 
-        
+
+
     }
 
 });

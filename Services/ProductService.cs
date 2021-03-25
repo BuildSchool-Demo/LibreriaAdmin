@@ -175,6 +175,25 @@ namespace LibreriaAdmin.Services
             }
             return false;
         }
+        public bool EditIsSpecial(List<ProductViewModels.ProductSingleResult> productVMList)
+        {
+            foreach (var productVM in productVMList)
+            {
+                Product product = _dbRepository.GetAll<Product>().FirstOrDefault(product => product.ProductId == productVM.ProductId);
+                product.IsSpecial = productVM.IsSpecial;
+
+                try
+                {
+                    _dbRepository.Update(product);
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
 
         public bool Edit(ProductViewModels.ProductSingleResult productVM)
         {
@@ -185,7 +204,7 @@ namespace LibreriaAdmin.Services
             product.TotalSales = productVM.TotalSales;
             product.IsSpecial = productVM.IsSpecial;
             product.Introduction = productVM.Introduction;
-           
+
             _dbRepository.Update(product);
 
             //圖片
@@ -212,7 +231,7 @@ namespace LibreriaAdmin.Services
             return true;
         }
 
-        public BaseModel.BaseResult<ProductViewModels.ProductSingleResult> AddProduct ([FromBody] ProductViewModels.ProductSingleResult productVM)
+        public BaseModel.BaseResult<ProductViewModels.ProductSingleResult> AddProduct([FromBody] ProductViewModels.ProductSingleResult productVM)
         {
             var result = new BaseModel.BaseResult<ProductViewModels.ProductSingleResult>();
             Product newProduct = null;
@@ -268,12 +287,12 @@ namespace LibreriaAdmin.Services
                     result.IsSuccess = true;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 result.IsSuccess = false;
                 result.Msg = ex.ToString();
             }
-            
+
 
             int i = 0;
             foreach (string previewUrl in productVM.PreviewUrls)
@@ -299,11 +318,11 @@ namespace LibreriaAdmin.Services
                     result.Msg = ex.ToString();
                 }
             }
-            
 
-            
+
+
             return result;
-           
+
         }
 
     }

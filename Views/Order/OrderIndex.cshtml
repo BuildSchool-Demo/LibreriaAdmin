@@ -239,7 +239,8 @@
                     <label>商品名稱：</label> <span>{{orderDetail.productName}}</span> <br />
                     <label>商品數量：</label> <input v-model="orderDetail.quantity" :key="orderDetail.quantity"> <br />
                     <label>商品單價：</label> <input v-model="orderDetail.unitPrice" :key="orderDetail.unitPrice" disabled="disabled" /> <br />
-                    <label>商品總和：</label> <input v-model="orderDetail.quantity*orderDetail.unitPrice" :key="orderDetail.detailPrice" disabled="disabled" /> <br />
+                    <label>商品特價：</label> <input v-model="orderDetail.specialPrice" :key="orderDetail.specialPrice" /> <br />
+                    <label>商品總和：</label> <span>{{UpdateDetailPrice(orderDetail.quantity, orderDetail.unitPrice, orderDetail.specialPrice)}}</span>
                 </details>
             </form>
         </b-modal>
@@ -346,11 +347,10 @@
                         })
                 },
                 infoModalOrderPrice() {
-                    sum = 0;
-                    this.infoModal.orderDetailList.forEach((orderDetail, index, orderDetailList) => {
-                        sum += orderDetail.unitPrice * orderDetail.quantity;
-                    })
-                    return sum;
+                    return this.UpdateOrderPrice();
+                },
+                infoModalDetailPrice(quantity, unitPrice, specialPrice) {
+                    return this.UpdateDetailPrice(quantity, unitPrice, specialPrice);
                 },
             },
             mounted() {
@@ -360,7 +360,7 @@
             methods: {
                 info(item, index, button) {
                     this.infoModal.title = `編輯資料：${item.orderId}`;
-                    this.infoModal.index = index;
+                    this.infoModal.index = (this.currentPage - 1) * this.perPage + index;
                     this.infoModal.content = JSON.stringify(item, null, 2);
                     this.infoModal.orderId = item.orderId;
                     this.infoModal.orderDateDisplay = item.orderDateDisplay;
@@ -371,8 +371,8 @@
                     this.infoModal.shipAddress = item.shipAddress;
                     this.infoModal.shipPostalCode = item.shipPostalCode;
                     this.infoModal.invoiceTypeDisplay = item.invoiceTypeDisplay;
-                    this.infoModal.updateTime= item.updateTime;
-                    this.infoModal.paymentTypeDisplay= item.paymentTypeDisplay;
+                    this.infoModal.updateTime = item.updateTime;
+                    this.infoModal.paymentTypeDisplay = item.paymentTypeDisplay;
                     this.infoModal.paymentState = item.paymentState;
                     this.infoModal.orderDetailList = JSON.parse(JSON.stringify(item.orderDetailList));
                     this.$root.$emit('bv::show::modal', this.infoModal.id, button);
@@ -391,8 +391,9 @@
                     this.totalRows = this.items.length
                 },
                 submitEdit() {
-                    item = this.items[this.infoModal.index];
-                    item.orderId=this.infoModal.orderId ;
+                    perPage: 20,
+                        item = this.items[this.infoModal.index];
+                    item.orderId = this.infoModal.orderId;
                     item.orderDateDisplay = this.infoModal.orderDateDisplay;
                     item.memberUserName = this.infoModal.memberUserName;
                     item.shipName = this.infoModal.shipName;
@@ -415,10 +416,15 @@
                 UpdateOrderPrice() {
                     sum = 0;
                     this.infoModal.orderDetailList.forEach((orderDetail, index, orderDetailList) => {
-                        sum += orderDetail.unitPrice * orderDetail.quantity;
+                        sum += this.UpdateDetailPrice(orderDetail.quantity, orderDetail.unitPrice, orderDetail.specialPrice);
                     })
                     return sum;
-                }
+                },
+                UpdateDetailPrice(quantity, unitPrice, specialPrice) {
+                    if (specialPrice > 0) return specialPrice * quantity;
+                    else return unitPrice * quantity;
+                    return 0;
+                },
             },
         })
     </script>

@@ -19,7 +19,24 @@ namespace LibreriaAdmin.WebApi
         {
             _memberService = memberService;
         }
+        [HttpGet]
+        public BaseModel.BaseResult<MemberViewModel.MemberListResult> GetAllLength()
+        {
+            var result = new BaseModel.BaseResult<MemberViewModel.MemberListResult>();
 
+            try
+            {
+                result.Body = _memberService.GetAllLength();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Msg = ex.Message;
+                result.IsSuccess = false;
+
+                return result;
+            }
+        }
         [HttpGet]
         public BaseModel.BaseResult<MemberViewModel.MemberListResult> GetAll()
         {
@@ -39,6 +56,28 @@ namespace LibreriaAdmin.WebApi
             }
         }
 
+        [HttpPost]
+        public BaseModel.BaseResult<MemberViewModel.MemberSingleResult> Edit(MemberViewModel.MemberSingleResult memberVM)
+        {
+            BaseModel.BaseResult<MemberViewModel.MemberSingleResult> result = new BaseModel.BaseResult<MemberViewModel.MemberSingleResult>();
+            result.Body = memberVM;
+
+            try
+            {
+                result.IsSuccess = _memberService.Edit(memberVM);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Msg = ex.Message;
+                result.IsSuccess = false;
+
+                return result;
+            }
+
+
+        }
+
         [HttpGet("{id}")]
         public BaseModel.BaseResult<OrderViewModel.OrderListResult> GetByMemberId(int id)
         {
@@ -56,6 +95,14 @@ namespace LibreriaAdmin.WebApi
 
                 return result;
             }
+        }
+
+
+        [HttpPost]
+        public bool DeleteItem(MemberViewModel.GetByIdRequest request)
+        {
+            bool isSuccess = _memberService.Remove(request.MemberId);
+            return isSuccess;
         }
     }
 }

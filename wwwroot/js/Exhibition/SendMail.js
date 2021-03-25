@@ -4,11 +4,15 @@
         return {
             form: {
                 sender: 'LibreriaBSProject@gmail.com',
-                recipient: '',
+                recipient: customerData.exCustomerEmail,
                 subject: '',
                 body: '',
+                exhibitionId: exhibitionId
             },
             show: true,
+            customerName: customerData.customerName,
+            libreriaEmail: "https://localhost:5001/Exhibiton/Email"
+
         }
     },
     methods: {

@@ -57,12 +57,17 @@ namespace LibreriaAdmin.ViewModels
             public ExhibitonDataModel ExhibitonData { get; set; }
         }
 
-
         public class ExhibitonDataModel
         {
             public string ExName { get; set; }
             public string ExhibitionStartTime { get; set; }
             public string ExhibitionEndTime { get; set; }
+        }
+
+        public class GetRentalDate
+        {
+            public string StartDate { get; set; }
+            public string EndDate { get; set; }
         }
 
         /// <summary>
@@ -71,6 +76,7 @@ namespace LibreriaAdmin.ViewModels
         public class RentalListResult
         {
             public List<RentalSingleResult> RentalList { get; set; }
+            public List<GetRentalDate> GetRentalDate { get; set; }
         }
 
         /// <summary>

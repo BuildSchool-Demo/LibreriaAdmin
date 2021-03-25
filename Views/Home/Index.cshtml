@@ -33,7 +33,6 @@
         <div class="icon">
             <i class="ion ion-bag"></i>
         </div>
-        <a href="~/Order/OrderIndex" class="small-box-footer">前往更多 <i class="fas fa-arrow-circle-right"></i></a>
     </div>
 </div>
 <div class="col-lg-3 col-6" id="todayRent">
@@ -46,7 +45,6 @@
         <div class="icon">
             <i class="ion ion-stats-bars"></i>
         </div>
-        <a href="#" class="small-box-footer">前往更多 <i class="fas fa-arrow-circle-right"></i></a>
     </div>
 </div>
 <div class="col-lg-3 col-6" id="todayOrderPrice">
@@ -59,10 +57,9 @@
         <div class="icon">
             <i class="ion ion-pie-graph"></i>
         </div>
-        <a href="#" class="small-box-footer">前往更多 <i class="fas fa-arrow-circle-right"></i></a>
     </div>
 </div>
-<div class="col-lg-3 col-6" id="memberNum">
+<div class="col-lg-3 col-6" id="memberNum" style="color:white;">
     <div class="small-box bg-warning">
         <div class="inner">
             <h3>{{memberNum}}</h3>
@@ -72,7 +69,6 @@
         <div class="icon">
             <i class="ion ion-person-add"></i>
         </div>
-        <a href="#" class="small-box-footer">前往更多<i class="fas fa-arrow-circle-right"></i></a>
     </div>
 </div>
 
@@ -270,7 +266,7 @@
                 memberNum: 999,
             },
             created: function () {
-                axios.get('/api/Member/GetAll')
+                axios.get('/api/Member/GetAllLength')
                     .then((res) => {
                         this.memberNum = res.data.body.memberList.length;
                     })
