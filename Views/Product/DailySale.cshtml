@@ -158,7 +158,7 @@
                                     <th>ID</th>
                                     <th>書名</th>
                                     <th>價錢</th>
-                                    <th>特價後價格</th>
+                                    <th>特價價格</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -218,7 +218,7 @@
                                 {{item.unitPrice}}
                             </td>
                             <td>
-                                <input v-bind:id=`input${item.productId}` v-bind:change="changeSpecailPrice" type="text" name="name" v-model="item.specailPrice" />
+                                <input v-bind:id=`input${item.productId}`  type="text" name="name"  v-bind:value="item.specialPrice"/>
                             </td>
                         </tr>
                     </tbody>
@@ -254,8 +254,7 @@
                                 {{item.unitPrice}}
                             </td>
                             <td>
-                                <input v-bind:id=`input${item.productId}` type="text" name="name" v-model="item.specailPrice"  />
-
+                                <input v-bind:id=`input${item.productId}` type="text" name="name" v-bind:value="item.specialPrice" />
                             </td>
                         </tr>
                     </tbody>
@@ -291,8 +290,7 @@
                                 {{item.unitPrice}}
                             </td>
                             <td>
-                                <input v-bind:id=`input${item.productId}` type="text" name="name" v-model="item.specailPrice"  />
-
+                                <input v-bind:id=`input${item.productId}` type="text" name="name" v-bind:value="item.specialPrice" />
                             </td>
                         </tr>
                     </tbody>
@@ -328,8 +326,7 @@
                                 {{item.unitPrice}}
                             </td>
                             <td>
-                                <input v-bind:id=`input${item.productId}` type="text" name="name" v-model="item.specailPrice"  />
-
+                                <input v-bind:id=`input${item.productId}` type="text" name="name" v-bind:value="item.specialPrice" />
                             </td>
                         </tr>
                     </tbody>
@@ -365,8 +362,7 @@
                                 {{item.unitPrice}}
                             </td>
                             <td>
-                                <input v-bind:id=`input${item.productId}` type="text" name="name" v-model="item.specailPrice"  />
-
+                                <input v-bind:id=`input${item.productId}` type="text" name="name" v-bind:value="item.specialPrice" />
                             </td>
                         </tr>
                     </tbody>
@@ -402,8 +398,7 @@
                                 {{item.unitPrice}}
                             </td>
                             <td>
-                                <input v-bind:id=`input${item.productId}` type="text" name="name" v-model="item.specailPrice"  />
-
+                                <input v-bind:id=`input${item.productId}` type="text" name="name" v-bind:value="item.specialPrice" />
                             </td>
                         </tr>
                     </tbody>
@@ -441,8 +436,7 @@
                                 {{item.unitPrice}}
                             </td>
                             <td>
-                                <input v-bind:id=`input${item.productId}` type="text" name="name" v-model="item.specailPrice"  />
-
+                                <input v-bind:id=`input${item.productId}` type="text" name="name" v-bind:value="item.specialPrice" />
                             </td>
                         </tr>
                     </tbody>
@@ -471,6 +465,7 @@
                 data: {
                     items: [],
                     AllData: [],
+                    specailPrice:'',
                 },
                 created: function () {
                     axios.get(`/api/Product/GetByCategory/${i}`)
@@ -499,25 +494,48 @@
                                 }
                                 x.specialPrice = document.getElementById(`input${event}`).value;
                                 console.log(x.specialPrice);
-                                changeData.push(x);
+                                if (changeData.length == 0) {
+
+                                    changeData.push(x);
+                                } else {
+                                    changeData.forEach(ch => {
+                                        if (ch.productId == x.productId) {
+                                            ch.isSpecial = x.isSpecial;
+                                            ch.specialPrice = x.specialPrice;
+                                        } 
+                                        
+                                    })
+                                }
                                 console.log(this.changeData)
                             }
                         })
                     },
-                    changeSpecailPrice: function (event) {
+                    
+                },
+                watch: {
+                    specailPrice: function (event) {
                         this.AllData.forEach(x => {
                             if (x.productId == event) {
-                               
                                 x.specialPrice = document.getElementById(`input${event}`).value;
                                 console.log(x.specialPrice);
-                                changeData.push(x);
+                                if (changeData.length == 0) {
+
+                                    changeData.push(x);
+                                } else {
+                                    changeData.forEach(ch => {
+                                        if (ch.productId == x.productId) {
+                                            ch.isSpecial = x.isSpecial;
+                                            ch.specialPrice = x.specialPrice;
+                                        } else {
+                                            changeData.push(x);
+                                        }
+
+                                    })
+                                }
                                 console.log(this.changeData)
                             }
                         })
                     }
-                },
-                watch: {
-
                 }
             })
         }
