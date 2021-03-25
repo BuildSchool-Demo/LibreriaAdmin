@@ -148,7 +148,7 @@
                 })
         },
         addItem() {
-            alert("Hi");
+            
             let backendApi = "/api/Product/AddItem";
             /* let productId = document.getElementById("type-productId").value;*/
             let categoryId = document.getElementById("type-categoryId").value;
