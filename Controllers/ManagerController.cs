@@ -1,4 +1,5 @@
 ﻿using LibreriaAdmin.Interfaces;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,6 +11,8 @@ using System.Threading.Tasks;
 
 namespace LibreriaAdmin.Controllers
 {
+    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
+
     public class ManagerController : Controller
     {
         private readonly ILogger _logger;
