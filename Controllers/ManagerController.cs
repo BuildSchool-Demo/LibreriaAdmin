@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static LibreriaAdmin.filter.CustomActionFilter;
 
 namespace LibreriaAdmin.Controllers
 {
@@ -27,7 +28,7 @@ namespace LibreriaAdmin.Controllers
         {
             return View();
         }
-        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [ValidateModel]
         public IActionResult ManagerIndex()
         {
             return View();

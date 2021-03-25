@@ -34,6 +34,7 @@ namespace LibreriaAdmin.ViewModels
             public bool IsFav { get; set; }
             public bool IsSpecial { get; set; }
             public string Supplier { get; set; }
+            public decimal SpecialPrice { get; set; }
 
             public string MainUrl { get; set; }
             public List<string> PreviewUrls { get; set; }
