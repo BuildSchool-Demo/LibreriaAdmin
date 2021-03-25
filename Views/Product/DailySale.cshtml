@@ -218,7 +218,7 @@
                                 {{item.unitPrice}}
                             </td>
                             <td>
-                                <input v-bind:id=`input${item.productId}`  type="text" name="name"  v-bind:value="item.specialPrice"/>
+                                <input v-bind:id=`input${item.productId}` type="text" name="name" v-bind:value="item.specialPrice" />
                             </td>
                         </tr>
                     </tbody>
@@ -465,7 +465,7 @@
                 data: {
                     items: [],
                     AllData: [],
-                    specailPrice:'',
+                    specailPrice: '',
                 },
                 created: function () {
                     axios.get(`/api/Product/GetByCategory/${i}`)
@@ -475,7 +475,7 @@
                     axios.get('/api/Product/GetAll')
                         .then((res) => {
                             this.AllData = res.data.body.productList;
-                            
+
                         })
                 },
                 methods: {
@@ -502,15 +502,18 @@
                                         if (ch.productId == x.productId) {
                                             ch.isSpecial = x.isSpecial;
                                             ch.specialPrice = x.specialPrice;
-                                        } 
-                                        
+                                        } else {
+                                            changeData.push(x);
+
+                                        }
+
                                     })
                                 }
                                 console.log(this.changeData)
                             }
                         })
                     },
-                    
+
                 },
                 watch: {
                     specailPrice: function (event) {
