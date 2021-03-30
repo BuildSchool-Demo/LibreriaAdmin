@@ -34,5 +34,7 @@ namespace LibreriaAdmin.Models
         [StringLength(50)]
         public string ExName { get; set; }
         public bool ReviewState { get; set; }
+        [Column("isDeleted")]
+        public bool IsDeleted { get; set; }
     }
 }

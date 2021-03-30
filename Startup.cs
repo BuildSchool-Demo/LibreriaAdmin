@@ -1,4 +1,4 @@
-using LibreriaAdmin.Interfaces;
+ï»¿using LibreriaAdmin.Interfaces;
 using LibreriaAdmin.Models;
 using LibreriaAdmin.Repository;
 using LibreriaAdmin.Services;
@@ -40,10 +40,10 @@ namespace LibreriaAdmin
         {
             services.AddControllersWithViews();
 
-            //¼ÓÈëLibreriaContext
+            //æ¨“ï¿½è•ibreriaContext
             services.AddDbContext<LibreriaDatabaseContext>(options => options.UseSqlServer(Configuration.GetConnectionString("LibreriaDataBaseContext")));
 
-            //¼ÓÈëMemberService
+            //æ¨“ï¿½è•®emberService
             services.AddTransient<IManagerService, ManagerService>();
 
             services.AddTransient<IMemberService, MemberService>();
@@ -51,10 +51,10 @@ namespace LibreriaAdmin
             services.AddTransient<ICategoryService, CategoryService>();
 
 
-            //¼ÓÈëProductService
+            //æ¨“ï¿½è•§roductService
             services.AddTransient<IProductService, ProductService>();
 
-            //ª`¤JOrderService
+            //æ³¨å…¥OrderService
             services.AddTransient<IOrderService, OrderService>();
 
             //repository signup
@@ -77,9 +77,9 @@ namespace LibreriaAdmin
                 var apiSchema = new OpenApiSecurityScheme()
                 {
                     Type = OpenApiSecuritySchemeType.ApiKey,
-                    Name = "±ÂÅvÄæ¦ì",
+                    Name = "æˆæ¬Šæ¬„ä½",
                     In = OpenApiSecurityApiKeyLocation.Header,
-                    Description = "½Ğ±Ntoken ¶ñ¤JÄæ¦ì:Bearer{Token}"
+                    Description = "è«‹å°‡token å¡«å…¥æ¬„ä½:Bearer{Token}"
                 };
                 config.AddSecurity("JWT Token", Enumerable.Empty<string>(), apiSchema);
                 config.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("JWT Token"));
@@ -140,7 +140,7 @@ namespace LibreriaAdmin
 
             app.UseAuthentication();
 
-            #region ­Y­n±±¨îServer responseªº±±¨î¡A½Ğ¨ú®øµù¸Ñ¨Ã­×§ï¦¹¬qµ{¦¡
+            #region è‹¥è¦æ§åˆ¶Server responseçš„æ§åˆ¶ï¼Œè«‹å–æ¶ˆè¨»è§£ä¸¦ä¿®æ”¹æ­¤æ®µç¨‹å¼
             //app.UseStatusCodePages(async context =>
             //{
             //    var request = context.HttpContext.Request;
