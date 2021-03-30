@@ -479,7 +479,6 @@
                     axios.get('/api/Product/GetAll')
                         .then((res) => {
                             this.AllData = res.data.body.productList;
-
                         })
                 },
                 methods: {
@@ -488,35 +487,24 @@
                             if (x.productId == event) {
                                 if (x.isSpecial == true) {
                                     x.isSpecial = false;
-                                    //console.log(x.isSpecial);
                                     document.getElementById(`td${event}`).checked = false;
-
                                 } else {
                                     x.isSpecial = true;
                                     document.getElementById(`td${event}`).checked = true;
-                                    //console.log(x.isSpecial);
                                 }
                                 x.specialPrice = document.getElementById(`input${event}`).value;
-                                //console.log(x.specialPrice);
                                 if (changeData.length == 0) {
                                     changeData.push(x);
-
                                 }
                                 for (var i = 0; i < changeData.length; i++) {
                                     changeData.forEach(ch => {
                                         if (ch.productId == x.productId) {
                                             ch.isSpecial = x.isSpecial;
-                                            xh.specailPrice = x.specailPrice;
-                                            console.log(changeData);
+                                            ch.specailPrice = x.specailPrice;
                                         }
                                     })
                                     changeData.push(x);
-
                                 }
-                                
-                                
-
-                                //console.log(this.changeData)
                             }
                         })
                     },
@@ -525,29 +513,15 @@
 
             })
         }
-        var app2 = new Vue({
-            el: '#modal-check',
-            data: {
-                items: changeData,
-            }
-        })
         document.getElementById("Post").onclick = () => { return edit(); };
         function edit() {
             axios.post('/api/Product/EditIsSpecial', changeData).
                 then((res) => {
-                    //console.log(res);
                 })
-
-
         }
         function Reset() {
             window.location.reload();
         }
-
-
-
-
-
 
     </script>
     <script>
