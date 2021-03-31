@@ -63,7 +63,7 @@ namespace LibreriaAdmin.WebApi
             return Content(result);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{exhibitionId}")]
         public BaseModel.BaseResult<ExhibitonEmailViewModel.EmailListResult> EmailGetAll(int exhibitionId)
         {
             var result = new BaseModel.BaseResult<ExhibitonEmailViewModel.EmailListResult>();

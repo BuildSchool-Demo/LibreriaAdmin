@@ -22,24 +22,24 @@ namespace LibreriaAdmin.Controllers
             _service = service;
         }
 
-        
+
 
         public IActionResult RentalIndex()
         {
-            
+
             return View();
         }
-        
+
         public IActionResult ExhibitonIndex()
         {
-            
+
             return View();
         }
 
         [AllowAnonymous]
         public IActionResult Email(int exhibitionId)
         {
-            ViewData["exhibitionData"] = _service.EmailGetAll(exhibitionId);
+            ViewData["exhibitionId"] = exhibitionId;
             //ViewData["GetRentalDate"] = _service.GetRentalDate(exhibitionId);
             return View();
         }
@@ -48,9 +48,9 @@ namespace LibreriaAdmin.Controllers
         {
             ViewBag.exhibitionId = exhibitionId;
             ViewData["customerData"] = _service.GetCustomerData(exhibitionId);
-            
+
             return View();
         }
-        
+
     }
 }

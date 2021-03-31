@@ -18,8 +18,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous"></script>
 
 <script type="text/javascript">
-    var exhibitionData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewData["exhibitionData"]));
-    //var getRentalDate = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewData["GetRentalDate"]));
+    var exhibitionId = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewData["exhibitionId"]));
 </script>
 
 <nav class="emailNavbar">
@@ -41,62 +40,62 @@
         <div class="row col-12 col-md-6">
             <div class="col-12 col-md-6 mb-3">
                 <label for="">聯絡人姓名</label>
-                <input v-model="inputData.ExCustomerName" type="text" class="form-control" id="exCustomerName">
+                <input v-model="inputData.ExCustomerName" type="text" class="form-control" id="exCustomerName" v-bind:class="{'is-invalid':inputDataCheck.NameError}">
                 <div class="text-danger small mt-1">
-                    {{inputDataCheck.AccountErrorMsg}}
+                    {{inputDataCheck.NameErrorMsg}}
                 </div>
 
             </div>
             <div class="col-12 col-md-6 mb-3">
                 <label for="">聯絡電話</label>
-                <input v-model="inputData.ExCustomerPhone" type="text" class="form-control" id="exCustomerPhone">
+                <input v-model="inputData.ExCustomerPhone" type="text" class="form-control" id="exCustomerPhone" v-bind:class="{'is-invalid':inputDataCheck.PhoneError}">
                 <div class="text-danger small mt-1">
-                    {{inputDataCheck.AccountErrorMsg}}
+                    {{inputDataCheck.PhoneErrorMsg}}
                 </div>
             </div>
             <div class="col-12 col-md-8 mb-3">
                 <label for="">電子郵件</label>
-                <input v-model="inputData.ExCustomerEmail" type="text" v-bind:class="{'is-invalid':inputDataCheck.AccountError}"
+                <input v-model="inputData.ExCustomerEmail" type="email" v-bind:class="{'is-invalid':inputDataCheck.EmailError}"
                        class="form-control" id="exCustomerEmail">
                 <div class="text-danger small mt-1">
-                    {{inputDataCheck.AccountErrorMsg}}
+                    {{inputDataCheck.EmailErrorMsg}}
                 </div>
             </div>
             <div class="col-12 col-md-4 mb-3">
                 <label for="">票價</label>
-                <input v-model="inputData.ExhibitionPrice" type="text" class="form-control" id="exhibitionPrice">
+                <input v-model="inputData.ExhibitionPrice" type="text" class="form-control" id="exhibitionPrice" v-bind:class="{'is-invalid':inputDataCheck.PriceError}">
                 <div class="text-danger small mt-1">
-                    {{inputDataCheck.CheckPasswordErrorMsg}}
+                    {{inputDataCheck.PriceErrorMsg}}
                 </div>
             </div>
             <div class="col-12 col-md-6 mb-3">
                 <label>展覽開始日期:</label>
-                <b-form-select v-model="inputData.ExhibitionStartTime" :options="startDateOptions" id="startDate"></b-form-select>
+                <b-form-select v-model="inputData.ExhibitionStartTime" :options="startDateOptions" id="startDate" v-bind:class="{'is-invalid':inputDataCheck.StartTimeError}"></b-form-select>
                 <div class="text-danger small mt-1">
-                    {{inputDataCheck.CheckPasswordErrorMsg}}
+                    {{inputDataCheck.StartTimeErrorMsg}}
                 </div>
             </div>
             <div class="col-12 col-md-6 mb-3">
                 <label>展覽結束日期:</label>
-                <b-form-select v-model="inputData.ExhibitionEndTime" :options="endDateOptions" id="endDate"></b-form-select>
+                <b-form-select v-model="inputData.ExhibitionEndTime" :options="endDateOptions" id="endDate" v-bind:class="{'is-invalid':inputDataCheck.EndTimeError}"></b-form-select>
                 <div class="text-danger small mt-1">
-                    {{inputDataCheck.CheckPasswordErrorMsg}}
+                    {{inputDataCheck.EndTimeErrorMsg}}
                 </div>
             </div>
             <div class="col-12 col-md-12 mb-3">
                 <label for="">展覽名稱</label>
                 <input v-model="inputData.ExName" type="text"
-                       v-bind:class="{'is-invalid':inputDataCheck.PasswordError}" class="form-control" id="exName">
+                       v-bind:class="{'is-invalid':inputDataCheck.ExNameError}" class="form-control" id="exName">
                 <div class="text-danger small mt-1">
-                    {{inputDataCheck.PasswordErrorMsg}}
+                    {{inputDataCheck.ExNameErrorMsg}}
                 </div>
             </div>
             <div class="col-12 col-md-12 mb-3">
                 <label for="">主辦單位</label>
                 <input v-model="inputData.MasterUnit" type="text"
-                       v-bind:class="{'is-invalid':inputDataCheck.checkPasswordError}" class=" form-control" id="masterUnit">
+                       v-bind:class="{'is-invalid':inputDataCheck.MasterUnitError}" class=" form-control" id="masterUnit">
                 <div class="text-danger small mt-1">
-                    {{inputDataCheck.CheckPasswordErrorMsg}}
+                    {{inputDataCheck.MasterUnitErrorMsg}}
                 </div>
             </div>
 
@@ -110,17 +109,18 @@
                 <label for="">展覽圖片</label>
                 <div class="col-12 mb-3 email-pic">
                     <img v-bind:src="inputData.ExPhoto" />
-                    @*<div class="" v-bind:style="{'background-image': 'url('+ inputData.img +')'}"></div>*@
                 </div>
                 <b-form-file v-model="inputData.ExPhoto"
                              :state="Boolean(inputData.ExPhoto)"
-                             placeholder="Choose a file or drop it here..."
+                             placeholder="請選擇圖片檔"
+                             accept="image/*"
+                             DataValExtension="jpg,jpeg,gif,png,bmp"
                              drop-placeholder="Drop file here..."
                              id="exPhoto"
-                             v-on:change="photo"></b-form-file>
-                @*<div class="mt-3">Selected file: {{ inputData.Pic ? inputData.Pic.name : '' }}</div>*@
+                             v-on:change="photo"
+                             v-bind:class="{'is-invalid':inputDataCheck.PhotoError}"></b-form-file>
                 <div class="text-danger small mt-1">
-                    {{inputDataCheck.CheckPasswordErrorMsg}}
+                    {{inputDataCheck.PhotoErrorMsg}}
                 </div>
             </div>
             <div class="col-12 col-md-12 mb-3">
@@ -129,9 +129,10 @@
                                  placeholder=""
                                  rows="5"
                                  class="form-control"
-                                 v-model="inputData.ExhibitionIntro"></b-form-textarea>
+                                 v-model="inputData.ExhibitionIntro"
+                                 v-bind:class="{'is-invalid':inputDataCheck.IntroError}"></b-form-textarea>
                 <div class="text-danger small mt-1">
-                    {{inputDataCheck.CheckPasswordErrorMsg}}
+                    {{inputDataCheck.IntroErrorMsg}}
                 </div>
             </div>
         </div>
@@ -144,7 +145,7 @@
         <span class="d-inline-block" tabindex="0">
             <b-button v-if="inputData.isValid != true" variant="success" v-on:click="modifySubmit">確認送出</b-button>
         </span>
-        <span class="d-inline-block" tabindex="0">
+        <span class="d-inline-block" tabindex="0">  
             <b-button v-if="inputData.isValid != true" variant="success" v-on:click="cancel">取消</b-button>
         </span>
         <span class="d-inline-block" tabindex="0">
