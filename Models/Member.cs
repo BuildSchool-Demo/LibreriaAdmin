@@ -57,6 +57,7 @@ namespace LibreriaAdmin.Models
         [Column("LineUserID")]
         [StringLength(512)]
         public string LineUserId { get; set; }
+        public bool? Change { get; set; }
 
         [ForeignKey(nameof(RoleId))]
         [InverseProperty("Members")]
