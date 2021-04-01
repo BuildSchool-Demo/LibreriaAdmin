@@ -208,51 +208,51 @@ var form = new Vue({
         //}
     },
     methods: {
-        //modify(event) {
-        //    this.$data.inputData.isValid = !this.$data.inputData.isValid
-        //    let startDate = new Date(this.inputData.RentalDate.startDate)
-        //    let endDate = new Date(this.inputData.RentalDate.endDate)
+        modify(event) {
+            this.$data.inputData.isValid = !this.$data.inputData.isValid
+            let startDate = new Date(this.inputData.RentalDate.startDate)
+            let endDate = new Date(this.inputData.RentalDate.endDate)
 
-        //    Date.prototype.addDays = function (days) {
-        //        let dat = new Date(this.valueOf())
-        //        dat.setDate(dat.getDate() + days);
-        //        return dat;
-        //    }
+            Date.prototype.addDays = function (days) {
+                let dat = new Date(this.valueOf())
+                dat.setDate(dat.getDate() + days);
+                return dat;
+            }
 
-        //    function getDates(startDate, endDate) {
-        //        let dateArray = new Array();
-        //        let currentDate = startDate;
-        //        while (currentDate <= endDate) {
-        //            dateArray.push(currentDate)
-        //            currentDate = currentDate.addDays(1);
-        //        }
-        //        return dateArray;
-        //    }
+            function getDates(startDate, endDate) {
+                let dateArray = new Array();
+                let currentDate = startDate;
+                while (currentDate <= endDate) {
+                    dateArray.push(currentDate)
+                    currentDate = currentDate.addDays(1);
+                }
+                return dateArray;
+            }
 
-        //    let dateArray = getDates(startDate, endDate);
+            let dateArray = getDates(startDate, endDate);
 
-        //    let optionsArray = new Array();
-        //    for (i = 0; i < dateArray.length; i++) {
-        //        let value = dateArray[i].yyyymmdd();
-        //        let text = `${dateArray[i].getFullYear()}年${dateArray[i].getMonth()+1}月${dateArray[i].getDate()}日`
-        //        let options = { value: value, text: text };
-        //        optionsArray.push(options);
-        //    }
+            let optionsArray = new Array();
+            for (i = 0; i < dateArray.length; i++) {
+                let value = dateArray[i].yyyymmdd();
+                let text = `${dateArray[i].getFullYear()}年${dateArray[i].getMonth()+1}月${dateArray[i].getDate()}日`
+                let options = { value: value, text: text };
+                optionsArray.push(options);
+            }
 
-        //    this.startDateOptions = optionsArray;
-        //    this.endDateOptions = '';
+            this.startDateOptions = optionsArray;
+            this.endDateOptions = '';
 
-        //    let start = document.getElementById('startDate');
-        //    start.addEventListener('change', (event) => {
-        //        let endDateArray = new Array();
-        //        for (i = 0; i < optionsArray.length; i++) {
-        //            if (event.currentTarget.value <= optionsArray[i].value) {
-        //                endDateArray.push(optionsArray[i])
-        //            }
-        //        }
-        //        this.endDateOptions = endDateArray;
-        //    })
-        //},
+            let start = document.getElementById('startDate');
+            start.addEventListener('change', (event) => {
+                let endDateArray = new Array();
+                for (i = 0; i < optionsArray.length; i++) {
+                    if (event.currentTarget.value <= optionsArray[i].value) {
+                        endDateArray.push(optionsArray[i])
+                    }
+                }
+                this.endDateOptions = endDateArray;
+            })
+        },
         modifySubmit: function () {
             this.$data.inputData.isValid = !this.$data.inputData.isValid
 
@@ -338,17 +338,20 @@ var form = new Vue({
             if (exPhoto.files.length > 0) {
                 reader.readAsDataURL(exPhoto.files[0]);
             } else {
-                //ExPhoto: exhibitionData.EmailList[0].ExPhoto
+                ExPhoto: form.$data.inputData.ExPhoto
             }
             reader.onload = function (e) {
-                let photoRegexp = /^.+\.(jpe?g|gif|png)$/i;
-                if (!photoRegexp.test(exPhoto)) {
-                    img.src = "https://imgur.com/vn1jhtP.jpg";
+                let photoRegexp = /^.+\.(jpe?g|gif|png|bmp)$/i;
+                if (!photoRegexp.test(exPhoto.value)) {
+                    img.style["display"] = "none";
                     tmp.inputDataCheck.PhotoError = true;
                     tmp.inputDataCheck.PhotoErrorMsg = '這不是圖片檔!';
                 }
                 else {
-                    img.src = e.result;
+                    img.style["display"] = "block";
+                    tmp.inputDataCheck.PhotoError = false;
+                    tmp.inputDataCheck.PhotoErrorMsg = '';
+                    img.src = e.target.result;
                     ExPhoto = e;
                 }
 
