@@ -115,9 +115,11 @@ namespace LibreriaAdmin.Services
         {
 
             var today = DateTime.Now.Day;
+            var todaymonth = DateTime.Now.Month;
+            var todayYear = DateTime.Now.Year;
             //放入OrderVMList
             List<OrderViewModel.OrderSingleResult> OrderVMList;
-            OrderVMList = (from Order in _dbRepository.GetAll<Order>().Where(x => x.CreateTime.Day == today)
+            OrderVMList = (from Order in _dbRepository.GetAll<Order>().Where(x => x.CreateTime.Day == today && x.CreateTime.Month == todaymonth && x.CreateTime.Year == todayYear)
                            join Member in _dbRepository.GetAll<Member>()
                            on Order.MemberId equals Member.MemberId
                            orderby Order.OrderDate descending
@@ -192,10 +194,10 @@ namespace LibreriaAdmin.Services
 
         public OrderViewModel.OrderListResult GetMonthOrderPrice(int month)
         {
-
+            var todayYear = DateTime.Now.Year;
             //放入OrderVMList
             List<OrderViewModel.OrderSingleResult> OrderVMList;
-            OrderVMList = (from Order in _dbRepository.GetAll<Order>().Where(x => x.CreateTime.Month == month)
+            OrderVMList = (from Order in _dbRepository.GetAll<Order>().Where(x => x.CreateTime.Month == month && x.CreateTime.Year== todayYear)
                            join Member in _dbRepository.GetAll<Member>()
                            on Order.MemberId equals Member.MemberId
                            orderby Order.OrderDate descending
