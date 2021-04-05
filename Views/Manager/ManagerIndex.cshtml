@@ -14,29 +14,18 @@
             <!-- User Interface controls -->
             <b-row>
                 <b-col lg="6" class="my-1">
-                    <b-form-group label="Sort"
-                                  label-for="sort-by-select"
-                                  label-cols-sm="3"
-                                  label-align-sm="right"
-                                  label-size="sm"
-                                  class="mb-0"
-                                  v-slot="{ ariaDescribedby }">
+                    <b-form-group label="Sort" label-for="sort-by-select" label-cols-sm="3" label-align-sm="right"
+                        label-size="sm" class="mb-0" v-slot="{ ariaDescribedby }">
                         <b-input-group size="sm">
-                            <b-form-select id="sort-by-select"
-                                           v-model="sortBy"
-                                           :options="sortOptions"
-                                           :aria-describedby="ariaDescribedby"
-                                           class="w-75">
+                            <b-form-select id="sort-by-select" v-model="sortBy" :options="sortOptions"
+                                :aria-describedby="ariaDescribedby" class="w-75">
                                 <template #first>
                                     <option value="">-- none --</option>
                                 </template>
                             </b-form-select>
 
-                            <b-form-select v-model="sortDesc"
-                                           :disabled="!sortBy"
-                                           :aria-describedby="ariaDescribedby"
-                                           size="sm"
-                                           class="w-25">
+                            <b-form-select v-model="sortDesc" :disabled="!sortBy" :aria-describedby="ariaDescribedby"
+                                size="sm" class="w-25">
                                 <option :value="false">Asc</option>
                                 <option :value="true">Desc</option>
                             </b-form-select>
@@ -45,31 +34,19 @@
                 </b-col>
 
                 <b-col lg="6" class="my-1">
-                    <b-form-group label="Initial sort"
-                                  label-for="initial-sort-select"
-                                  label-cols-sm="3"
-                                  label-align-sm="right"
-                                  label-size="sm"
-                                  class="mb-0">
-                        <b-form-select id="initial-sort-select"
-                                       v-model="sortDirection"
-                                       :options="['asc', 'desc', 'last']"
-                                       size="sm"></b-form-select>
+                    <b-form-group label="Initial sort" label-for="initial-sort-select" label-cols-sm="3"
+                        label-align-sm="right" label-size="sm" class="mb-0">
+                        <b-form-select id="initial-sort-select" v-model="sortDirection"
+                            :options="['asc', 'desc', 'last']" size="sm"></b-form-select>
                     </b-form-group>
                 </b-col>
 
                 <b-col lg="6" class="my-1">
-                    <b-form-group label="Filter"
-                                  label-for="filter-input"
-                                  label-cols-sm="3"
-                                  label-align-sm="right"
-                                  label-size="sm"
-                                  class="mb-0">
+                    <b-form-group label="Filter" label-for="filter-input" label-cols-sm="3" label-align-sm="right"
+                        label-size="sm" class="mb-0">
                         <b-input-group size="sm">
-                            <b-form-input id="filter-input"
-                                          v-model="filter"
-                                          type="search"
-                                          placeholder="Type to Search"></b-form-input>
+                            <b-form-input id="filter-input" v-model="filter" type="search" placeholder="Type to Search">
+                            </b-form-input>
 
                             <b-input-group-append>
                                 <b-button :disabled="!filter" v-on:click="filter = ''">Clear</b-button>
@@ -79,30 +56,18 @@
                 </b-col>
 
                 <b-col sm="5" md="6" class="my-1">
-                    <b-form-group label="Per page"
-                                  label-for="per-page-select"
-                                  label-cols-sm="6"
-                                  label-cols-md="4"
-                                  label-cols-lg="3"
-                                  label-align-sm="right"
-                                  label-size="sm"
-                                  class="mb-0">
-                        <b-form-select id="per-page-select"
-                                       v-model="perPage"
-                                       :options="pageOptions"
-                                       size="sm"></b-form-select>
+                    <b-form-group label="Per page" label-for="per-page-select" label-cols-sm="6" label-cols-md="4"
+                        label-cols-lg="3" label-align-sm="right" label-size="sm" class="mb-0">
+                        <b-form-select id="per-page-select" v-model="perPage" :options="pageOptions" size="sm">
+                        </b-form-select>
                     </b-form-group>
                 </b-col>
 
 
 
                 <b-col sm="12" md="12" class="my-1">
-                    <b-pagination v-model="currentPage"
-                                  :total-rows="totalRows"
-                                  :per-page="perPage"
-                                  align="fill"
-                                  size="sm"
-                                  class="my-0"></b-pagination>
+                    <b-pagination v-model="currentPage" :total-rows="totalRows" :per-page="perPage" align="fill"
+                        size="sm" class="my-0"></b-pagination>
                 </b-col>
             </b-row>
 
@@ -113,40 +78,39 @@
 
             <b-button v-b-modal.modaltext>新增管理員資料</b-button>
 
-            <b-modal id="modaltext" :title="newinfoModal.title" @@ok="()=>{createItem(newinfoModal)}" v-on:hide="resetnewInfoModal">
+            <b-modal id="modaltext" :title="newinfoModal.title" @@ok="()=>{createItem(newinfoModal)}"
+                v-on:hide="resetnewInfoModal">
                 <h1>新增管理者</h1>
                 <div class="form-group">
                     <label for="managerUserName"> 姓名 </label>
-                    <input v-model="newinfoModal.managerUserName" type="text" class="form-control" id=" managerUserName " name="managerUserName">
+                    <input v-model="newinfoModal.managerUserName" type="text" class="form-control"
+                        id=" managerUserName " name="managerUserName">
                 </div>
                 <div class="form-group">
                     <label for="managerName">帳號</label>
-                    <input v-model="newinfoModal.managerName" type="text" class="form-control" id="managerName" name="managerName">
+                    <input v-model="newinfoModal.managerName" type="text" class="form-control" id="managerName"
+                        name="managerName">
                 </div>
                 <div class="form-group">
                     <label for="managerPassword">密碼</label>
-                    <input v-model="newinfoModal.password" type="password" class="form-control" id="managerPassword" name="managerPassword">
+                    <input v-model="newinfoModal.password" type="password" class="form-control" id="managerPassword"
+                        name="managerPassword">
                 </div>
                 <div class="form-group">
-                    <label for="managerRoleID">ManagerRoleID</label>
-                    <input v-model="newinfoModal.managerRoleID" type="text" class="form-control" id="managerRoleID" name="managerRoleID">
+                    <label for="managerRoleID">管理員等級</label>
+                    @* <input v-model="newinfoModal.managerRoleID" type="text" class="form-control" id="managerRoleID"
+                        name="managerRoleID"> *@
+                    <b-form-select v-model="newinfoModal.managerRoleID" class="mb-3">
+                        <b-form-select-option value=0>最高管理員</b-form-select-option>
+                        <b-form-select-option value=1>管理員</b-form-select-option>                        
+                    </b-form-select>
                 </div>
             </b-modal>
             <!-- Modal end -->
             <!-- Main table element -->
-            <b-table :items="items"
-                     :fields="fields"
-                     :current-page="currentPage"
-                     :per-page="perPage"
-                     :filter="filter"
-                     :filter-included-fields="filterOn"
-                     :sort-by.sync="sortBy"
-                     :sort-desc.sync="sortDesc"
-                     :sort-direction="sortDirection"
-                     stacked="md"
-                     show-empty
-                     small
-                     v-on:filtered="onFiltered">
+            <b-table :items="items" :fields="fields" :current-page="currentPage" :per-page="perPage" :filter="filter"
+                :filter-included-fields="filterOn" :sort-by.sync="sortBy" :sort-desc.sync="sortDesc"
+                :sort-direction="sortDirection" stacked="md" show-empty small v-on:filtered="onFiltered">
                 <template #cell(name)="row">
                     {{ row.value }}
                 </template>
@@ -160,7 +124,7 @@
 
                     @*<b-button size="sm" v-on:click="row.toggleDetails" variant="success">
                         {{ row.detailsShowing ? 'Hide' : 'Show' }} Details
-                    </b-button>*@
+                        </b-button>*@
                     <b-button size="sm" v-on:click="info(row.item, row.index, $event.target)" class="mr-1">
                         Edit
                     </b-button>
@@ -171,18 +135,19 @@
 
                 @*<template #row-details="row">
                     <b-card>
-                        <ul>
-                            <li v-for="(value, key) in row.item" :key="key">{{ key }}: {{ value }}</li>
-                        </ul>
+                    <ul>
+                    <li v-for="(value, key) in row.item" :key="key">{{ key }}: {{ value }}</li>
+                    </ul>
                     </b-card>
-                </template>*@
+                    </template>*@
             </b-table>
             @*修改管理者*@
             <b-modal :id="infoModal.id" :title="infoModal.title" @@OK="()=>{submitEdit()}" v-on:hide="resetInfoModal">
                 <h1>修改管理者</h1>
                 <div class="form-group">
-                    <label for="managerUserName"> 會員編號 </label>
-                    <input v-model="infoModal.managerID" disabled="disabled" class="form-control" id=" managerUserName " name="managerUserName">
+                    <label for="managerUserName"> 管理員編號 </label>
+                    <input v-model="infoModal.managerID" disabled="disabled" class="form-control" id=" managerUserName "
+                        name="managerUserName">
                 </div>
                 <div class="form-group">
                     <label for="managerUserName"> 姓名 </label>
@@ -196,9 +161,12 @@
                     <label for="managerPassword">密碼</label>
                     <input type="password" v-model="infoModal.managerPassword" class="form-control">
                 </div>
-                <div class="form-group">
-                    <label for="managerRoleID">ManagerRoleID</label>
-                    <input v-model="infoModal.managerRoleID" class="form-control">
+                <div class="form-group">    
+                    <label for="managerRoleID">管理員等級</label>
+                    <b-form-select v-model="newinfoModal.managerRoleID" class="mb-3">
+                        <b-form-select-option value=0>最高管理員</b-form-select-option>
+                        <b-form-select-option value=1>管理員</b-form-select-option>                        
+                    </b-form-select>
                 </div>
             </b-modal>
         </b-container>
