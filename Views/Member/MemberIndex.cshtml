@@ -128,40 +128,40 @@
 
             <!-- Info modal -->
             <b-modal :id="infoModal.id" :title="infoModal.title" @@ok="()=>{submitEdit()}" v-on:hide="resetInfoModal">
-                <form>
-                    <label>會員編號：</label>
+                <form id="form">
+                    <label>會員編號</label>
                     <input v-model="infoModal.memberId" disabled="disabled" />
                     <br />
 
-                    <label>會員名稱：</label>
+                    <label>會員名稱</label>
                     <input v-model="infoModal.memberUserName" />
                     <br />
 
-                    <label>帳號：</label>
-                    <input v-model="infoModal.memberName" />
+                    <label>帳號</label>
+                    <input v-model="infoModal.memberName" disabled="disabled" />
                     <br />
 
-                    <label>電話：</label>
+                    <label>電話</label>
                     <input v-model="infoModal.homeNumber" />
                     <br />
 
-                    <label>手機：</label>
+                    <label>手機</label>
                     <input v-model="infoModal.mobileNumber" />
                     <br />
 
-                    <label>縣市：</label>
+                    <label>縣市</label>
                     <input v-model="infoModal.city" />
                     <br />
 
-                    <label>地區：</label>
+                    <label>地區</label>
                     <input v-model="infoModal.region" />
                     <br />
 
-                    <label>住址：</label>
+                    <label>住址</label>
                     <input v-model="infoModal.address" />
                     <br />
 
-                    <label>email：</label>
+                    <label>email</label>
                     <input v-model="infoModal.email" />
                     <br />
                 </form>
@@ -173,3 +173,4 @@
 </div>
 <script src="~/js/Axios.js"></script>
 <script src="~/js/Member/member.js"></script>
+<link href="~/css/Member/Member.css" rel="stylesheet" />

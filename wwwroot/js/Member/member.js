@@ -125,7 +125,7 @@
                 $.ajax({
                     url: backendApi,
                     method: "POST",
-                    dataType: "json",   //如果有JSON回傳資料, 則加上此行, 若無請勿加, 會引起parse error
+                    dataType: "json",
                     data: JSON.stringify(request),
                     contentType: "application/json;charset=UTF-8",
                     success: function (isSuccess) {
