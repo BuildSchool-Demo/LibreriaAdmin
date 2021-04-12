@@ -162,8 +162,8 @@
                                     <th>是否特價</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr v-for="item in items" v-on:click='ChangeSpecial(item.productId)'>
+                            <tbody id="ToModal">
+                                <tr v-for="item in items" >
                                     <td>
                                         {{item.productId}}
                                     </td>
@@ -458,7 +458,7 @@
 
 @section endJS{
     <!--axios-->
-    <script src="~/js/Axios.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
         var isSpecial = document.getElementById('isSpecial');
         var Reset = document.getElementById('Reset');
@@ -470,6 +470,7 @@
                     items: [],
                     AllData: [],
                     specailPrice: '',
+
                 },
                 created: function () {
                     axios.get(`/api/Product/GetByCategory/${i}`)
@@ -495,8 +496,7 @@
                                 x.specialPrice = document.getElementById(`input${event}`).value;
                                 if (changeData.length == 0) {
                                     changeData.push(x);
-                                }
-                                for (var i = 0; i < changeData.length; i++) {
+                                } else {
                                     changeData.forEach(ch => {
                                         if (ch.productId == x.productId) {
                                             ch.isSpecial = x.isSpecial;
@@ -513,15 +513,18 @@
 
             })
         }
-        document.getElementById("Post").onclick = () => { return edit(); };
+        $("#Post").onclick = () => { return edit(); };
         function edit() {
             axios.post('/api/Product/EditIsSpecial', changeData).
                 then((res) => {
                 })
         }
-        function Reset() {
-            window.location.reload();
-        }
+        var app2 = new Vue({
+            el: "#ToModal",
+            data: {
+                items : changeData,
+            },
+        })
 
     </script>
     <script>
