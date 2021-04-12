@@ -163,7 +163,7 @@
                                 </tr>
                             </thead>
                             <tbody id="ToModal">
-                                <tr v-for="item in items" >
+                                <tr v-for="item in items">
                                     <td>
                                         {{item.productId}}
                                     </td>
@@ -496,14 +496,16 @@
                                 x.specialPrice = document.getElementById(`input${event}`).value;
                                 if (changeData.length == 0) {
                                     changeData.push(x);
+                                    console.log(changeData);
+
+                                } else if (changeData.forEach(ch => { ch.productId == x.productId })) {
+                                    ch.isSpecial = x.isSpecial;
+                                    ch.specailPrice = x.specailPrice;
+                                    console.log(changeData);
                                 } else {
-                                    changeData.forEach(ch => {
-                                        if (ch.productId == x.productId) {
-                                            ch.isSpecial = x.isSpecial;
-                                            ch.specailPrice = x.specailPrice;
-                                        }
-                                    })
                                     changeData.push(x);
+                                    console.log(changeData);
+
                                 }
                             }
                         })
@@ -522,7 +524,7 @@
         var app2 = new Vue({
             el: "#ToModal",
             data: {
-                items : changeData,
+                items: changeData,
             },
         })
 
