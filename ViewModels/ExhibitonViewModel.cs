@@ -61,9 +61,26 @@ namespace LibreriaAdmin.ViewModels
             /// 審查狀態
             /// </summary>
             public bool ReviewState { get; set; }
+
+            /// <summary>
+            /// 是否刪除
+            /// </summary>
+            public bool IsDeleted { get; set; }
+
+            /// <summary>
+            /// 客戶是否已回覆
+            /// </summary>
+            public bool CustomerVerify { get; set; }
             public DateTime EditModifyDate { get; set; }
         }
 
+        public class Deleted
+        {
+            public int ExhibitionId { get; set; }
+            public int ExCustomerId { get; set; }
+            public bool IsDeleted { get; set; }
+            public bool IsCanceled { get; set; }
+        }
 
         /// <summary>
         /// 取得多種展覽模型

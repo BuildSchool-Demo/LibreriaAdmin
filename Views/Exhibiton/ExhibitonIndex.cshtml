@@ -14,6 +14,8 @@
 </div>
 
 <div id="exhibitonApp" class="col-11">
+    <b-alert variant="success" fade :show="successShow">已刪除成功!</b-alert>
+    <b-alert variant="danger" fade :show="dangerShow">系統出現錯誤，請重新操作!</b-alert>
     <b-container fluid>
         <!-- User Interface controls -->
         <b-row>
@@ -38,7 +40,7 @@
         </b-row>
 
         <!-- Main table element -->
-        <b-table @*:busy="isBusy"*@
+        <b-table :busy="isBusy"
                  :items="items"
                  :fields="fields"
                  :current-page="currentPage"
@@ -51,13 +53,13 @@
                  small
                  v-on:filtered="onFiltered">
 
-            @*<template #table-busy>
-                    <div v-show="isBusy && !isError" class="text-center text-danger my-2">
-                        <b-spinner class="align-middle"></b-spinner>
-                        <strong>Loading...</strong>
-                    </div>
-                    <div class="my-5 align-middle text-center text-danger" v-show="isError">發生不明錯誤</div>
-                </template>*@
+            <template #table-busy>
+                <div v-show="isBusy && !isError" class="text-center text-danger my-2">
+                    <b-spinner class="align-middle"></b-spinner>
+                    <strong>請稍等，資料讀取中...</strong>
+                </div>
+                <div class="my-5 align-middle text-center text-danger" v-show="isError">發生不明錯誤</div>
+            </template>
 
             <template #cell(exhibitionIntro)="row">
                 <b-button size="sm" v-on:click="row.toggleDetails">
@@ -72,11 +74,11 @@
                 </b-button>
             </template>
 
-            @*<template #cell(delete)="delete">
-                <b-button size="sm" v-on:click="info(delete.item, delete.index, $event.target)" class="mr-1">
-                    刪除
-                </b-button>
-            </template>*@
+            <template #cell(delete)="item">
+                <div class="mr-1">
+                    <b-button size="sm" v-on:click="showMsgBoxTwo(item.item)">刪除</b-button>
+                </div>
+            </template>
 
             <template #row-details="row">
                 <b-card>
@@ -88,17 +90,10 @@
             </template>
         </b-table>
 
-
-        <!-- Info modal -->
-        @*<b-modal :id="infomodal.id" :title="infomodal.title" ok-only ok-title="關閉" v-on:hide="resetinfomodal" size="xl">
-            <p>請確認是否刪除?</p>
-        </b-modal>*@
-
         <b-col sm="7" md="12" class="my-1 page">
             <b-pagination v-model="currentPage"
                           :total-rows="totalRows"
                           :per-page="perPage"
-                          @*align="fill"*@
                           size="sm"
                           class="my-0"></b-pagination>
         </b-col>

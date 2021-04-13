@@ -40,15 +40,12 @@ namespace LibreriaAdmin.Controllers
         public IActionResult Email(int exhibitionId)
         {
             ViewData["exhibitionId"] = exhibitionId;
-            //ViewData["GetRentalDate"] = _service.GetRentalDate(exhibitionId);
             return View();
         }
 
         public IActionResult SendMail(int exhibitionId)
         {
-            ViewBag.exhibitionId = exhibitionId;
-            ViewData["customerData"] = _service.GetCustomerData(exhibitionId);
-
+            ViewData["exhibitionId"] = exhibitionId;
             return View();
         }
 
