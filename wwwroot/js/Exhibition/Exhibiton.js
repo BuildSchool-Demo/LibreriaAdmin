@@ -14,7 +14,6 @@
             { key: 'exhibitionPrice', label: '門票', sortable: true, class: 'text-center' },
             { key: 'exhibitionIntro', label: '展演簡介', class: 'text-center' },
             { key: 'email', label: '寄信', class: 'text-center' },
-            { key: 'delete', label: '', class: 'text-center' },
             {
                 key: 'reviewState',
                 label: '審核狀態',
@@ -37,6 +36,7 @@
                 sortByFormatted: true,
                 filterByFormatted: true
             },
+            { key: 'delete', label: '', class: 'text-center' }
 
         ],
         totalRows: 1,
