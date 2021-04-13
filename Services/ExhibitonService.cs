@@ -160,7 +160,10 @@ namespace LibreriaAdmin.Services
         {
             var result = new ExhibitonViewModel.ExhibitonListResult();
             var today = DateTime.Now.Day;
-            result.ExhibitonList = _dbRepository.GetAll<Exhibition>().Where(x => x.EditModifyDate.Day == today)
+            var todaymonth = DateTime.Now.Month;
+            var todayyear = DateTime.Now.Year;
+
+            result.ExhibitonList = _dbRepository.GetAll<Exhibition>().Where(x => x.EditModifyDate.Day == today && x.EditModifyDate.Day == todaymonth && x.EditModifyDate.Day == todayyear)
                                   .Select(x => new ExhibitonViewModel.ExhibitonSingleResult()
                                   {
                                       ExhibitionId = x.ExhibitionId,

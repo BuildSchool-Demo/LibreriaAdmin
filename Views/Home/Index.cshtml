@@ -87,8 +87,8 @@
         </div>
         <div class="card-body">
             <div class="chart">
-                <canvas id="areaChart"
-                        style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                <canvas id="areaChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;">
+                </canvas>
             </div>
         </div>
     </div>
@@ -287,6 +287,7 @@
                 var areaChartCanvas = $('#areaChart').get(0).getContext('2d')
                 var month = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'Septemper', 'October', 'November', 'December']
                 var nowMonth = new Date().getMonth();
+                console.log(nowMonth);
                 var labelData = [];
                 var DataList = [];
                 var areaChartOptions;
@@ -294,71 +295,75 @@
                 labelData.push(month[nowMonth - 2]);
                 labelData.push(month[nowMonth - 1]);
                 labelData.push(month[nowMonth]);
-                function f1() {
-                    axios.get(`/api/Order/GetMonthOrderPrice/${nowMonth - 1}`).then((res1) => {
-                        var sum1 = 0;
-                        for (var i = 0; i <= res1.data.body.orderList.length - 1; i++) {
-                            sum = sum + res1.data.body.orderList[`${i}`].orderPrice;
+                axios.get(`/api/Order/GetMonthOrderPrice/${nowMonth - 1}`).then((res1) => {
+                    var sum1 = 0;
+                    for (var i = 0; i <= res1.data.body.orderList.length - 1; i++) {
+                        sum1 = sum1 + res1.data.body.orderList[`${i}`].orderPrice;
+                    }
+                    DataList.push(sum1);
+                    axios.get(`/api/Order/GetMonthOrderPrice/${nowMonth}`).then((res2) => {
+                        var sum2 = 0;
+                        for (var i = 0; i <= res2.data.body.orderList.length - 1; i++) {
+                            sum2 = sum2 + res2.data.body.orderList[`${i}`].orderPrice;
                         }
-                        DataList.push(sum1);
-                        axios.get(`/api/Order/GetMonthOrderPrice/${nowMonth}`).then((res2) => {
-                            var sum2 = 0;
-                            for (var i = 0; i <= res2.data.body.orderList.length - 1; i++) {
-                                sum2 = sum2 + res2.data.body.orderList[`${i}`].orderPrice;
+                        DataList.push(sum2);
+                        axios.get(`/api/Order/GetMonthOrderPrice/${nowMonth + 1}`).then((res3) => {
+                            var sum3 = 0;
+                            for (var i = 0; i <= res3.data.body.orderList.length - 1; i++) {
+                                sum3 = sum3 + res3.data.body.orderList[`${i}`].orderPrice;
                             }
-                            DataList.push(sum2);
-                            axios.get(`/api/Order/GetMonthOrderPrice/${nowMonth + 1}`).then((res3) => {
-                                var sum3 = 0;
-                                for (var i = 0; i <= res3.data.body.orderList.length - 1; i++) {
-                                    sum3 = sum3 + res3.data.body.orderList[`${i}`].orderPrice;
+
+                            DataList.push(sum3);
+                            console.log(DataList);
+                            areaChartOptions = {
+                                maintainAspectRatio: false,
+                                responsive: true,
+                                legend: {
+                                    display: false
+                                },
+                                scales: {
+                                    xAxes: [{
+                                        gridLines: {
+                                            display: false,
+                                        }
+                                    }],
+                                    yAxes: [{
+                                        gridLines: {
+                                            display: false,
+                                        }
+                                    }]
                                 }
-                                DataList.push(sum3);
-                                console.log(DataList);
-                                areaChartOptions = {
-                                    maintainAspectRatio: false,
-                                    responsive: true,
-                                    legend: {
-                                        display: false
+                            }
+                            areaChartData = {
+                                labels: labelData,
+                                datasets: [
+                                    {
+                                        label: 'Digital Goods',
+                                        backgroundColor: 'rgba(60,141,188,0.9)',
+                                        borderColor: 'rgba(60,141,188,0.8)',
+                                        pointRadius: true,
+                                        pointColor: '#000000',
+                                        pointStrokeColor: 'rgba(60,141,188,1)',
+                                        pointHighlightFill: '#fff',
+                                        pointHighlightStroke: 'rgba(60,141,188,1)',
+                                        data: DataList
                                     },
-                                    scales: {
-                                        xAxes: [{
-                                            gridLines: {
-                                                display: false,
-                                            }
-                                        }],
-                                        yAxes: [{
-                                            gridLines: {
-                                                display: false,
-                                            }
-                                        }]
-                                    }
-                                }
-                                areaChartData = {
-                                    labels: labelData,
-                                    datasets: [
-                                        {
-                                            label: 'Digital Goods',
-                                            backgroundColor: 'rgba(60,141,188,0.9)',
-                                            borderColor: 'rgba(60,141,188,0.8)',
-                                            pointRadius: true,
-                                            pointColor: '#000000',
-                                            pointStrokeColor: 'rgba(60,141,188,1)',
-                                            pointHighlightFill: '#fff',
-                                            pointHighlightStroke: 'rgba(60,141,188,1)',
-                                            data: DataList
-                                        },
-                                    ]
-                                }
-                                new Chart(areaChartCanvas, {
-                                    type: 'line',
-                                    data: areaChartData,
-                                    options: areaChartOptions
-                                })
+                                ]
+                            }
+                            new Chart(areaChartCanvas, {
+                                type: 'line',
+                                data: areaChartData,
+                                options: areaChartOptions
                             })
+
                         })
                     })
-                }
-                f1();
+                })
+
+
+                console.log(DataList);
+                console.log(labelData);
+
             }
             init();
             //var delay = function (r, s) {
@@ -384,7 +389,7 @@
         function setTime() {
             var myDate = new Date();
             var year = myDate.getFullYear();
-            var month = myDate.getMonth();
+            var month = myDate.getMonth() + 1;
             var date = myDate.getDate();
             var hours = myDate.getHours();
             var minutes = myDate.getMinutes();
