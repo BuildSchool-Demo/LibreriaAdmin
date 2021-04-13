@@ -497,13 +497,17 @@
                                 if (changeData.length == 0) {
                                     changeData.push(x);
                                     console.log(changeData);
+                                }  else {
+                                    changeData.forEach(ch => {
+                                        if (ch.productId != x.productId) {
+                                            changeData.push(x);
 
-                                } else if (changeData.forEach(ch => { ch.productId == x.productId })) {
-                                    ch.isSpecial = x.isSpecial;
-                                    ch.specailPrice = x.specailPrice;
-                                    console.log(changeData);
-                                } else {
-                                    changeData.push(x);
+                                        } else {
+
+                                            ch.isSpecial = x.isSpecial;
+                                            ch.specailPrice = x.specailPrice;
+                                        }
+                                    })
                                     console.log(changeData);
 
                                 }
