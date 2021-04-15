@@ -34,8 +34,7 @@ namespace LibreriaAdmin.ViewModels
         }
         public class GetByCustomerEmailRequest
         {
-            public string exCustomerEmail { get; set; }
-            public string customerName { get; set; }
+            public string ExCustomerEmail { get; set; }
         }
     }
 }

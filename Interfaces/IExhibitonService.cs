@@ -60,13 +60,13 @@ namespace LibreriaAdmin.Interfaces
         /// </summary>
         /// <param name="ExVM"></param>
         /// <returns></returns>
-        Task<bool> ModifyExhibition(ExhibitonEmailViewModel.ModifyExhibitionModel ExVM);
+        Task<bool> ModifyConfirm(ExhibitonEmailViewModel.ModifyExhibitionModel ExVM);
 
         /// <summary>
-        /// 取得租借日期
+        ///  確認刪除
         /// </summary>
-        /// <param name="exhibitionId"></param>
+        /// <param name="ExVM"></param>
         /// <returns></returns>
-        //RentalViewModel.RentalListResult GetRentalDate(int exhibitionId);
+        bool ConfirmDeleted(ExhibitonViewModel.Deleted ExVM);
     }
 }

@@ -52,6 +52,11 @@ namespace LibreriaAdmin.ViewModels
             public string ExCustomerEmail { get; set; }
 
             /// <summary>
+            /// 訂單狀態
+            /// </summary>
+            public bool IsCanceled { get; set; }
+
+            /// <summary>
             /// 展覽資料集合
             /// </summary>
             public ExhibitonDataModel ExhibitonData { get; set; }

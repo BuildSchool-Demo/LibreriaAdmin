@@ -63,7 +63,24 @@ namespace LibreriaAdmin.WebApi
             return Content(result);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{exhibitionId}")]
+        public BaseModel.BaseResult<ExhibitonSendMailViewModel.GetByCustomerEmailRequest> GetByCustomerEmail (int exhibitionId)
+        {
+            var result = new BaseModel.BaseResult<ExhibitonSendMailViewModel.GetByCustomerEmailRequest>();
+            try
+            {
+                result.Body = _service.GetCustomerData(exhibitionId);
+                return result;
+            }
+            catch(Exception ex)
+            {
+                result.Msg = ex.Message;
+                result.IsSuccess = false;
+                return result;
+            }
+        }
+
+        [HttpGet("{exhibitionId}")]
         public BaseModel.BaseResult<ExhibitonEmailViewModel.EmailListResult> EmailGetAll(int exhibitionId)
         {
             var result = new BaseModel.BaseResult<ExhibitonEmailViewModel.EmailListResult>();
@@ -120,13 +137,13 @@ namespace LibreriaAdmin.WebApi
         }
 
         [HttpPost]
-        public BaseModel.BaseResult<Task<bool>> ModifyExhibition(ExhibitonEmailViewModel.ModifyExhibitionModel ExVM)
+        public BaseModel.BaseResult<Task<bool>> ModifyConfirm([FromForm] ExhibitonEmailViewModel.ModifyExhibitionModel ExVM)
         {
             var result = new BaseModel.BaseResult<Task<bool>>();
 
             try
             {
-                result.Body = _service.ModifyExhibition(ExVM);
+                result.Body = _service.ModifyConfirm(ExVM);
                 return result;
             }
             catch (Exception ex)
@@ -137,5 +154,22 @@ namespace LibreriaAdmin.WebApi
             }
         }
 
+        [HttpPost]
+        public BaseModel.BaseResult<ExhibitonViewModel.Deleted> IsDeleted(ExhibitonViewModel.Deleted ExVM)
+        {
+            BaseModel.BaseResult<ExhibitonViewModel.Deleted> result = new BaseModel.BaseResult<ExhibitonViewModel.Deleted>();
+            result.Body = ExVM;
+            try
+            {
+                result.IsSuccess = _service.ConfirmDeleted(ExVM);
+                return result;
+            }
+            catch(Exception ex)
+            {
+                result.Msg = ex.Message;
+                result.IsSuccess = false;
+                return result;
+            }
+        }
     }
 }

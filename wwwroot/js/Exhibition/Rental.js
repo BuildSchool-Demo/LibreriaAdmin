@@ -2,11 +2,13 @@
     el:"#rentalApp",
     data() {
         return {
+            isError: false,
+            isBusy: true,
             items: [],
             fields: [
                 { key: 'exCustomerName', label: '客戶姓名', sortable: true, sortDirection: 'desc', class: 'text-center'},
-                { key: 'exCustomerPhone', label: '客戶電話', sortable: true, sortDirection: 'desc', class: 'text-center' },
-                { key: 'exCustomerEmail', label: '客戶Email', sortable: true, sortDirection: 'desc', class: 'text-center' },
+                { key: 'exCustomerPhone', label: '客戶電話', sortDirection: 'desc', class: 'text-center' },
+                { key: 'exCustomerEmail', label: '客戶Email', sortDirection: 'desc', class: 'text-center' },
                 { key: 'exhibitonData', label: '展演資料', class: 'text-center' },
                 { key: 'startDate', label: '租借開始日期', sortable: true, class: 'text-center' },
                 { key: 'endDate', label: '租借結束日期', sortable: true, class: 'text-center' },
@@ -17,6 +19,17 @@
                     class: 'text-center',
                     formatter: (value) => {
                         return value ? '已付款' : '尚未付款'
+                    },
+                    sortable: true,
+                    sortByFormatted: true,
+                    filterByFormatted: true
+                },
+                {
+                    key: 'isCanceled',
+                    label: '訂單狀態',
+                    class: 'text-center',
+                    formatter: (value) => {
+                        return value ? '取消' : '成立'
                     },
                     sortable: true,
                     sortByFormatted: true,
@@ -40,14 +53,12 @@
     created: function () {
         axios.get("/api/Exhibiton/GetRentalDate")
             .then((res) => {
-                console.log(res);
                 this.items = res.data.body.rentalList;
                 this.isBusy = false;
             })
-        //.catch((err) => {
-        //    //this.isError = true;
-        //    console.log(err);
-        //})
+        .catch((err) => {
+            this.isError = true;
+        })
     },
     computed: {
         sortOptions() {

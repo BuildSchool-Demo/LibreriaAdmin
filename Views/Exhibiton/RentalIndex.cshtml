@@ -16,7 +16,6 @@
 <div id="rentalApp" class="col-11">
     <b-container fluid>
         <!-- User Interface controls -->
-
         <b-row>
             <b-col lg="12" class="my-1">
                 <b-form-group label="搜尋"
@@ -38,24 +37,29 @@
             </b-col>
 
             <!-- Main table element -->
-            <b-table :items="items"
+            <b-table :busy="isBusy"
+                     :items="items"
                      :fields="fields"
                      :current-page="currentPage"
                      :per-page="perPage"
                      :filter="filter"
-                     @*:filter-included-fields="filterOn"*@
                      :sort-by.sync="sortBy"
                      :sort-desc.sync="sortDesc"
-                     @*:sort-direction="sortDirection"*@
                      stacked="md"
                      show-empty
                      small
                      v-on:filtered="onFiltered">
 
+                <template #table-busy>
+                    <div v-show="isBusy && !isError" class="text-center text-danger my-2">
+                        <b-spinner class="align-middle"></b-spinner>
+                        <strong>請稍等，資料讀取中...</strong>
+                    </div>
+                    <div class="my-5 align-middle text-center text-danger" v-show="isError">發生不明錯誤</div>
+                </template>
+                <div class="my-5 align-middle text-center text-danger" v-show="isError">發生不明錯誤</div>
+
                 <template #cell(exhibitonData)="row">
-                    @*<b-button size="sm" v-on:click="info(row.item, row.index, $event.target)" class="mr-1">
-                            Info modal
-                        </b-button>*@
                     <b-button size="sm" v-on:click="row.toggleDetails">
                         {{ row.detailsShowing ? '關閉' : '開啟' }}
                     </b-button>
@@ -77,15 +81,9 @@
                 <b-pagination v-model="currentPage"
                               :total-rows="totalRows"
                               :per-page="perPage"
-                              @*align="fill"*@
                               size="sm"
                               class="my-0"></b-pagination>
             </b-col>
-
-            <!-- Info modal -->
-            @*<b-modal :id="infoModal.id" :title="infoModal.title" ok-only v-on:hide="resetInfoModal">
-                    <pre>{{ infoModal.content }}</pre>
-                </b-modal>*@
     </b-container>
 </div>
 @section endJS{
