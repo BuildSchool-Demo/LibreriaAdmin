@@ -346,7 +346,7 @@ var form = new Vue({
                 })
         },
         cancel: function () {
-            location.href = `https://localhost:5001/Exhibiton/eMail?exhibitionId=${exhibitionId}`
+            location.href = `https://libreriaadmin.azurewebsites.net/Exhibiton/email?exhibitionId=${exhibitionId}`
         },
         photo: function () {
             var tmp = this;
