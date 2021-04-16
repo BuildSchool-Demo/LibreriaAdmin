@@ -494,22 +494,19 @@
                                     document.getElementById(`td${event}`).checked = true;
                                 }
                                 x.specialPrice = document.getElementById(`input${event}`).value;
+
+
                                 if (changeData.length == 0) {
                                     changeData.push(x);
-                                    console.log(changeData);
-                                }  else {
-                                    changeData.forEach(ch => {
-                                        if (ch.productId != x.productId) {
-                                            changeData.push(x);
-
-                                        } else {
-
-                                            ch.isSpecial = x.isSpecial;
-                                            ch.specailPrice = x.specailPrice;
-                                        }
-                                    })
-                                    console.log(changeData);
-
+                                } else {
+                                    var addNum = changeData.findIndex(e => e == x);
+                                    if (addNum == -1) {
+                                        changeData.push(x);
+                                    } else {
+                                        changeData[addNum].isSpecial = x.isSpecial;
+                                        changeData[addNum].specailPrice = x.specailPrice;
+                                    }
+                                    
                                 }
                             }
                         })
@@ -519,6 +516,9 @@
 
             })
         }
+
+
+
         $("#Post").onclick = () => { return edit(); };
         function edit() {
             axios.post('/api/Product/EditIsSpecial', changeData).
