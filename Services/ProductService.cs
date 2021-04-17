@@ -1,6 +1,7 @@
 ﻿using LibreriaAdmin.Interfaces;
 using LibreriaAdmin.Models;
 using LibreriaAdmin.Repository;
+using LibreriaAdmin.Repository.Interface;
 using LibreriaAdmin.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -8,15 +9,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+
 namespace LibreriaAdmin.Services
 {
     public class ProductService : IProductService
     {
         private readonly IRepository _dbRepository;
+        private readonly IMemoryCacheRepository _iMemoryCacheRepository;
 
-        public ProductService(IRepository repository)
+        public ProductService(IRepository repository, IMemoryCacheRepository iMemoryCacheRepository)
         {
             _dbRepository = repository;
+            _iMemoryCacheRepository = iMemoryCacheRepository;
         }
 
         public ProductViewModels.ProductListResult GetAll()
@@ -119,8 +123,10 @@ namespace LibreriaAdmin.Services
 
         public ProductViewModels.ProductListResult GetTotalSale()
         {
-            var result = new ProductViewModels.ProductListResult();
-
+            //var result = new ProductViewModels.ProductListResult();
+           var result = _iMemoryCacheRepository.Get<ProductViewModels.ProductListResult>("Product.GetTotalSale");
+            if (result != null) return result;
+            result = new ProductViewModels.ProductListResult();
             result.ProductList = (from p in _dbRepository.GetAll<Product>().OrderByDescending(x => x.TotalSales).Take(8)
                                   join v in _dbRepository.GetAll<Preview>()
                                   on p.ProductId equals v.ProductId
@@ -145,7 +151,10 @@ namespace LibreriaAdmin.Services
 
                                   }).ToList();
 
+            
+            _iMemoryCacheRepository.Set<ProductViewModels.ProductListResult>("Product.GetTotalSale", result);
             return result;
+            
         }
 
         public bool Remove(int productId)

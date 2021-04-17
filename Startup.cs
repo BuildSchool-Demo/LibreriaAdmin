@@ -1,6 +1,7 @@
 ﻿using LibreriaAdmin.Interfaces;
 using LibreriaAdmin.Models;
 using LibreriaAdmin.Repository;
+using LibreriaAdmin.Repository.Interface;
 using LibreriaAdmin.Services;
 using LibreriaAdmin.ViewModels;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -42,6 +43,12 @@ namespace LibreriaAdmin
 
             //樓�蕎ibreriaContext
             services.AddDbContext<LibreriaDatabaseContext>(options => options.UseSqlServer(Configuration.GetConnectionString("LibreriaDataBaseContext")));
+
+            //註冊Redis
+            services.AddDistributedRedisCache(options =>
+            {
+                options.Configuration = Configuration["RedisConfig:LibreriaMemoryCache"];
+            });
 
             //樓�蕮emberService
             services.AddTransient<IManagerService, ManagerService>();
@@ -110,6 +117,7 @@ namespace LibreriaAdmin
                     });
 
             services.AddTransient<IExhibitonService, ExhibitonService>();
+            services.AddTransient<IMemoryCacheRepository, MemoryCacheRepository>();
 
             services.AddRazorPages().AddRazorRuntimeCompilation();
         }

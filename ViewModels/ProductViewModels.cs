@@ -5,13 +5,17 @@ using System.Threading.Tasks;
 
 namespace LibreriaAdmin.ViewModels
 {
+    [Serializable]
     public class ProductViewModels
     {
         /// <summary>
         /// 商品基底模型
         /// </summary>
+        /// 
+        [Serializable]
         public class ProductBaseModel
         {
+           
             public ProductBaseModel()
             {
                 PreviewUrls = new List<string>();
@@ -45,6 +49,8 @@ namespace LibreriaAdmin.ViewModels
         /// <summary>
         /// 取得多种商品模型
         /// </summary>
+        /// 
+        [Serializable]
         public class ProductListResult
         {
             public List<ProductSingleResult> ProductList { get; set; }
@@ -53,6 +59,8 @@ namespace LibreriaAdmin.ViewModels
         /// <summary>
         /// 取得单一商品模型
         /// </summary>
+        /// 
+        [Serializable]
         public class ProductSingleResult : ProductBaseModel
         {
 
